@@ -17,6 +17,7 @@ import {
   FiDollarSign,
   FiX
 } from 'react-icons/fi';
+import { getApiUrl } from '../config/api';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -52,28 +53,28 @@ const AdminDashboard = () => {
       const headers = { 'Authorization': `Bearer ${token}` };
       
       // Fetch stats
-      const statsRes = await fetch('/api/admin/stats', { headers });
+      const statsRes = await fetch(getApiUrl('/api/admin/stats'), { headers });
       const statsData = await statsRes.json();
       if (statsData.success) {
         setStats(statsData.stats);
       }
       
       // Fetch service requests
-      const requestsRes = await fetch('/api/admin/requests', { headers });
+      const requestsRes = await fetch(getApiUrl('/api/admin/requests'), { headers });
       const requestsData = await requestsRes.json();
       if (requestsData.success) {
         setRequests(requestsData.requests);
       }
       
       // Fetch training registrations
-      const trainingRes = await fetch('/api/admin/training', { headers });
+      const trainingRes = await fetch(getApiUrl('/api/admin/training'), { headers });
       const trainingData = await trainingRes.json();
       if (trainingData.success) {
         setTrainingRegistrations(trainingData.registrations);
       }
       
       // Fetch contact submissions
-      const contactRes = await fetch('/api/admin/contacts', { headers });
+      const contactRes = await fetch(getApiUrl('/api/admin/contacts'), { headers });
       const contactData = await contactRes.json();
       if (contactData.success) {
         setContactSubmissions(contactData.contacts);
@@ -94,7 +95,7 @@ const AdminDashboard = () => {
 
   const updateRequestStatus = async (requestId, newStatus) => {
     try {
-      const response = await fetch(`/api/admin/requests/${requestId}/status`, {
+      const response = await fetch(getApiUrl(`/api/admin/requests/${requestId}/status`), {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -126,7 +127,7 @@ const AdminDashboard = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch(`/api/admin/requests/${requestId}/upload`, {
+      const response = await fetch(getApiUrl(`/api/admin/requests/${requestId}/upload`), {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData

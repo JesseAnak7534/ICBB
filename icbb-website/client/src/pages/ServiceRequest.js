@@ -14,6 +14,7 @@ import {
   FiDollarSign,
   FiX
 } from 'react-icons/fi';
+import { getApiUrl } from '../config/api';
 import './ServiceRequest.css';
 
 const ServiceRequest = () => {
@@ -164,7 +165,7 @@ const ServiceRequest = () => {
       });
       
       // Submit service request
-      const response = await fetch('/api/services/request', {
+      const response = await fetch(getApiUrl('/api/services/request'), {
         method: 'POST',
         body: submitData
       });
@@ -175,7 +176,7 @@ const ServiceRequest = () => {
         setRequestId(data.data.requestId);
         
         // Initiate payment - get payment instructions
-        const paymentResponse = await fetch('/api/payments/initiate', {
+        const paymentResponse = await fetch(getApiUrl('/api/payments/initiate'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -526,7 +527,7 @@ const ServiceRequest = () => {
                           return;
                         }
                         try {
-                          const response = await fetch('/api/payments/confirm', {
+                          const response = await fetch(getApiUrl('/api/payments/confirm'), {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({

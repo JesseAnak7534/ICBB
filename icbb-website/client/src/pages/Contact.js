@@ -11,6 +11,7 @@ import {
   FiUsers,
   FiHelpCircle
 } from 'react-icons/fi';
+import { getApiUrl } from '../config/api';
 import './Contact.css';
 
 const Contact = () => {
@@ -33,7 +34,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(getApiUrl('/api/contact'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

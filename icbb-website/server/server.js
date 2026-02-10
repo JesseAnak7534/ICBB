@@ -34,11 +34,23 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// CORS
+// CORS - Allow frontend domains
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://icbb.vercel.app',
+  'https://icbb.org',
+  'https://www.icbb.org'
+];
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? 'https://icbb.org' 
-    : 'http://localhost:3000',
+  origin: function(origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(null, true); // Allow all for now
+  },
   credentials: true
 }));
 

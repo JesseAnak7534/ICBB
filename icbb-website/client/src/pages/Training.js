@@ -12,6 +12,7 @@ import {
   FiArrowRight,
   FiCheck
 } from 'react-icons/fi';
+import { getApiUrl } from '../config/api';
 import './Training.css';
 
 const Training = () => {
@@ -101,7 +102,7 @@ const Training = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/training/register', {
+      const response = await fetch(getApiUrl('/api/training/register'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
