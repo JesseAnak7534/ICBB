@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://icbb.org/sitemap.xml
