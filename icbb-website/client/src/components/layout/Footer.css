@@ -246,15 +246,43 @@
   .footer-about {
     grid-column: span 1;
   }
+  
+  .footer-about p {
+    color: var(--gray-400);
+  }
+  
+  .footer-column h4 {
+    color: var(--white);
+  }
+  
+  .footer-column a {
+    color: var(--gray-400);
+  }
+  
+  .footer-column a:hover {
+    color: var(--white);
+  }
+  
+  .contact-item span {
+    color: var(--gray-400);
+  }
 
   .footer-bottom-content {
     flex-direction: column;
     text-align: center;
   }
+  
+  .footer-bottom-content p {
+    color: var(--gray-500);
+  }
 
   .footer-legal {
     flex-wrap: wrap;
     justify-content: center;
+  }
+  
+  .footer-legal a {
+    color: var(--gray-500);
   }
 
   .newsletter-form {
