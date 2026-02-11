@@ -483,3 +483,74 @@ p {
     font-size: 14px;
   }
 }
+
+/* ===== Mobile Color Fixes ===== */
+/* Ensure gradient text has fallback color for mobile browsers */
+@supports not (-webkit-background-clip: text) {
+  .stat-value,
+  .stat-number,
+  .pub-number,
+  .text-gradient {
+    color: var(--primary-blue) !important;
+    background: none !important;
+    -webkit-text-fill-color: var(--primary-blue) !important;
+  }
+}
+
+/* Improve text visibility on dark backgrounds */
+.gradient-bg {
+  background: var(--gradient-primary);
+}
+
+.gradient-bg h1,
+.gradient-bg h2,
+.gradient-bg h3,
+.gradient-bg h4,
+.gradient-bg p,
+.gradient-bg span,
+.gradient-bg li {
+  color: var(--white);
+}
+
+/* Ensure dark section text is visible */
+.dark-section {
+  background: var(--gray-900);
+  color: var(--white);
+}
+
+.dark-section h1,
+.dark-section h2,
+.dark-section h3,
+.dark-section h4 {
+  color: var(--white);
+}
+
+.dark-section p,
+.dark-section span,
+.dark-section li {
+  color: var(--gray-300);
+}
+
+/* Mobile-specific text visibility improvements */
+@media (max-width: 768px) {
+  /* Ensure stat values are visible on mobile */
+  .stat-value,
+  .stat-number,
+  .pub-number {
+    color: var(--primary-blue);
+    -webkit-text-fill-color: var(--primary-blue);
+  }
+  
+  /* Improve contrast on mobile for gray text */
+  .stat-label,
+  .section-description {
+    color: var(--gray-700);
+  }
+  
+  /* Ensure card text is readable */
+  .card p,
+  .service-card p,
+  .program-card p {
+    color: var(--gray-700);
+  }
+}

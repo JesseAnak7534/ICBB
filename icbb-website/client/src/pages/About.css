@@ -80,6 +80,7 @@
   display: block;
   font-size: 2.5rem;
   font-weight: 800;
+  color: var(--primary-blue);
   background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -163,6 +164,35 @@
   font-style: italic;
   color: var(--gray-700);
   margin: 0;
+}
+
+/* Founder Links */
+.founder-links {
+  margin-top: var(--spacing-xl);
+}
+
+.founder-portfolio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 2px solid var(--primary-blue);
+  color: var(--primary-blue);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all var(--transition-base);
+}
+
+.founder-portfolio-btn:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.founder-portfolio-btn svg {
+  font-size: 1.1rem;
 }
 
 /* Mission & Vision */
@@ -452,14 +482,85 @@
 }
 
 @media (max-width: 768px) {
+  /* Hero text visibility */
+  .about-hero h1 {
+    color: var(--white);
+  }
+
+  .about-hero p {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  /* Overview section */
+  .overview-content h2 {
+    color: var(--gray-900);
+  }
+
+  .overview-content p {
+    color: var(--gray-700);
+  }
+
   .overview-stats {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .stat-value {
+    color: var(--primary-blue);
+    -webkit-text-fill-color: var(--primary-blue);
+  }
+
+  .stat-label {
+    color: var(--gray-700);
+  }
+
+  /* Founder section */
+  .founder-content h2 {
+    color: var(--gray-900);
+  }
+
+  .founder-content h3 {
+    color: var(--primary-blue);
+  }
+
+  .founder-role {
+    color: var(--gray-600);
+  }
+
+  .founder-content p {
+    color: var(--gray-700);
+  }
+
+  .founder-quote blockquote {
+    color: var(--gray-700);
+  }
+
+  /* Values section */
   .values-grid {
     grid-template-columns: 1fr;
   }
 
+  .value-card h4 {
+    color: var(--gray-900);
+  }
+
+  .value-card p {
+    color: var(--gray-700);
+  }
+
+  /* Mission & Vision */
+  .mv-card h3 {
+    color: var(--gray-900);
+  }
+
+  .mv-card > p {
+    color: var(--gray-700);
+  }
+
+  .mv-points li {
+    color: var(--gray-700);
+  }
+
+  /* Timeline */
   .timeline::before {
     left: 20px;
   }
@@ -478,6 +579,23 @@
   .timeline-item::after {
     left: 12px !important;
     right: auto !important;
+  }
+
+  .timeline-content h4 {
+    color: var(--gray-900);
+  }
+
+  .timeline-content p {
+    color: var(--gray-700);
+  }
+
+  /* CTA section */
+  .about-cta h2 {
+    color: var(--white);
+  }
+
+  .about-cta p {
+    color: var(--gray-300);
   }
 
   .about-cta .cta-buttons {

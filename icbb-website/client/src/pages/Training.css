@@ -396,10 +396,12 @@
   
   .training-hero h1 {
     font-size: 2rem;
+    color: var(--white);
   }
   
   .training-hero p {
     font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.95);
   }
   
   .types-grid {
@@ -411,8 +413,28 @@
     padding: 1.5rem;
   }
   
+  .type-card h3 {
+    color: var(--gray-900);
+  }
+  
+  .type-card p {
+    color: var(--gray-700);
+  }
+  
   .programs-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .program-card h3 {
+    color: var(--gray-900);
+  }
+  
+  .program-desc {
+    color: var(--gray-700);
+  }
+  
+  .program-meta span {
+    color: var(--gray-700);
   }
   
   .registration-form-container {
@@ -424,11 +446,17 @@
     gap: 0;
   }
   
+  .registration-form .form-label {
+    color: var(--gray-800);
+  }
+  
   .training-cta h2 {
     font-size: 1.75rem;
+    color: var(--white);
   }
   
   .training-cta p {
     font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
   }
 }

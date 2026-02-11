@@ -420,14 +420,33 @@
   
   .services-hero h1 {
     font-size: 2rem;
+    color: var(--white);
   }
   
   .services-hero p {
     font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.95);
   }
   
   .services-grid {
     grid-template-columns: 1fr;
+  }
+  
+  /* Improve card text visibility on mobile */
+  .service-card h3 {
+    color: var(--gray-900);
+  }
+  
+  .service-desc {
+    color: var(--gray-700);
+  }
+  
+  .service-details {
+    color: var(--gray-600);
+  }
+  
+  .service-features li {
+    color: var(--gray-700);
   }
   
   .why-grid {
@@ -438,17 +457,35 @@
     padding: 1.5rem;
   }
   
+  .why-card h3 {
+    color: var(--gray-900);
+  }
+  
+  .why-card p {
+    color: var(--gray-700);
+  }
+  
   .process-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
   
+  .process-step h4 {
+    color: var(--gray-900);
+  }
+  
+  .process-step p {
+    color: var(--gray-700);
+  }
+  
   .services-cta h2 {
     font-size: 1.75rem;
+    color: var(--white);
   }
   
   .services-cta p {
     font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
   }
   
   .cta-buttons {

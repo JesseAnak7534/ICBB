@@ -10,7 +10,8 @@ import {
   FiGlobe,
   FiBookOpen,
   FiShield,
-  FiArrowRight
+  FiArrowRight,
+  FiExternalLink
 } from 'react-icons/fi';
 import './About.css';
 
@@ -177,6 +178,16 @@ const About = () => {
                   "The future of biological research lies at the intersection of biology, 
                   mathematics, and computer science. At ICBB, we're building that future."
                 </blockquote>
+              </div>
+              <div className="founder-links">
+                <a 
+                  href="https://jesseanak.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn-outline founder-portfolio-btn"
+                >
+                  <FiExternalLink /> Visit Portfolio
+                </a>
               </div>
             </motion.div>
           </div>

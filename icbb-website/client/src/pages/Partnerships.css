@@ -321,10 +321,36 @@
   
   .partnerships-hero h1 {
     font-size: 2rem;
+    color: var(--white);
   }
   
   .partnerships-hero p {
     font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.95);
+  }
+  
+  .section-header h2 {
+    color: var(--gray-900);
+  }
+  
+  .section-header p {
+    color: var(--gray-700);
+  }
+  
+  .type-card h3 {
+    color: var(--gray-900);
+  }
+  
+  .type-desc {
+    color: var(--gray-700);
+  }
+  
+  .type-benefits h4 {
+    color: var(--gray-800);
+  }
+  
+  .type-benefits li {
+    color: var(--gray-700);
   }
   
   .network-circle {
@@ -334,19 +360,34 @@
   
   .network-circle > span {
     font-size: 1.25rem;
+    color: var(--gray-900);
   }
   
   .node {
     font-size: 0.75rem;
     padding: 0.35rem 0.75rem;
+    color: var(--gray-800);
   }
   
   .partner-stats {
     grid-template-columns: 1fr;
   }
   
+  .stat-number {
+    color: var(--primary-blue);
+  }
+  
+  .stat-label {
+    color: var(--gray-700);
+  }
+  
   .cta-content h2 {
     font-size: 1.75rem;
+    color: var(--white);
+  }
+  
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.9);
   }
   
   .cta-actions {

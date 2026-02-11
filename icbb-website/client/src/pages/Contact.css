@@ -290,6 +290,11 @@
   
   .contact-hero h1 {
     font-size: 2rem;
+    color: var(--white);
+  }
+  
+  .contact-hero p {
+    color: rgba(255, 255, 255, 0.95);
   }
   
   .info-grid {
@@ -300,12 +305,36 @@
     padding: 1.5rem;
   }
   
+  .info-card h3 {
+    color: var(--gray-900);
+  }
+  
+  .info-details span {
+    color: var(--gray-700);
+  }
+  
+  .info-description {
+    color: var(--gray-600);
+  }
+  
   .contact-form .form-row {
     grid-template-columns: 1fr;
     gap: 0;
   }
   
+  .contact-form label {
+    color: var(--gray-800);
+  }
+  
   .quick-help {
     padding: 1.5rem;
+  }
+  
+  .quick-help h3 {
+    color: var(--gray-900);
+  }
+  
+  .quick-help p {
+    color: var(--gray-700);
   }
 }

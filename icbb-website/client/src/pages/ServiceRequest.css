@@ -629,6 +629,11 @@
   
   .request-header h1 {
     font-size: 1.75rem;
+    color: var(--gray-900);
+  }
+  
+  .request-header p {
+    color: var(--gray-700);
   }
   
   .progress-steps {
@@ -651,10 +656,31 @@
   
   .step-title {
     font-size: 0.75rem;
+    color: var(--gray-600);
+  }
+  
+  .progress-step.active .step-title {
+    color: var(--primary-blue);
+  }
+  
+  .progress-step.completed .step-title {
+    color: var(--primary-green);
   }
   
   .request-form-container {
     padding: 1.5rem;
+  }
+  
+  .step-content h2 {
+    color: var(--gray-900);
+  }
+  
+  .step-description {
+    color: var(--gray-700);
+  }
+  
+  .form-label {
+    color: var(--gray-800);
   }
   
   .form-grid {
@@ -663,6 +689,14 @@
   
   .summary-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .summary-label {
+    color: var(--gray-700);
+  }
+  
+  .summary-value {
+    color: var(--gray-900);
   }
   
   .form-navigation {
@@ -679,11 +713,20 @@
     padding: 1.5rem;
   }
   
+  .payment-instructions-box h4 {
+    color: var(--gray-900);
+  }
+  
+  .payment-instructions-box li {
+    color: var(--gray-700);
+  }
+  
   .confirm-payment-form {
     flex-direction: column;
   }
   
   .payment-amount strong {
     font-size: 1.5rem;
+    color: var(--primary-green);
   }
 }

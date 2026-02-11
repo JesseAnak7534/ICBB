@@ -195,6 +195,7 @@
   display: block;
   font-size: 2rem;
   font-weight: 800;
+  color: var(--primary-blue);
   background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -297,22 +298,74 @@
   .research-icon {
     margin: 0 auto;
   }
+  
+  .research-header h1 {
+    color: var(--white);
+  }
+  
+  .research-header p {
+    color: rgba(255, 255, 255, 0.95);
+  }
 
   .research-body {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
+  
+  .area-card h3 {
+    color: var(--gray-900);
+  }
+  
+  .area-card p {
+    color: var(--gray-700);
+  }
+  
+  .area-tags .tag {
+    color: var(--primary-blue);
+  }
 
   .methodology-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .methodology-item h4 {
+    color: var(--gray-900);
+  }
+  
+  .methodology-item p {
+    color: var(--gray-700);
   }
 
   .pub-stats {
     justify-content: center;
   }
+  
+  .pub-number {
+    color: var(--primary-blue);
+  }
+  
+  .pub-label {
+    color: var(--gray-700);
+  }
+  
+  .pub-card h4 {
+    color: var(--gray-900);
+  }
+  
+  .pub-card p {
+    color: var(--gray-700);
+  }
 
   .research-cta .cta-buttons {
     flex-direction: column;
     align-items: center;
+  }
+  
+  .cta-content h2 {
+    color: var(--white);
+  }
+  
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.9);
   }
 }

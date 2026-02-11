@@ -232,6 +232,11 @@
   
   .news-hero h1 {
     font-size: 2rem;
+    color: var(--white);
+  }
+  
+  .news-hero p {
+    color: rgba(255, 255, 255, 0.95);
   }
   
   .news-filter {
@@ -244,12 +249,33 @@
     padding-bottom: 0.5rem;
   }
   
+  .filter-tag {
+    color: var(--gray-700);
+  }
+  
   .news-grid {
     grid-template-columns: 1fr;
   }
   
+  .news-card h3 {
+    color: var(--gray-900);
+  }
+  
+  .news-date,
+  .news-excerpt {
+    color: var(--gray-700);
+  }
+  
   .newsletter-box {
     padding: 2rem 1.5rem;
+  }
+  
+  .newsletter-box h3 {
+    color: var(--white);
+  }
+  
+  .newsletter-box p {
+    color: rgba(255, 255, 255, 0.9);
   }
   
   .newsletter-form {
