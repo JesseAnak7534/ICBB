@@ -170,35 +170,41 @@
 /* Mobile Menu Toggle */
 .mobile-menu-toggle {
   display: none;
-  padding: var(--spacing-sm);
-  font-size: 1.5rem;
-  color: var(--gray-700);
-  background: transparent;
-  border: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  font-size: 1.75rem;
+  color: #111827;
+  background-color: #f3f4f6;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
   cursor: pointer;
-  z-index: 1001;
+  position: relative;
+  z-index: 1002;
+}
+
+.mobile-menu-toggle:hover {
+  background-color: #e5e7eb;
+}
+
+.mobile-menu-toggle:active {
+  background-color: #d1d5db;
 }
 
 /* Mobile Styles */
 @media (max-width: 1024px) {
+  .navbar {
+    background: #ffffff;
+  }
+  
   .navbar-container {
-    padding: var(--spacing-sm) var(--container-padding);
+    padding: 0.75rem 1rem;
   }
 
   .mobile-menu-toggle {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    color: var(--gray-900);
-    background: var(--gray-100);
-    border: none;
-    border-radius: var(--radius-md);
-  }
-  
-  .mobile-menu-toggle:active {
-    background: var(--gray-200);
   }
 
   .navbar-nav {
@@ -207,107 +213,118 @@
     left: 0;
     right: 0;
     bottom: 0;
+    width: 100%;
+    height: 100vh;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    padding: 80px var(--spacing-lg) var(--spacing-lg);
-    background: var(--white);
+    padding: 90px 1.5rem 2rem;
+    background-color: #ffffff;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-100%);
-    transition: all 0.3s ease;
+    transform: translateX(100%);
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
     overflow-y: auto;
-    z-index: 999;
+    z-index: 1001;
+    margin-left: 0;
   }
 
   .navbar-nav.open {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
   .nav-list {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
+    width: 100%;
   }
 
   .nav-item {
-    border-bottom: 1px solid var(--gray-200);
+    width: 100%;
+    border-bottom: 1px solid #e5e7eb;
   }
 
   .nav-link {
+    display: flex;
+    width: 100%;
     padding: 1rem 0.5rem;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    font-weight: 500;
     justify-content: space-between;
-    color: var(--gray-900) !important;
-    background: transparent;
-    border-bottom: none;
+    color: #111827 !important;
+    background-color: transparent;
   }
 
   .nav-link:hover,
   .nav-link.active {
-    color: var(--primary-blue) !important;
-    background: rgba(0, 102, 204, 0.08);
+    color: #0066cc !important;
+    background-color: rgba(0, 102, 204, 0.08);
   }
   
   .dropdown-trigger {
-    color: var(--gray-900) !important;
+    display: flex;
     width: 100%;
+    color: #111827 !important;
+    font-size: 1.15rem;
   }
 
   .dropdown-menu {
     position: static;
+    width: 100%;
+    min-width: auto;
     box-shadow: none;
     padding: 0;
-    padding-left: var(--spacing-lg);
+    margin: 0;
     opacity: 1;
-    visibility: visible;
+    visibility: hidden;
     transform: none;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
-    background: var(--gray-50);
-    border-radius: var(--radius-md);
-    margin-bottom: 0.5rem;
+    transition: max-height 0.3s ease, visibility 0.3s ease;
+    background-color: #f9fafb;
+    border-radius: 8px;
   }
 
   .dropdown-menu.open {
-    max-height: 400px;
-    padding: var(--spacing-sm) 0;
+    visibility: visible;
+    max-height: 500px;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
   }
 
   .dropdown-link {
-    color: var(--gray-800) !important;
-    padding: 0.75rem 1rem;
+    display: block;
+    padding: 0.875rem 1.25rem;
     font-size: 1rem;
+    color: #374151 !important;
   }
 
   .dropdown-link:hover {
-    color: var(--primary-blue) !important;
-    background: var(--white);
+    color: #0066cc !important;
+    background-color: #ffffff;
   }
 
   .nav-cta {
-    margin: var(--spacing-lg) 0 0 0;
-    text-align: center;
-  }
-
-  .nav-cta.btn {
+    display: block;
     width: 100%;
-    justify-content: center;
+    margin: 1.5rem 0 0 0;
+    text-align: center;
     padding: 1rem;
     font-size: 1.1rem;
   }
 
-  .logo-icon {
+  .logo-image {
     width: 40px;
     height: 40px;
   }
 
   .logo-name {
     font-size: 1.25rem;
-    color: var(--primary-blue);
+    color: #0066cc;
   }
 
   .logo-tagline {
@@ -316,8 +333,12 @@
 }
 
 @media (max-width: 480px) {
-  .logo-icon {
+  .logo-image {
     width: 36px;
     height: 36px;
+  }
+  
+  .logo-name {
+    font-size: 1.1rem;
   }
 }
