@@ -36,6 +36,7 @@ const AdminDashboard = () => {
   const [contactSubmissions, setContactSubmissions] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const token = localStorage.getItem('adminToken');
 
@@ -49,37 +50,53 @@ const AdminDashboard = () => {
 
   const fetchDashboardData = async () => {
     setIsLoading(true);
+    setError(null);
     try {
       const headers = { 'Authorization': `Bearer ${token}` };
       
       // Fetch stats
       const statsRes = await fetch(getApiUrl('/api/admin/stats'), { headers });
+      if (!statsRes.ok) {
+        if (statsRes.status === 401) {
+          localStorage.removeItem('adminToken');
+          navigate('/admin');
+          return;
+        }
+      }
       const statsData = await statsRes.json();
       if (statsData.success) {
-        setStats(statsData.stats);
+        setStats(statsData.stats || {
+          totalRequests: 0,
+          pendingRequests: 0,
+          completedRequests: 0,
+          totalTraining: 0,
+          totalContacts: 0
+        });
       }
       
       // Fetch service requests
       const requestsRes = await fetch(getApiUrl('/api/admin/requests'), { headers });
       const requestsData = await requestsRes.json();
       if (requestsData.success) {
-        setRequests(requestsData.requests);
+        setRequests(requestsData.requests || []);
       }
       
       // Fetch training registrations
       const trainingRes = await fetch(getApiUrl('/api/admin/training'), { headers });
       const trainingData = await trainingRes.json();
       if (trainingData.success) {
-        setTrainingRegistrations(trainingData.registrations);
+        setTrainingRegistrations(trainingData.registrations || []);
       }
       
       // Fetch contact submissions
       const contactRes = await fetch(getApiUrl('/api/admin/contacts'), { headers });
       const contactData = await contactRes.json();
       if (contactData.success) {
-        setContactSubmissions(contactData.contacts);
+        setContactSubmissions(contactData.contacts || []);
       }
     } catch (error) {
+      console.error('Dashboard fetch error:', error);
+      setError('Error loading dashboard data. Please try again.');
       toast.error('Error fetching dashboard data');
     } finally {
       setIsLoading(false);
@@ -207,20 +224,24 @@ const AdminDashboard = () => {
       <div className="recent-activity">
         <h3>Recent Service Requests</h3>
         <div className="activity-list">
-          {requests.slice(0, 5).map(request => (
-            <div key={request._id} className="activity-item">
-              <div className="activity-info">
-                <strong>{request.projectTitle}</strong>
-                <span>{request.fullName} - {request.serviceType}</span>
+          {requests && requests.length > 0 ? (
+            requests.slice(0, 5).map(request => (
+              <div key={request._id} className="activity-item">
+                <div className="activity-info">
+                  <strong>{request.projectTitle || 'Untitled'}</strong>
+                  <span>{request.fullName || 'Unknown'} - {request.serviceType || 'N/A'}</span>
+                </div>
+                <div className="activity-meta">
+                  <span className={`status-badge ${getStatusClass(request.status)}`}>
+                    {request.status || 'pending'}
+                  </span>
+                  <span className="date">{formatDate(request.createdAt)}</span>
+                </div>
               </div>
-              <div className="activity-meta">
-                <span className={`status-badge ${getStatusClass(request.status)}`}>
-                  {request.status}
-                </span>
-                <span className="date">{formatDate(request.createdAt)}</span>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="no-data">No service requests yet.</p>
+          )}
         </div>
       </div>
     </div>
@@ -248,35 +269,43 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {requests.map(request => (
-              <tr key={request._id}>
-                <td>{formatDate(request.createdAt)}</td>
-                <td>
-                  <div className="client-info">
-                    <strong>{request.fullName}</strong>
-                    <span>{request.email}</span>
-                  </div>
-                </td>
-                <td>{request.projectTitle}</td>
-                <td>{request.serviceType}</td>
-                <td>
-                  <span className={`status-badge ${getStatusClass(request.status)}`}>
-                    {request.status}
-                  </span>
-                </td>
-                <td>
-                  <div className="action-buttons">
-                    <button 
-                      className="btn-icon"
-                      onClick={() => setSelectedRequest(request)}
-                      title="View Details"
-                    >
-                      <FiEye />
+            {requests && requests.length > 0 ? (
+              requests.map(request => (
+                <tr key={request._id}>
+                  <td>{formatDate(request.createdAt)}</td>
+                  <td>
+                    <div className="client-info">
+                      <strong>{request.fullName || 'Unknown'}</strong>
+                      <span>{request.email || 'N/A'}</span>
+                    </div>
+                  </td>
+                  <td>{request.projectTitle || 'Untitled'}</td>
+                  <td>{request.serviceType || 'N/A'}</td>
+                  <td>
+                    <span className={`status-badge ${getStatusClass(request.status)}`}>
+                      {request.status || 'pending'}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="action-buttons">
+                      <button 
+                        className="btn-icon"
+                        onClick={() => setSelectedRequest(request)}
+                        title="View Details"
+                      >
+                        <FiEye />
                     </button>
                   </div>
                 </td>
               </tr>
-            ))}
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
+                  No service requests yet.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -409,16 +438,24 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {trainingRegistrations.map(reg => (
-              <tr key={reg._id}>
-                <td>{formatDate(reg.createdAt)}</td>
-                <td>{reg.fullName}</td>
-                <td>{reg.email}</td>
-                <td>{reg.programName}</td>
-                <td>{reg.role}</td>
-                <td>{reg.experienceLevel}</td>
+            {trainingRegistrations && trainingRegistrations.length > 0 ? (
+              trainingRegistrations.map(reg => (
+                <tr key={reg._id}>
+                  <td>{formatDate(reg.createdAt)}</td>
+                  <td>{reg.fullName || 'Unknown'}</td>
+                  <td>{reg.email || 'N/A'}</td>
+                  <td>{reg.programName || 'N/A'}</td>
+                  <td>{reg.role || 'N/A'}</td>
+                  <td>{reg.experienceLevel || 'N/A'}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
+                  No training registrations yet.
+                </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
@@ -435,28 +472,34 @@ const AdminDashboard = () => {
       </div>
       
       <div className="messages-list">
-        {contactSubmissions.map(contact => (
-          <div key={contact._id} className="message-card">
-            <div className="message-header">
-              <div className="sender-info">
-                <strong>{contact.name}</strong>
-                <span>{contact.email}</span>
+        {contactSubmissions && contactSubmissions.length > 0 ? (
+          contactSubmissions.map(contact => (
+            <div key={contact._id} className="message-card">
+              <div className="message-header">
+                <div className="sender-info">
+                  <strong>{contact.name || 'Unknown'}</strong>
+                  <span>{contact.email || 'N/A'}</span>
+                </div>
+                <span className="message-date">{formatDate(contact.createdAt)}</span>
               </div>
-              <span className="message-date">{formatDate(contact.createdAt)}</span>
+              <div className="message-subject">
+                <strong>Subject:</strong> {contact.subject || 'No subject'}
+              </div>
+              <div className="message-body">
+                {contact.message || 'No message'}
+              </div>
+              <div className="message-actions">
+                <a href={`mailto:${contact.email}`} className="btn btn-primary btn-sm">
+                  Reply
+                </a>
+              </div>
             </div>
-            <div className="message-subject">
-              <strong>Subject:</strong> {contact.subject}
-            </div>
-            <div className="message-body">
-              {contact.message}
-            </div>
-            <div className="message-actions">
-              <a href={`mailto:${contact.email}`} className="btn btn-primary btn-sm">
-                Reply
-              </a>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="no-data" style={{ textAlign: 'center', padding: '2rem', color: '#6b7280' }}>
+            No contact messages yet.
+          </p>
+        )}
       </div>
     </div>
   );
@@ -520,6 +563,13 @@ const AdminDashboard = () => {
             <div className="loading-state">
               <FiRefreshCw className="spin" />
               <p>Loading...</p>
+            </div>
+          ) : error ? (
+            <div className="error-state" style={{ textAlign: 'center', padding: '3rem' }}>
+              <p style={{ color: '#ef4444', marginBottom: '1rem' }}>{error}</p>
+              <button className="btn btn-primary" onClick={fetchDashboardData}>
+                <FiRefreshCw /> Try Again
+              </button>
             </div>
           ) : (
             <>

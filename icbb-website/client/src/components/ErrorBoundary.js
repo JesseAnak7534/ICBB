@@ -19,6 +19,17 @@ class ErrorBoundary extends Component {
     console.error('Error caught by boundary:', error, errorInfo);
   }
 
+  // Reset error state when children change (e.g., navigation)
+  componentDidUpdate(prevProps) {
+    if (this.state.hasError && prevProps.children !== this.props.children) {
+      this.setState({ hasError: false, error: null, errorInfo: null });
+    }
+  }
+
+  handleRetry = () => {
+    this.setState({ hasError: false, error: null, errorInfo: null });
+  };
+
   render() {
     if (this.state.hasError) {
       return (
@@ -59,7 +70,21 @@ class ErrorBoundary extends Component {
             }}>
               We're sorry, but something unexpected happened. Please try refreshing the page or go back to the homepage.
             </p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={this.handleRetry}
+                style={{
+                  padding: '0.75rem 1.5rem',
+                  background: '#10b981',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '0.5rem',
+                  cursor: 'pointer',
+                  fontWeight: '500'
+                }}
+              >
+                Try Again
+              </button>
               <button
                 onClick={() => window.location.reload()}
                 style={{
