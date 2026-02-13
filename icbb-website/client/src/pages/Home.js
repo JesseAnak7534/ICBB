@@ -13,6 +13,7 @@ import {
   FiBookOpen,
   FiCheckCircle
 } from 'react-icons/fi';
+import SEO from '../components/SEO';
 import './Home.css';
 
 const Home = () => {
@@ -89,6 +90,11 @@ const Home = () => {
 
   return (
     <div className="home-page">
+      <SEO 
+        title="Home"
+        description="ICBB - Institute of Computational Biology and Bioinformatics. Advancing Science Through Computation, Data, and Innovation. Research, Training, and Data Analysis Services in Ghana and Africa."
+        keywords="Computational Biology, Bioinformatics, Genomics, Data Science, Machine Learning, Research, Training, Ghana, Africa"
+      />
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-background">
