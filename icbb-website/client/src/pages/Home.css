@@ -609,14 +609,22 @@
 
   .stats-section {
     margin-top: 0;
+    padding: var(--spacing-2xl) 0;
   }
 
   .stats-grid {
     padding: var(--spacing-lg);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+  
+  .stat-item {
+    padding: var(--spacing-md);
   }
 
   /* Ensure stat numbers are visible on mobile */
   .stat-number {
+    font-size: 1.75rem;
     color: var(--primary-blue);
     -webkit-text-fill-color: var(--primary-blue);
   }

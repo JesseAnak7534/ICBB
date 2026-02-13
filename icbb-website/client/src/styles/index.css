@@ -90,6 +90,13 @@ body {
   background-color: var(--white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Prevent text overflow issues */
+* {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 img {
@@ -473,8 +480,20 @@ p {
     font-size: 1rem;
   }
   
+  /* Ensure buttons don't overflow on mobile */
+  .btn {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+  
   .main-content {
     padding-top: 70px;
+  }
+  
+  /* Prevent horizontal scrolling */
+  .container {
+    overflow-x: hidden;
   }
 }
 
