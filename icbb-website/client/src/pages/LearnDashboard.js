@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import {
-  FiAward, FiBarChart2, FiCheckCircle, FiClock, FiLogOut, FiPlayCircle
+  FiAward, FiBarChart2, FiCheckCircle, FiClock, FiLogOut, FiPlayCircle, FiCreditCard
 } from 'react-icons/fi';
 import SEO from '../components/SEO';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -102,6 +102,8 @@ const LearnDashboard = () => {
               const course = getCourseById(enrolment.courseId);
               const module = getModule(enrolment.courseId);
               const progress = progressByCourse[enrolment.courseId];
+              const payment = enrolment.payment || {};
+              const paid = payment.status === 'paid';
 
               if (!course) return null;
 
@@ -123,11 +125,20 @@ const LearnDashboard = () => {
                         {module ? ` · ${module.code}` : ''}
                       </p>
                     </div>
-                    {module && (
-                      <Link className="btn btn-outline" to={`/training/${course.id}/module`}>
-                        Open module
-                      </Link>
-                    )}
+                    <div className="learn-course-actions">
+                      {paid ? (
+                        <span className="learn-paid-badge"><FiCheckCircle /> Paid</span>
+                      ) : (
+                        <Link className="btn btn-primary" to={`/learn/pay/${course.id}`}>
+                          <FiCreditCard /> Complete payment
+                        </Link>
+                      )}
+                      {module && (
+                        <Link className="btn btn-outline" to={`/training/${course.id}/module`}>
+                          Open module
+                        </Link>
+                      )}
+                    </div>
                   </header>
 
                   <div className="learn-stats">
@@ -180,6 +191,13 @@ const LearnDashboard = () => {
                         );
                       })}
                     </ol>
+                  )}
+
+                  {!paid && (
+                    <p className="learn-unpaid-note">
+                      <FiCreditCard /> Course materials stay locked until the fee is
+                      paid. Your quiz results are still recorded in the meantime.
+                    </p>
                   )}
 
                   {module && (

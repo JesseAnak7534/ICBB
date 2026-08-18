@@ -7,11 +7,18 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 60,
-      "memory": 1024
+      "memory": 1024,
+      "includeFiles": "materials/**"
     }
   },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }

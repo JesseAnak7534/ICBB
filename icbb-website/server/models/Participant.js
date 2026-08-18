@@ -45,7 +45,27 @@ const participantSchema = new mongoose.Schema({
       enum: ['active', 'completed', 'withdrawn'],
       default: 'active'
     },
-    completedAt: Date
+    completedAt: Date,
+
+    // Course fee. `paid` is set only from a SUCCESSFUL status returned by MTN,
+    // or by an admin who has checked the account — never from the browser.
+    payment: {
+      status: {
+        type: String,
+        enum: ['unpaid', 'pending', 'paid', 'failed'],
+        default: 'unpaid'
+      },
+      amount: Number,
+      currency: { type: String, default: 'GHS' },
+      method: { type: String, default: 'momo' },
+      momoNumber: String,
+      referenceId: String,          // MTN X-Reference-Id, used to poll status
+      financialTransactionId: String,
+      requestedAt: Date,
+      paidAt: Date,
+      failureReason: String,
+      verifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    }
   }],
 
   isActive: { type: Boolean, default: true },
@@ -67,6 +87,18 @@ participantSchema.methods.isEnrolledIn = function isEnrolledIn(courseId) {
   return this.enrolments.some(
     (enrolment) => enrolment.courseId === courseId && enrolment.status !== 'withdrawn'
   );
+};
+
+participantSchema.methods.getEnrolment = function getEnrolment(courseId) {
+  return this.enrolments.find(
+    (enrolment) => enrolment.courseId === courseId && enrolment.status !== 'withdrawn'
+  );
+};
+
+/** Whether this participant may download the course materials. */
+participantSchema.methods.hasPaidFor = function hasPaidFor(courseId) {
+  const enrolment = this.getEnrolment(courseId);
+  return Boolean(enrolment && enrolment.payment && enrolment.payment.status === 'paid');
 };
 
 /** Shape sent to the client — never includes the password hash. */

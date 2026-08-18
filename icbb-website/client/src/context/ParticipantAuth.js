@@ -156,6 +156,18 @@ export const ParticipantAuthProvider = ({ children }) => {
     [participant]
   );
 
+  /** Whether the fee for this course has been confirmed received. */
+  const hasPaidFor = useCallback(
+    (courseId) => {
+      if (!participant || !participant.enrolments) return false;
+      const enrolment = participant.enrolments.find(
+        (item) => item.courseId === courseId && item.status !== 'withdrawn'
+      );
+      return Boolean(enrolment && enrolment.payment && enrolment.payment.status === 'paid');
+    },
+    [participant]
+  );
+
   const value = {
     participant,
     isSignedIn: Boolean(participant),
@@ -165,7 +177,8 @@ export const ParticipantAuthProvider = ({ children }) => {
     signOut,
     authFetch,
     enrol,
-    isEnrolled
+    isEnrolled,
+    hasPaidFor
   };
 
   return (

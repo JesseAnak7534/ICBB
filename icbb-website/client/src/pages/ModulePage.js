@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   FiArrowLeft,
@@ -14,7 +14,7 @@ import SEO from '../components/SEO';
 import NotFound from './NotFound';
 import { getCourseById } from '../data/courses';
 import { getModule, materialsFolderByCourse } from '../content/modules';
-import { materialsPath } from '../utils/materials';
+import MaterialDownload from '../components/MaterialDownload';
 import { useParticipantAuth } from '../context/ParticipantAuth';
 import './ModulePage.css';
 
@@ -24,8 +24,7 @@ import './ModulePage.css';
  */
 const ModulePage = () => {
   const { courseId } = useParams();
-  const { isSignedIn, isEnrolled, enrol } = useParticipantAuth();
-  const [enrolState, setEnrolState] = useState(null);
+  const { isSignedIn, hasPaidFor } = useParticipantAuth();
   const course = getCourseById(courseId);
   const module = getModule(courseId);
   const folder = materialsFolderByCourse[courseId];
@@ -149,42 +148,30 @@ const ModulePage = () => {
                 <p className="module-card-note">
                   Slides and handouts for every unit, ready to project or print.
                 </p>
-                <a
-                  className="module-download"
-                  href={materialsPath(folder, 'research-methods-workbook.pdf')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FiDownload />
-                  <span>
-                    <strong>Complete workbook</strong>
-                    <small>All ten units · PDF</small>
-                  </span>
-                </a>
-                <a
-                  className="module-download"
-                  href={materialsPath(folder, 'research-methods-slides.html')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FiMonitor />
-                  <span>
-                    <strong>Full slide deck</strong>
-                    <small>All ten units · HTML</small>
-                  </span>
-                </a>
-                <a
-                  className="module-download"
-                  href={materialsPath(folder, 'research-methods-syllabus.pdf')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FiFileText />
-                  <span>
-                    <strong>Syllabus</strong>
-                    <small>Outline and assessment · PDF</small>
-                  </span>
-                </a>
+                <MaterialDownload
+                  folder={folder}
+                  courseId={courseId}
+                  file="research-methods-workbook.pdf"
+                  label="Complete workbook"
+                  note="All ten units · PDF"
+                  icon={<FiDownload />}
+                />
+                <MaterialDownload
+                  folder={folder}
+                  courseId={courseId}
+                  file="research-methods-slides.pptx"
+                  label="Full slide deck"
+                  note="All ten units · PowerPoint"
+                  icon={<FiMonitor />}
+                />
+                <MaterialDownload
+                  folder={folder}
+                  courseId={courseId}
+                  file="research-methods-syllabus.pdf"
+                  label="Syllabus"
+                  note="Outline and assessment · PDF"
+                  icon={<FiFileText />}
+                />
               </div>
 
               <div className="module-card">
@@ -208,37 +195,21 @@ const ModulePage = () => {
                 {!isSignedIn ? (
                   <Link
                     to="/learn/register"
-                    state={{ from: `/training/${courseId}/module` }}
+                    state={{ from: `/training/${courseId}/module`, courseId }}
                     className="btn btn-primary"
                   >
-                    Create an account to track progress
+                    Register for this course
                   </Link>
-                ) : isEnrolled(courseId) ? (
+                ) : hasPaidFor(courseId) ? (
                   <Link to="/learn" className="btn btn-primary">
                     View my progress
                   </Link>
                 ) : (
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    disabled={enrolState === 'saving'}
-                    onClick={async () => {
-                      setEnrolState('saving');
-                      try {
-                        await enrol(courseId);
-                        setEnrolState('done');
-                      } catch (error) {
-                        setEnrolState(error.message);
-                      }
-                    }}
-                  >
-                    {enrolState === 'saving' ? 'Enrolling…' : 'Enrol in this module'}
-                  </button>
+                  <Link to={`/learn/pay/${courseId}`} className="btn btn-primary">
+                    Complete payment to unlock materials
+                  </Link>
                 )}
 
-                {enrolState && enrolState !== 'saving' && enrolState !== 'done' && (
-                  <p className="module-enrol-error">{enrolState}</p>
-                )}
               </div>
             </aside>
           </div>

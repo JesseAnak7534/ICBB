@@ -1,0 +1,185 @@
+/* Course fee — the final step of registration */
+
+.learn-payment-page {
+  padding: 9rem 0 var(--spacing-4xl);
+  background: var(--gray-50);
+  min-height: 70vh;
+}
+
+.pay-card {
+  max-width: 34rem;
+  margin: 0 auto;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Progress through registration */
+.pay-steps {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0 0 var(--spacing-xl);
+  padding: 0;
+  counter-reset: paystep;
+}
+
+.pay-steps li {
+  counter-increment: paystep;
+  flex: 1;
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  padding-top: 0.55rem;
+  border-top: 3px solid var(--gray-200);
+}
+
+.pay-steps li::before {
+  content: counter(paystep) ". ";
+  font-weight: 700;
+}
+
+.pay-steps li.is-done { color: var(--primary-green-dark); border-top-color: var(--primary-green); }
+.pay-steps li.is-current { color: var(--primary-blue-dark); border-top-color: var(--primary-blue); font-weight: 600; }
+
+.pay-card h1 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--gray-900);
+  margin-bottom: var(--spacing-sm);
+}
+
+.pay-lede {
+  color: var(--gray-600);
+  line-height: 1.65;
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Summary */
+.pay-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.pay-summary-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-500);
+  margin-bottom: 0.2rem;
+}
+
+.pay-summary strong { color: var(--gray-900); line-height: 1.4; }
+
+.pay-amount { text-align: right; white-space: nowrap; }
+.pay-amount strong { font-size: 1.25rem; color: var(--primary-blue-dark); }
+
+/* Form */
+.pay-form { display: grid; gap: 0.6rem; margin-bottom: var(--spacing-lg); }
+
+.pay-input-row { position: relative; display: flex; align-items: center; }
+
+.pay-input-row svg {
+  position: absolute;
+  left: 0.85rem;
+  color: var(--gray-400);
+  pointer-events: none;
+}
+
+.pay-input-row .form-input { padding-left: 2.5rem; width: 100%; }
+
+.pay-form .btn {
+  width: 100%;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.4rem;
+}
+
+/* Waiting for the handset */
+.pay-waiting {
+  display: flex;
+  gap: var(--spacing-md);
+  background: rgba(0, 102, 204, 0.06);
+  border-left: 3px solid var(--primary-blue);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.pay-waiting svg { color: var(--primary-blue); flex-shrink: 0; margin-top: 0.15rem; }
+.pay-waiting strong { display: block; color: var(--gray-900); margin-bottom: 0.2rem; }
+.pay-waiting p { margin: 0; color: var(--gray-700); font-size: 0.9rem; line-height: 1.6; }
+
+/* Messages */
+.pay-message {
+  display: flex;
+  gap: 0.6rem;
+  background: rgba(245, 158, 11, 0.09);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  margin-bottom: var(--spacing-md);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #92400e;
+}
+
+.pay-message.is-bad { background: rgba(239, 68, 68, 0.08); color: #b91c1c; }
+.pay-message svg { flex-shrink: 0; margin-top: 0.2rem; }
+.pay-message p { margin: 0 0 0.4rem; }
+.pay-message p:last-child { margin-bottom: 0; }
+.pay-manual { color: var(--gray-700); }
+
+.pay-retry { width: 100%; justify-content: center; margin-bottom: var(--spacing-md); }
+
+.pay-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  line-height: 1.6;
+  margin: 0 0 var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--gray-200);
+}
+
+.pay-note svg { flex-shrink: 0; margin-top: 0.15rem; color: var(--primary-green); }
+
+.pay-skip {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--gray-500);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.pay-skip:hover { color: var(--gray-700); }
+
+/* Success */
+.pay-result { text-align: center; padding: var(--spacing-lg) 0; }
+.pay-result svg { font-size: 2.6rem; color: var(--primary-green); margin-bottom: var(--spacing-md); }
+.pay-result h1 { margin-bottom: var(--spacing-sm); }
+.pay-result p { color: var(--gray-600); line-height: 1.7; margin-bottom: var(--spacing-xl); }
+
+.pay-actions { display: flex; gap: var(--spacing-md); justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 576px) {
+  .learn-payment-page { padding-top: 7rem; }
+  .pay-card { padding: var(--spacing-lg); }
+  .pay-summary { flex-direction: column; }
+  .pay-amount { text-align: left; }
+  .pay-actions .btn { width: 100%; justify-content: center; }
+}

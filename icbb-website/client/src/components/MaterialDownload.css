@@ -1,0 +1,71 @@
+/* Download control for paid course files */
+
+.material-download-wrap { margin-bottom: 0.5rem; }
+
+.material-download {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  text-align: left;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  color: var(--gray-800);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.material-download:hover:not(:disabled) {
+  border-color: var(--primary-blue);
+  transform: translateY(-1px);
+}
+
+.material-download:disabled { cursor: default; opacity: 0.75; }
+
+.material-download svg { color: var(--primary-blue); flex-shrink: 0; }
+
+.material-download strong { display: block; font-size: 0.93rem; }
+
+.material-download small {
+  display: block;
+  color: var(--gray-500);
+  font-size: 0.8rem;
+}
+
+/* Signed out: the control explains why it is closed rather than failing later */
+.material-download.is-locked {
+  background: var(--gray-50);
+  border-style: dashed;
+}
+
+.material-download.is-locked svg { color: var(--gray-400); }
+
+.material-download.is-error { border-color: var(--warning); }
+
+.material-download-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0 0 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #b45309;
+}
+
+.material-download-message svg { flex-shrink: 0; margin-top: 0.15rem; }
+
+.spin { animation: material-spin 1s linear infinite; }
+
+@keyframes material-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin { animation: none; }
+  .material-download:hover:not(:disabled) { transform: none; }
+}
