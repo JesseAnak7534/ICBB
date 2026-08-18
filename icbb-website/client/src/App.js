@@ -23,6 +23,7 @@ const ModulePage = lazy(() => import('./pages/ModulePage'));
 const UnitPage = lazy(() => import('./pages/UnitPage'));
 const LearnAuth = lazy(() => import('./pages/LearnAuth'));
 const LearnDashboard = lazy(() => import('./pages/LearnDashboard'));
+const LearnPayment = lazy(() => import('./pages/LearnPayment'));
 const Services = lazy(() => import('./pages/Services'));
 const ServiceRequest = lazy(() => import('./pages/ServiceRequest'));
 const Partnerships = lazy(() => import('./pages/Partnerships'));
@@ -60,6 +61,7 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/learn" element={<LearnDashboard />} />
+              <Route path="/learn/pay/:courseId" element={<LearnPayment />} />
               <Route path="/learn/:mode" element={<LearnAuth />} />
               <Route path="/admin" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />

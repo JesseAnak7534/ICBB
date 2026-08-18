@@ -16,7 +16,7 @@ import NotFound from './NotFound';
 import Quiz from '../components/Quiz';
 import { getCourseById } from '../data/courses';
 import { getModule, materialsFolderByCourse } from '../content/modules';
-import { materialsPath } from '../utils/materials';
+import MaterialDownload from '../components/MaterialDownload';
 import './ModulePage.css';
 
 const UnitPage = () => {
@@ -195,30 +195,22 @@ const UnitPage = () => {
             <aside className="module-sidebar">
               <div className="module-card">
                 <h3>Unit materials</h3>
-                <a
-                  className="module-download"
-                  href={materialsPath(folder, `${unit.id}-slides.html`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FiMonitor />
-                  <span>
-                    <strong>Slides</strong>
-                    <small>Unit {unit.number} · HTML</small>
-                  </span>
-                </a>
-                <a
-                  className="module-download"
-                  href={materialsPath(folder, `${unit.id}-handout.pdf`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FiDownload />
-                  <span>
-                    <strong>Handout</strong>
-                    <small>Unit {unit.number} · PDF</small>
-                  </span>
-                </a>
+                <MaterialDownload
+                  folder={folder}
+                  courseId={courseId}
+                  file={`${unit.id}-slides.pptx`}
+                  label="Slides"
+                  note={`Unit ${unit.number} · PowerPoint`}
+                  icon={<FiMonitor />}
+                />
+                <MaterialDownload
+                  folder={folder}
+                  courseId={courseId}
+                  file={`${unit.id}-handout.pdf`}
+                  label="Handout"
+                  note={`Unit ${unit.number} · PDF`}
+                  icon={<FiDownload />}
+                />
               </div>
 
               <div className="module-card">

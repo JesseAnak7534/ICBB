@@ -250,3 +250,44 @@
   }
   .learn-unit-action { grid-column: 2 / -1; justify-self: start; }
 }
+
+/* Payment state on a course card */
+.learn-course-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.learn-course-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.learn-paid-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--primary-green-dark);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.learn-unpaid-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: var(--spacing-lg) 0 0;
+  padding: 0.8rem 1rem;
+  background: rgba(245, 158, 11, 0.09);
+  border-radius: var(--radius-md);
+  color: #92400e;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.learn-unpaid-note svg { flex-shrink: 0; margin-top: 0.15rem; }

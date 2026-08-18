@@ -22,6 +22,10 @@ const LearnAuth = () => {
   // Where to return to after signing in, e.g. the unit the learner was reading.
   const returnTo = (location.state && location.state.from) || '/learn';
 
+  // Registration is not finished until the course fee is paid, so a new
+  // account created from a course page goes straight to the payment step.
+  const courseId = location.state && location.state.courseId;
+
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -45,10 +49,12 @@ const LearnAuth = () => {
 
     try {
       if (isRegister) {
-        await register(form);
-      } else {
-        await signIn(form.email, form.password);
+        await register({ ...form, courseId });
+        navigate(courseId ? `/learn/pay/${courseId}` : returnTo, { replace: true });
+        return;
       }
+
+      await signIn(form.email, form.password);
       navigate(returnTo, { replace: true });
     } catch (submitError) {
       setError(submitError.message);
@@ -73,7 +79,7 @@ const LearnAuth = () => {
           <h1>{isRegister ? 'Create your learner account' : 'Sign in to continue'}</h1>
           <p className="learn-auth-lede">
             {isRegister
-              ? 'Your quiz results and progress are recorded against your account and count towards the certificate.'
+              ? 'Your quiz results and progress are recorded against your account, and course materials unlock once the fee is paid.'
               : 'Pick up where you left off and keep your results in one place.'}
           </p>
 

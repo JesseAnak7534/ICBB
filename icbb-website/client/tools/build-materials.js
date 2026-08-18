@@ -29,7 +29,10 @@ const { buildPptx, AUTHOR, ORG } = require('./build-pptx');
 
 const clientDir = path.resolve(__dirname, '..');
 const contentDir = path.join(clientDir, 'src', 'content');
-const outputRoot = path.join(clientDir, 'public', 'materials');
+// Deliberately outside client/public: anything in there is served by the CDN
+// to anyone with the URL. These files are paid for, so they are streamed by
+// the API instead (see server/routes/materials.js).
+const outputRoot = path.join(clientDir, '..', 'materials');
 const serverDataDir = path.join(clientDir, '..', 'server', 'data');
 
 // Transparent ICBB mark, used as the watermark on documents and decks.
@@ -44,7 +47,7 @@ const logoDataUri = fs.existsSync(logoPath)
 // fly so this plain Node script can require them without a separate build step.
 const originalJsLoader = Module._extensions['.js'];
 Module._extensions['.js'] = function loadMaybeEsm(mod, filename) {
-  if (filename.startsWith(contentDir)) {
+  if (filename.startsWith(contentDir) || filename.endsWith(path.join('src', 'data', 'courses.js'))) {
     const { code } = babel.transformFileSync(filename, {
       presets: [['@babel/preset-env', { targets: { node: 'current' } }]],
       babelrc: false,
@@ -650,6 +653,34 @@ const buildModule = async (module, folder) => {
  * own browser is not evidence. Generating the key from the same content as the
  * pages means the key cannot drift from the questions being asked.
  */
+/**
+ * Write the price list the API charges against.
+ *
+ * The amount must be decided by the server: a browser that can name its own
+ * price can name zero.
+ */
+const writeCoursePrices = () => {
+  fs.mkdirSync(serverDataDir, { recursive: true });
+
+  const { PRICES, CURRENCY } = require(path.join(clientDir, 'src', 'data', 'courses.js'));
+
+  fs.writeFileSync(
+    path.join(serverDataDir, 'course-prices.json'),
+    JSON.stringify(
+      {
+        generated: 'by client/tools/build-materials.js — do not edit by hand',
+        currency: CURRENCY,
+        prices: PRICES
+      },
+      null,
+      2
+    ),
+    'utf8'
+  );
+
+  console.log(`Prices: ${Object.keys(PRICES).length} courses -> server/data/course-prices.json`);
+};
+
 const writeQuizKeys = (modulesByCourse) => {
   fs.mkdirSync(serverDataDir, { recursive: true });
 
@@ -703,6 +734,7 @@ const main = async () => {
   );
 
   writeQuizKeys(modulesByCourse);
+  writeCoursePrices();
 
   let total = 0;
   for (const [courseId, module] of Object.entries(modulesByCourse)) {

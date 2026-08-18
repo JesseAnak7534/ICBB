@@ -15,6 +15,7 @@ const contactRoutes = require('./routes/contact');
 const adminRoutes = require('./routes/admin');
 const trainingRoutes = require('./routes/training');
 const participantRoutes = require('./routes/participants');
+const materialRoutes = require('./routes/materials');
 
 const app = express();
 
@@ -83,6 +84,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/training', trainingRoutes);
 app.use('/api/participants', participantRoutes);
+app.use('/api/materials', materialRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

@@ -9,6 +9,8 @@ const QuizAttempt = require('../models/QuizAttempt');
 const { protectParticipant } = require('../middleware/auth');
 const { jwtSecret, jwtExpire } = require('../config/env');
 const quizKeys = require('../data/quiz-keys.json');
+const coursePrices = require('../data/course-prices.json');
+const momo = require('../utils/momo');
 const { sendEmail } = require('../utils/email');
 const { gradeAttempt } = require('../utils/grading');
 
@@ -302,6 +304,210 @@ router.get('/progress/:courseId', protectParticipant, async (req, res) => {
   } catch (error) {
     console.error('Progress error:', error);
     res.status(500).json({ success: false, message: 'Could not load your progress' });
+  }
+});
+
+/* ---------------------------------------------------------------- payment -- */
+
+const priceFor = (courseId) => coursePrices.prices[courseId] || null;
+
+/** Shape returned to the client for an enrolment's payment. */
+const paymentView = (enrolment) => {
+  const payment = (enrolment && enrolment.payment) || {};
+  return {
+    status: payment.status || 'unpaid',
+    amount: payment.amount,
+    currency: payment.currency,
+    momoNumber: payment.momoNumber,
+    paidAt: payment.paidAt,
+    failureReason: payment.failureReason
+  };
+};
+
+// @route   GET /api/participants/price/:courseId
+// @desc    What this course costs, and whether MoMo can be used right now.
+// @access  Public
+router.get('/price/:courseId', (req, res) => {
+  const amount = priceFor(req.params.courseId);
+
+  if (amount === null) {
+    return res.status(404).json({ success: false, message: 'Unknown course' });
+  }
+
+  res.json({
+    success: true,
+    price: {
+      courseId: req.params.courseId,
+      amount,
+      currency: coursePrices.currency,
+      momoAvailable: momo.isConfigured(),
+      payTo: process.env.MOMO_ACCOUNT_NUMBER || null,
+      payToName: process.env.MOMO_ACCOUNT_NAME || null
+    }
+  });
+});
+
+// @route   POST /api/participants/pay
+// @desc    Ask MTN to prompt this participant's phone to approve the course fee.
+// @access  Private
+router.post('/pay', protectParticipant, [
+  body('courseId').trim().notEmpty().withMessage('Course is required'),
+  body('phone').trim().notEmpty().withMessage('Your MoMo number is required')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: firstError(errors) });
+    }
+
+    const { courseId, phone } = req.body;
+    const participant = req.participant;
+
+    // The amount comes from the server's price list. A browser that can name
+    // its own price can name zero.
+    const amount = priceFor(courseId);
+    if (amount === null) {
+      return res.status(404).json({ success: false, message: 'Unknown course' });
+    }
+
+    if (!momo.isValidGhanaNumber(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Enter a Ghanaian mobile number, for example 0559759592'
+      });
+    }
+
+    let enrolment = participant.getEnrolment(courseId);
+    if (!enrolment) {
+      participant.enrolments.push({ courseId });
+      await participant.save();
+      enrolment = participant.getEnrolment(courseId);
+    }
+
+    if (enrolment.payment && enrolment.payment.status === 'paid') {
+      return res.json({
+        success: true,
+        message: 'This course is already paid for',
+        payment: paymentView(enrolment)
+      });
+    }
+
+    if (!momo.isConfigured()) {
+      // Without API credentials no prompt can be raised. Say so plainly rather
+      // than leaving the participant watching a spinner that never settles.
+      return res.status(503).json({
+        success: false,
+        code: 'MOMO_NOT_CONFIGURED',
+        message:
+          'Automatic mobile money is not switched on yet. Please contact ICBB to arrange payment.',
+        payTo: process.env.MOMO_ACCOUNT_NUMBER || null,
+        payToName: process.env.MOMO_ACCOUNT_NAME || null,
+        amount,
+        currency: coursePrices.currency
+      });
+    }
+
+    const request = await momo.requestToPay({
+      amount,
+      currency: coursePrices.currency,
+      phone,
+      externalId: participant._id + '-' + courseId + '-' + Date.now(),
+      payerMessage: 'ICBB course fee',
+      payeeNote: courseId + ' - ' + participant.email
+    });
+
+    enrolment.payment = {
+      ...(enrolment.payment ? enrolment.payment.toObject() : {}),
+      status: 'pending',
+      amount,
+      currency: request.currency,
+      method: 'momo',
+      momoNumber: phone,
+      referenceId: request.referenceId,
+      requestedAt: new Date(),
+      failureReason: undefined
+    };
+    await participant.save();
+
+    res.status(202).json({
+      success: true,
+      message: 'Check your phone and approve the payment with your MoMo PIN.',
+      payment: paymentView(enrolment),
+      referenceId: request.referenceId
+    });
+  } catch (error) {
+    if (error instanceof momo.MomoError) {
+      console.error('MoMo request error:', error.message, error.body || '');
+      return res.status(502).json({
+        success: false,
+        message: 'Mobile money is not responding right now. Please try again shortly.'
+      });
+    }
+    console.error('Payment error:', error);
+    res.status(500).json({ success: false, message: 'Could not start the payment' });
+  }
+});
+
+// @route   GET /api/participants/payment/:courseId
+// @desc    Poll MTN for the outcome, and settle the enrolment on SUCCESSFUL.
+// @access  Private
+router.get('/payment/:courseId', protectParticipant, async (req, res) => {
+  try {
+    const { courseId } = req.params;
+    const participant = req.participant;
+    const enrolment = participant.getEnrolment(courseId);
+
+    if (!enrolment) {
+      return res.status(404).json({ success: false, message: 'You are not enrolled in this course' });
+    }
+
+    const payment = enrolment.payment;
+
+    // Nothing to poll: either never started, or already settled.
+    if (!payment || !payment.referenceId || payment.status === 'paid' || payment.status === 'failed') {
+      return res.json({ success: true, payment: paymentView(enrolment) });
+    }
+
+    const result = await momo.getPaymentStatus(payment.referenceId);
+
+    if (result.status === 'SUCCESSFUL') {
+      payment.status = 'paid';
+      payment.paidAt = new Date();
+      payment.financialTransactionId = result.financialTransactionId;
+      await participant.save();
+
+      try {
+        await sendEmail({
+          to: participant.email,
+          subject: 'ICBB - payment received',
+          html:
+            '<h2>Payment received</h2>' +
+            '<p>Dear ' + participant.fullName + ',</p>' +
+            '<p>We have received your payment of ' + payment.currency + ' ' + payment.amount +
+            ' for your ICBB course. Your course materials are now available to download ' +
+            'when you sign in.</p>' +
+            '<p>ICBB Training Team</p>'
+        });
+      } catch (emailError) {
+        console.error('Payment receipt email failed:', emailError.message);
+      }
+    } else if (result.status === 'FAILED') {
+      payment.status = 'failed';
+      payment.failureReason = result.reason || 'The payment was not approved';
+      await participant.save();
+    }
+
+    res.json({ success: true, payment: paymentView(enrolment) });
+  } catch (error) {
+    if (error instanceof momo.MomoError) {
+      console.error('MoMo status error:', error.message);
+      return res.status(502).json({
+        success: false,
+        message: 'Could not reach mobile money to confirm. Please try again shortly.'
+      });
+    }
+    console.error('Payment status error:', error);
+    res.status(500).json({ success: false, message: 'Could not check the payment' });
   }
 });
 

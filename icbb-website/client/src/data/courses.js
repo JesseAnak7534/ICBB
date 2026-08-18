@@ -16,6 +16,23 @@
  *   outcomes, software, sessions, assessment, certificate
  */
 
+/**
+ * Course fees, in Ghana cedis.
+ *
+ * PLACEHOLDER VALUES — set these to the real prices before taking payments.
+ * The server reads them from the generated data/course-prices.json, so the
+ * amount charged never comes from the browser.
+ */
+export const PRICES = {
+  'research-methods-design': 300,
+  'quantitative-data-analysis': 400,
+  'qualitative-data-analysis': 400
+};
+
+export const CURRENCY = 'GHS';
+
+export const getPrice = (courseId) => PRICES[courseId] || null;
+
 export const RESEARCH_METHODS_SERIES = {
   slug: 'research-methods',
   name: 'Research Methods Professional Certificate',

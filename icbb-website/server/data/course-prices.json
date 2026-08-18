@@ -1,0 +1,9 @@
+{
+  "generated": "by client/tools/build-materials.js — do not edit by hand",
+  "currency": "GHS",
+  "prices": {
+    "research-methods-design": 300,
+    "quantitative-data-analysis": 400,
+    "qualitative-data-analysis": 400
+  }
+}
