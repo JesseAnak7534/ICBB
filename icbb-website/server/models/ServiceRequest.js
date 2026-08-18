@@ -76,7 +76,10 @@ const serviceRequestSchema = new mongoose.Schema({
   payment: {
     status: {
       type: String,
-      enum: ['pending', 'processing', 'completed', 'failed', 'refunded'],
+      // 'awaiting-verification' = the client says they have sent the MoMo
+      // transfer, but nobody has checked the account yet. Only an admin can
+      // move a payment to 'completed'.
+      enum: ['pending', 'processing', 'awaiting-verification', 'completed', 'failed', 'refunded'],
       default: 'pending'
     },
     amount: Number,
@@ -90,7 +93,13 @@ const serviceRequestSchema = new mongoose.Schema({
     },
     momoNumber: String,
     transactionId: String,
-    paidAt: Date
+    paidAt: Date,
+    claimedAt: Date,
+    verifiedAt: Date,
+    verifiedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
   },
 
   // Request Status

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICBB-RM101 — Unit 1: Foundations of Research</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Inter, Arial, sans-serif;
+    background: #0f172a; color: #f8fafc;
+    height: 100vh; overflow: hidden;
+  }
+  .slide {
+    display: none; height: 100vh; padding: 6vh 8vw 10vh;
+    flex-direction: column; justify-content: center;
+  }
+  .slide.active { display: flex; }
+  .slide.title-slide {
+    background: linear-gradient(135deg, #0066cc 0%, #00a86b 100%);
+    justify-content: center; text-align: left;
+  }
+  .kicker {
+    font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #7dd3fc; margin-bottom: 1rem; font-weight: 700;
+  }
+  .title-slide .kicker { color: rgba(255,255,255,0.9); }
+  h1 { font-size: clamp(1.8rem, 4.5vw, 3.4rem); line-height: 1.1; margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.4rem, 3vw, 2.3rem); line-height: 1.2; margin-bottom: 1.6rem; color: #fff; }
+  .subtitle { font-size: clamp(1rem, 1.6vw, 1.3rem); opacity: 0.92; max-width: 55ch; line-height: 1.6; }
+  ul { list-style: none; max-width: 60ch; }
+  li {
+    font-size: clamp(0.95rem, 1.5vw, 1.35rem); line-height: 1.5;
+    margin-bottom: 1rem; padding-left: 1.6rem; position: relative;
+  }
+  li::before {
+    content: ''; position: absolute; left: 0; top: 0.62em;
+    width: 0.55rem; height: 0.55rem; border-radius: 50%;
+    background: #00a86b;
+  }
+  .note-slide {
+    background: #1e293b; border-left: 5px solid #00a86b;
+    padding: 1.5rem 2rem; max-width: 70ch; border-radius: 0 8px 8px 0;
+  }
+  table { border-collapse: collapse; font-size: clamp(0.75rem, 1.1vw, 1rem); max-width: 100%; }
+  th, td { border: 1px solid #334155; padding: 0.55rem 0.8rem; text-align: left; }
+  th { background: #1e293b; }
+  .progress {
+    position: fixed; bottom: 0; left: 0; height: 4px;
+    background: #00a86b; transition: width 0.2s ease;
+  }
+  .chrome {
+    position: fixed; bottom: 1.2rem; right: 1.6rem;
+    font-size: 0.8rem; color: #64748b; display: flex; gap: 1rem; align-items: center;
+  }
+  .chrome button {
+    background: #1e293b; color: #e2e8f0; border: 1px solid #334155;
+    border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer; font: inherit;
+  }
+  .hint { position: fixed; bottom: 1.2rem; left: 1.6rem; font-size: 0.78rem; color: #475569; }
+  @media print {
+    body { background: #fff; color: #000; height: auto; overflow: visible; }
+    .slide { display: flex !important; height: auto; min-height: 0; page-break-after: always; padding: 1.5cm; }
+    .chrome, .progress, .hint { display: none; }
+    h1, h2 { color: #000; }
+    li::before { background: #000; }
+  }
+</style>
+</head><body>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 1 of 10</div>
+  <h1>Foundations of Research</h1>
+  <p class="subtitle">What separates research from other ways of knowing, the main types of research, and the philosophical positions that quietly shape every methodological choice you will make later.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Define research and distinguish it from opinion, audit and routine reporting</li><li>Classify research by purpose, approach and time dimension</li><li>Explain the difference between positivist, interpretivist and pragmatic paradigms</li><li>Trace how a paradigm constrains the designs available to you</li><li>Describe the stages of the research process end to end</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>What research is, and is not</h2>
+  <ul><li>Research is systematic, planned enquiry that produces evidence capable of being checked by someone else</li><li>Three features distinguish it: a clear question, a documented method, and conclusions that follow from the data</li><li>It is not: summarising what others said, confirming an opinion you already hold, or collecting data because it is available</li><li>Audit asks &quot;are we meeting an agreed standard?&quot;; research asks &quot;what is the case, and why?&quot;</li><li>The test of research is reproducibility — could a competent stranger follow your method and reach comparable conclusions?</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">A great deal of published work fails this test. Reviewers increasingly ask for the protocol, the raw data and the analysis code precisely because the written method alone often is not enough to reproduce.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Classifying research</h2>
+  <ul><li>By purpose: exploratory (what is going on here?), descriptive (what is the pattern?), explanatory (why does it happen?), evaluative (did it work?)</li><li>By approach: quantitative (numbers, measurement, statistical inference), qualitative (meaning, context, interpretation), mixed methods (both, deliberately integrated)</li><li>By time: cross-sectional (a snapshot), longitudinal (repeated over time), retrospective (looking back), prospective (following forward)</li><li>By setting: laboratory, field, clinical, desk-based or secondary analysis</li><li>By application: basic (extends knowledge) versus applied (solves a defined problem)</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Paradigms: the assumptions underneath the method (1/2)</h2>
+  <ul><li>Ontology asks what reality is: a single objective reality, or multiple realities constructed by participants?</li><li>Epistemology asks how we can know it: by measuring from the outside, or by interpreting from within?</li><li>Positivism assumes an objective reality that can be measured — it leads naturally to experiments, surveys and statistical inference</li><li>Interpretivism assumes reality is socially constructed — it leads to interviews, observation and thematic interpretation</li><li>Pragmatism asks what works for the question at hand, and is the usual justification for mixed methods</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Paradigms: the assumptions underneath the method (2/2)</h2>
+  <ul><li>Critical and transformative paradigms foreground power and aim at change, common in participatory and action research</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">You do not need to win the philosophical argument. You do need your paradigm, question, design and analysis to be consistent with one another — examiners notice when they are not.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>The research process (1/2)</h2>
+  <ul><li>Identify a problem worth solving and confirm it is not already solved</li><li>Review the literature and locate the gap precisely</li><li>State the question, aims, objectives and (if quantitative) hypotheses</li><li>Choose a design, population, sample and instruments</li><li>Obtain ethical approval before collecting anything</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>The research process (2/2)</h2>
+  <ul><li>Collect, manage and analyse data</li><li>Interpret against the literature, then report and disseminate</li><li>The process is iterative in practice — the literature review continues until you submit</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1 · Worked example</div>
+  <h2>Audit or research? The same data, two different studies</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">A district hospital notices that 1 in 5 women who book antenatal care never return for a second visit. The medical director asks a midwife to &quot;look into it&quot;.</p>
+  <ul><li>If she compares the return rate against the national target of 4+ visits, that is audit — the standard already exists and she is measuring compliance.</li><li>If she asks why women do not return, and the answer is not already known, that is research.</li><li>The same appointment records serve both. What separates them is the question, not the data.</li><li>The research version needs ethical approval, a sampling strategy and a defined method; the audit does not.</li><li>She could do both: audit to establish the size of the problem, then research to explain it.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1 · Worked example</div>
+  <h2>When the paradigm and the method do not match</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">A master's student writes that she takes an interpretivist position because &quot;reality is socially constructed&quot;. Her method section then describes a 40-item Likert questionnaire administered to 300 nurses, analysed with chi-square tests.</p>
+  <ul><li>Interpretivism treats meaning as constructed and context-specific, so it points towards interviews or observation.</li><li>A fixed-response questionnaire assumes the researcher already knows the categories that matter — a positivist assumption.</li><li>Neither choice is wrong on its own. The problem is that they contradict each other in one study.</li><li>Two honest fixes: keep the survey and state a post-positivist position, or keep interpretivism and switch to interviews.</li><li>A third option is a genuine mixed methods design, but then the integration has to be planned, not implied.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Paradigm</strong> — A set of shared assumptions about the nature of reality and how it can be known, which shapes what counts as legitimate evidence.</li><li><strong>Ontology</strong> — Assumptions about the nature of reality — whether it is single and objective, or multiple and constructed.</li><li><strong>Epistemology</strong> — Assumptions about what knowledge is and how it can legitimately be acquired.</li><li><strong>Basic research</strong> — Research undertaken to extend understanding, without a specific application in view.</li><li><strong>Applied research</strong> — Research directed at solving an identified practical problem.</li><li><strong>Reproducibility</strong> — The property that another researcher, following the reported method with the same data, obtains the same result.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">In pairs, take a recent paper from your own field. Identify its purpose, approach, time dimension and implied paradigm. Then argue whether the design actually matches the paradigm the authors claim.</p>
+</section>
+
+<div class="progress" id="progress"></div>
+<div class="hint">Arrow keys or space to navigate · P to print</div>
+<div class="chrome">
+  <button type="button" onclick="go(-1)">Prev</button>
+  <span id="counter"></span>
+  <button type="button" onclick="go(1)">Next</button>
+</div>
+<script>
+  var slides = document.querySelectorAll('.slide');
+  var current = 0;
+  function show(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width =
+      ((current + 1) / slides.length * 100) + '%';
+    if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1));
+  }
+  function go(step) { show(current + step); }
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
+    if (['ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key === 'p' || e.key === 'P') window.print();
+  });
+  show(parseInt((location.hash || '#1').slice(1), 10) - 1 || 0);
+</script>
+</body></html>

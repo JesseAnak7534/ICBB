@@ -4,8 +4,43 @@ const { body, validationResult } = require('express-validator');
 const TrainingRegistration = require('../models/TrainingRegistration');
 const { sendEmail } = require('../utils/email');
 
+// Normalise a display type ("Short Course") to the stored form ("short-course").
+// The website sends the normalised value, but accepting either shape here means
+// a future copy-paste of a display label cannot break registrations again.
+const normaliseProgramType = (value) =>
+  String(value || '').trim().toLowerCase().replace(/\s+/g, '-');
+
+const PROGRAM_TYPES = ['workshop', 'short-course', 'bootcamp', 'certification'];
+
 // Available training programs
 const trainingPrograms = [
+  {
+    id: 'research-methods-design',
+    name: 'Research Methods: Quantitative & Qualitative Design',
+    type: 'short-course',
+    duration: '1 week',
+    level: 'beginner',
+    series: { slug: 'research-methods', part: 1, totalParts: 3 },
+    description: 'Design a study that can actually answer your research question — across both quantitative and qualitative traditions.'
+  },
+  {
+    id: 'quantitative-data-analysis',
+    name: 'Quantitative Data Analysis',
+    type: 'short-course',
+    duration: '2 weeks',
+    level: 'intermediate',
+    series: { slug: 'research-methods', part: 2, totalParts: 3 },
+    description: 'Clean, analyse and report numerical data — from descriptive statistics through regression modelling — with reproducible output.'
+  },
+  {
+    id: 'qualitative-data-analysis',
+    name: 'Qualitative Data Analysis',
+    type: 'short-course',
+    duration: '2 weeks',
+    level: 'intermediate',
+    series: { slug: 'research-methods', part: 3, totalParts: 3 },
+    description: 'Turn interviews, focus groups and field notes into themes you can defend, with a transparent audit trail from quote to conclusion.'
+  },
   {
     id: 'intro-bioinformatics',
     name: 'Introduction to Bioinformatics',
@@ -92,8 +127,10 @@ router.post('/register', [
   body('fullName').trim().notEmpty().withMessage('Full name is required'),
   body('email').isEmail().withMessage('Valid email is required'),
   body('programName').notEmpty().withMessage('Program is required'),
-  body('programType').isIn(['workshop', 'short-course', 'bootcamp', 'certification'])
-    .withMessage('Invalid program type')
+  body('programType')
+    .customSanitizer(normaliseProgramType)
+    .isIn(PROGRAM_TYPES)
+    .withMessage(`Program type must be one of: ${PROGRAM_TYPES.join(', ')}`)
 ], async (req, res) => {
   try {
     const errors = validationResult(req);

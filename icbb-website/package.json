@@ -8,9 +8,33 @@
     "client": "cd client && npm start",
     "server": "cd server && npm run dev",
     "build": "cd client && npm run build",
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
+    "vercel-build": "npm run build --prefix client",
+    "seed": "cd server && npm run seed",
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "build:materials": "npm run build:materials --prefix client"
+  },
+  "//dependencies": "The API runs as a Vercel Function from api/index.js, which is bundled from this root package. Its dependencies therefore have to be declared here as well as in server/package.json.",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "multer": "^2.0.0",
+    "nodemailer": "^6.9.7",
+    "uuid": "^9.0.1"
+  },
+  "optionalDependencies": {
+    "@vercel/blob": "^0.27.0"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

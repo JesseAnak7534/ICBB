@@ -11,12 +11,18 @@ import Footer from './components/layout/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import LoadingSpinner from './components/LoadingSpinner';
 import ScrollToTop from './components/ScrollToTop';
+import { ParticipantAuthProvider } from './context/ParticipantAuth';
 
 // Lazy load pages for code splitting
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
 const Research = lazy(() => import('./pages/Research'));
 const Training = lazy(() => import('./pages/Training'));
+const CourseDetail = lazy(() => import('./pages/CourseDetail'));
+const ModulePage = lazy(() => import('./pages/ModulePage'));
+const UnitPage = lazy(() => import('./pages/UnitPage'));
+const LearnAuth = lazy(() => import('./pages/LearnAuth'));
+const LearnDashboard = lazy(() => import('./pages/LearnDashboard'));
 const Services = lazy(() => import('./pages/Services'));
 const ServiceRequest = lazy(() => import('./pages/ServiceRequest'));
 const Partnerships = lazy(() => import('./pages/Partnerships'));
@@ -31,6 +37,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 function App() {
   return (
     <ErrorBoundary>
+      <ParticipantAuthProvider>
       <ScrollToTop />
       <div className="app">
         <Navbar />
@@ -41,6 +48,9 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/research" element={<Research />} />
               <Route path="/training" element={<Training />} />
+              <Route path="/training/:courseId" element={<CourseDetail />} />
+              <Route path="/training/:courseId/module" element={<ModulePage />} />
+              <Route path="/training/:courseId/module/:unitId" element={<UnitPage />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/request" element={<ServiceRequest />} />
               <Route path="/service-request" element={<ServiceRequest />} />
@@ -49,6 +59,8 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="/learn" element={<LearnDashboard />} />
+              <Route path="/learn/:mode" element={<LearnAuth />} />
               <Route path="/admin" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="*" element={<NotFound />} />
@@ -58,6 +70,7 @@ function App() {
         <Footer />
         <ToastContainer position="top-right" autoClose={5000} />
       </div>
+      </ParticipantAuthProvider>
     </ErrorBoundary>
   );
 }

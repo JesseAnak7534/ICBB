@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICBB-RM101 — Unit 4: Literature Databases, Searching and Reference Management</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Inter, Arial, sans-serif;
+    background: #0f172a; color: #f8fafc;
+    height: 100vh; overflow: hidden;
+  }
+  .slide {
+    display: none; height: 100vh; padding: 6vh 8vw 10vh;
+    flex-direction: column; justify-content: center;
+  }
+  .slide.active { display: flex; }
+  .slide.title-slide {
+    background: linear-gradient(135deg, #0066cc 0%, #00a86b 100%);
+    justify-content: center; text-align: left;
+  }
+  .kicker {
+    font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #7dd3fc; margin-bottom: 1rem; font-weight: 700;
+  }
+  .title-slide .kicker { color: rgba(255,255,255,0.9); }
+  h1 { font-size: clamp(1.8rem, 4.5vw, 3.4rem); line-height: 1.1; margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.4rem, 3vw, 2.3rem); line-height: 1.2; margin-bottom: 1.6rem; color: #fff; }
+  .subtitle { font-size: clamp(1rem, 1.6vw, 1.3rem); opacity: 0.92; max-width: 55ch; line-height: 1.6; }
+  ul { list-style: none; max-width: 60ch; }
+  li {
+    font-size: clamp(0.95rem, 1.5vw, 1.35rem); line-height: 1.5;
+    margin-bottom: 1rem; padding-left: 1.6rem; position: relative;
+  }
+  li::before {
+    content: ''; position: absolute; left: 0; top: 0.62em;
+    width: 0.55rem; height: 0.55rem; border-radius: 50%;
+    background: #00a86b;
+  }
+  .note-slide {
+    background: #1e293b; border-left: 5px solid #00a86b;
+    padding: 1.5rem 2rem; max-width: 70ch; border-radius: 0 8px 8px 0;
+  }
+  table { border-collapse: collapse; font-size: clamp(0.75rem, 1.1vw, 1rem); max-width: 100%; }
+  th, td { border: 1px solid #334155; padding: 0.55rem 0.8rem; text-align: left; }
+  th { background: #1e293b; }
+  .progress {
+    position: fixed; bottom: 0; left: 0; height: 4px;
+    background: #00a86b; transition: width 0.2s ease;
+  }
+  .chrome {
+    position: fixed; bottom: 1.2rem; right: 1.6rem;
+    font-size: 0.8rem; color: #64748b; display: flex; gap: 1rem; align-items: center;
+  }
+  .chrome button {
+    background: #1e293b; color: #e2e8f0; border: 1px solid #334155;
+    border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer; font: inherit;
+  }
+  .hint { position: fixed; bottom: 1.2rem; left: 1.6rem; font-size: 0.78rem; color: #475569; }
+  @media print {
+    body { background: #fff; color: #000; height: auto; overflow: visible; }
+    .slide { display: flex !important; height: auto; min-height: 0; page-break-after: always; padding: 1.5cm; }
+    .chrome, .progress, .hint { display: none; }
+    h1, h2 { color: #000; }
+    li::before { background: #000; }
+  }
+</style>
+</head><body>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 4 of 10</div>
+  <h1>Literature Databases, Searching and Reference Management</h1>
+  <p class="subtitle">The databases that matter, how to build a search that is both sensitive and precise, how to document it for PRISMA, and how to manage references so the bibliography is never done by hand.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Select appropriate databases for a given topic and justify the choice</li><li>Construct a Boolean search using controlled vocabulary and field tags</li><li>Use MeSH terms, truncation, phrase searching and proximity operators</li><li>Balance sensitivity against precision and explain the trade-off</li><li>Document a search so that another researcher can reproduce it exactly</li><li>Set up Zotero or Mendeley and generate a formatted bibliography automatically</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>The major databases (1/2)</h2>
+  <ul><li>PubMed / MEDLINE — biomedical and life sciences; free; indexed with MeSH controlled vocabulary</li><li>Scopus and Web of Science — large multidisciplinary citation databases; subscription; best for citation tracking and bibliometrics</li><li>Cochrane Library — controlled trials and systematic reviews; essential for effectiveness questions</li><li>CINAHL — nursing and allied health; EMBASE — stronger European and pharmacological coverage than PubMed</li><li>PsycINFO — psychology and behavioural sciences; ERIC — education</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>The major databases (2/2)</h2>
+  <ul><li>African Journals Online (AJOL) — the largest collection of African-published scholarship, poorly covered by the big indexes</li><li>Google Scholar — very broad and useful for finding grey literature and chasing citations, but the algorithm is opaque and results are not reproducible, so it should supplement rather than replace a structured search</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">For work on African populations, searching only PubMed and Scopus will systematically miss regionally published evidence. AJOL, national journal portals and institutional repositories are not optional extras here.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Building the search (1/2)</h2>
+  <ul><li>Break the question into concepts — usually the P, I/E and O of PICO; do not search the whole question as a sentence</li><li>For each concept, gather synonyms, spelling variants, abbreviations and older terminology</li><li>Combine synonyms within a concept using OR; combine concepts using AND; use NOT sparingly, as it discards relevant records</li><li>Truncation: malari* retrieves malaria, malarial, malariae</li><li>Phrase searching: &quot;mobile money&quot; keeps the words adjacent</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Building the search (2/2)</h2>
+  <ul><li>Field tags restrict where a term is searched, e.g. [tiab] for title and abstract in PubMed</li><li>Proximity operators (NEAR, W/n, ADJn) find terms near each other and vary by database</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Controlled vocabulary (1/2)</h2>
+  <ul><li>MeSH is the National Library of Medicine's controlled vocabulary; each PubMed record is tagged by indexers</li><li>Searching a MeSH term retrieves records regardless of the authors' wording</li><li>Explosion automatically includes narrower terms beneath a heading in the tree</li><li>Major topic restricts to records where the concept is a main focus</li><li>MeSH indexing lags publication, so very recent papers are found only by free-text terms</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Controlled vocabulary (2/2)</h2>
+  <ul><li>The reliable strategy combines both: MeSH OR free-text, for each concept</li><li>Emtree in EMBASE and CINAHL Headings serve the same purpose in their databases</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Sensitivity versus precision</h2>
+  
+<table>
+  <caption>Sensitivity versus precision</caption>
+  <thead><tr><th>Goal</th><th>Strategy</th><th>Cost</th></tr></thead>
+  <tbody><tr><td>High sensitivity (systematic review)</td><td>Many synonyms, truncation, explode MeSH, no limits</td><td>Thousands of records to screen</td></tr><tr><td>High precision (quick scoping)</td><td>Few terms, major topic, title field, recent years</td><td>Relevant studies will be missed</td></tr><tr><td>Balanced (thesis chapter)</td><td>MeSH OR free-text per concept, sensible date limit</td><td>Manageable; state the limits used</td></tr></tbody>
+</table>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Documenting the search (1/2)</h2>
+  <ul><li>Record for each database: its name, the platform, the date searched, the full strategy line by line, and the number of records returned</li><li>The date matters because databases change daily and the search must be reproducible</li><li>Report screening with a PRISMA flow diagram: identified, duplicates removed, screened, excluded with reasons, included</li><li>Keep the exclusion reasons — reviewers ask for them</li><li>Save the strategy in the database's own account feature and export it, rather than retyping later</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Documenting the search (2/2)</h2>
+  <ul><li>Set up email alerts so new hits arrive during your fieldwork</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Reference management (1/2)</h2>
+  <ul><li>Zotero — free and open source, excellent browser capture, best default for most researchers</li><li>Mendeley — free, good PDF annotation, owned by Elsevier</li><li>EndNote — paid, common in institutions with a site licence, strong for very large libraries</li><li>All three insert citations into Word or LibreOffice and reformat the entire bibliography when you change style</li><li>Deduplicate on import, and fix metadata at import time — a wrong year propagates into every citation</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Reference management (2/2)</h2>
+  <ul><li>Use collections per chapter and tags per theme; attach the PDF and your notes to the record</li><li>Back up the library, and sync it — a lost reference library near submission is a genuine disaster</li><li>Never type a bibliography by hand: it wastes days and introduces errors that examiners do notice</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Set your citation style once at the beginning. Switching from APA to Vancouver later is a single dropdown in the reference manager, and a week of manual work without one.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4 · Worked example</div>
+  <h2>Building a PubMed search line by line</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">The question is whether community health worker home visits reduce childhood malaria in rural Ghana. Typing the whole sentence into PubMed returns almost nothing useful.</p>
+  <ul><li>Split into concepts: (1) community health workers, (2) home visits, (3) malaria in children.</li><li>Concept 1: &quot;Community Health Workers&quot;[Mesh] OR community health worker*[tiab] OR CHW[tiab] OR &quot;village health volunteer*&quot;[tiab]</li><li>Concept 2: &quot;House Calls&quot;[Mesh] OR home visit*[tiab] OR domiciliary[tiab]</li><li>Concept 3: &quot;Malaria&quot;[Mesh] AND (&quot;Child&quot;[Mesh] OR child*[tiab] OR under-five*[tiab])</li><li>Combine: #1 AND #2 AND #3. Record the date, the number of hits and the exact strings.</li><li>Then rerun the concepts in AJOL and Google Scholar — the Ghanaian and regional literature is thin in PubMed and you will otherwise miss it.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4 · Worked example</div>
+  <h2>What truncation actually costs you</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">A researcher searches nurs* expecting to capture nurse, nurses and nursing. The result set balloons and is full of irrelevant records.</p>
+  <ul><li>nurs* also matches nursery, nurseries and nursed, none of which are wanted.</li><li>Truncating too early is the usual cause: nurs* cuts before the stem is distinctive.</li><li>nurse* OR nursing captures what is needed without the nursery records.</li><li>Check the effect: run both and compare the hit counts and a sample of titles.</li><li>Where a database offers it, a field tag narrows further — nurse*[tiab] rather than a free-text search of the whole record.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>MeSH</strong> — Medical Subject Headings — the controlled vocabulary used to index MEDLINE and PubMed records.</li><li><strong>Boolean operators</strong> — AND, OR and NOT, used to combine search concepts.</li><li><strong>Truncation</strong> — A wildcard symbol (usually *) retrieving all word endings from a common stem.</li><li><strong>Sensitivity</strong> — The proportion of all relevant records that a search retrieves.</li><li><strong>Precision</strong> — The proportion of retrieved records that are actually relevant.</li><li><strong>PRISMA flow diagram</strong> — The standard figure reporting how records moved from identification through screening to inclusion.</li><li><strong>Grey literature</strong> — Reports, theses and working papers published outside commercial channels and often outside major indexes.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Build a full PubMed strategy for your own question. Produce at least two concepts, each with MeSH and free-text synonyms combined by OR, then joined by AND. Record the date and the number of hits. Import the first twenty results into Zotero and generate a bibliography in APA, then switch it to Vancouver.</p>
+</section>
+
+<div class="progress" id="progress"></div>
+<div class="hint">Arrow keys or space to navigate · P to print</div>
+<div class="chrome">
+  <button type="button" onclick="go(-1)">Prev</button>
+  <span id="counter"></span>
+  <button type="button" onclick="go(1)">Next</button>
+</div>
+<script>
+  var slides = document.querySelectorAll('.slide');
+  var current = 0;
+  function show(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width =
+      ((current + 1) / slides.length * 100) + '%';
+    if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1));
+  }
+  function go(step) { show(current + step); }
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
+    if (['ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key === 'p' || e.key === 'P') window.print();
+  });
+  show(parseInt((location.hash || '#1').slice(1), 10) - 1 || 0);
+</script>
+</body></html>

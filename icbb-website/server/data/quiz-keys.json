@@ -1,0 +1,119 @@
+{
+  "generated": "by client/tools/build-materials.js — do not edit by hand",
+  "courses": {
+    "research-methods-design": {
+      "code": "ICBB-RM101",
+      "title": "Research Methods: Quantitative & Qualitative Design",
+      "passMark": 60,
+      "units": {
+        "unit-01": {
+          "title": "Foundations of Research",
+          "answers": [
+            1,
+            1,
+            2,
+            2,
+            1
+          ]
+        },
+        "unit-02": {
+          "title": "The Research Problem, Questions and Objectives",
+          "answers": [
+            2,
+            2,
+            1,
+            2,
+            1
+          ]
+        },
+        "unit-03": {
+          "title": "The Literature Review",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            2
+          ]
+        },
+        "unit-04": {
+          "title": "Literature Databases, Searching and Reference Management",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-05": {
+          "title": "Quantitative Research Designs",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            2
+          ]
+        },
+        "unit-06": {
+          "title": "Qualitative Research Designs",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-07": {
+          "title": "Mixed Methods and Sampling",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-08": {
+          "title": "Data Collection, Instruments and Measurement",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-09": {
+          "title": "Research Ethics and Integrity",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-10": {
+          "title": "Writing the Proposal, Rigour and Dissemination",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    }
+  }
+}

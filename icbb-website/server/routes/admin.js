@@ -216,6 +216,13 @@ router.post('/requests/:id/upload-results',
         });
       }
 
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'No files were uploaded'
+        });
+      }
+
       // Process uploaded files
       const completedFiles = req.files.map(file => ({
         filename: file.filename,

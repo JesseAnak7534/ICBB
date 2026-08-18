@@ -92,13 +92,21 @@ icbb-website/
 
 ## Admin Access
 
-Access the admin dashboard at `/admin`
+Access the admin dashboard at `/admin`.
 
-**Default Credentials:**
-- Email: jesseanak98@gmail.com
-- Password: Jese@1998
+There are no default credentials. Create the first admin account by setting
+`ADMIN_EMAIL` and `ADMIN_PASSWORD` in `server/.env` and running:
 
-> **Note:** Change these credentials in production!
+```bash
+npm run seed
+```
+
+Re-running the seed with a different `ADMIN_PASSWORD` rotates the password of an
+existing account.
+
+> Never commit real credentials. `server/.env.example` is a template of variable
+> names only — real values belong in `server/.env` (gitignored) or in the Vercel
+> project's environment variables.
 
 ## API Endpoints
 
@@ -111,42 +119,120 @@ Access the admin dashboard at `/admin`
 - `GET /api/services/request/:id` - Get request by ID
 
 ### Training
-- `POST /api/training/register` - Register for training
+- `GET /api/training/programs` - List available programs
+- `GET /api/training/programs/:id` - Get one program
+- `POST /api/training/register` - Express interest in a programme
+
+### Participants (learner accounts)
+- `POST /api/participants/register` - Create a learner account
+- `POST /api/participants/login` - Sign in
+- `GET /api/participants/me` - Current participant
+- `POST /api/participants/enrol` - Enrol in a course
+- `POST /api/participants/quiz-attempts` - Submit a unit quiz
+- `GET /api/participants/progress/:courseId` - Best score per unit
+
+> Quiz submissions send **only the chosen option indices**. The API grades them
+> against `server/data/quiz-keys.json` and stores its own result, because a score
+> reported by the learner's browser is not evidence. Participant tokens carry
+> `type: "participant"` and are rejected on staff routes, and staff tokens are
+> rejected on participant routes.
+
+## Course materials
+
+`npm run build:materials` regenerates everything under
+`client/public/materials/` from `client/src/content/`, plus the API's answer key.
+Nothing restates the curriculum, so the site, the slides and the handouts cannot
+disagree.
+
+Per module it produces:
+
+| Output | Format | Notes |
+| --- | --- | --- |
+| `unit-NN-slides.pptx` | PowerPoint | Native bullet paragraphs, fully editable |
+| `unit-NN-slides.html` | HTML | Keyboard-navigable deck for the browser |
+| `unit-NN-handout.pdf` | PDF | Unit handout with quiz and answer key |
+| `<course>-slides.pptx` | PowerPoint | The whole module in one deck |
+| `<course>-workbook.pdf` | PDF | Every unit in one document |
+| `<course>-syllabus.pdf` | PDF | Outline, assessment and rubric |
+
+All documents and decks carry the ICBB watermark and are authored to
+**Jesse Anak**. PDFs are rendered with headless Chrome; set `CHROME_PATH` if it
+is not found automatically. Generated files are committed because Vercel's build
+image has no Chrome.
 
 ### Contact
 - `POST /api/contact` - Submit contact message
 
 ### Payments
-- `POST /api/payments/initiate` - Initiate MTN MoMo payment
-- `POST /api/payments/confirm` - Confirm payment
+- `POST /api/payments/initiate` - Get MoMo payment instructions for a request
+- `POST /api/payments/confirm` - Client reports having paid (records a claim only)
+- `POST /api/payments/verify` - **Admin only.** Confirms the money arrived
+- `GET /api/payments/status/:requestId` - Payment status
+
+> A client reporting payment does **not** mark a request paid. An admin must
+> check the MoMo account and call `/verify`. Anything else lets a stranger mark
+> their own request as settled.
 
 ### Admin (Protected)
-- `GET /api/admin/stats` - Dashboard statistics
+- `GET /api/admin/dashboard` - Dashboard statistics and recent requests
 - `GET /api/admin/requests` - All service requests
-- `PATCH /api/admin/requests/:id/status` - Update request status
-- `POST /api/admin/requests/:id/upload` - Upload results file
+- `GET /api/admin/requests/:id` - One service request
+- `PUT /api/admin/requests/:id/status` - Update request status
+- `POST /api/admin/requests/:id/upload-results` - Upload results (field name: `files`)
+- `GET /api/admin/registrations` - Training registrations
+- `PUT /api/admin/registrations/:id/status` - Update registration status
+- `GET /api/admin/contacts` - Contact submissions
+- `PUT /api/admin/contacts/:id/status` - Update contact status
+
+All admin responses are shaped `{ success, data }`.
 
 ## Deployment
 
-### Frontend (Vercel/Netlify)
-1. Build: `cd client && npm run build`
-2. Deploy `client/build` folder
+The site and the API deploy together to Vercel from this directory. The API runs
+as a Vercel Function (`api/index.js`) that wraps the same Express app used
+locally, so `/api/*` is served from the same origin as the site — no CORS, and no
+second host to keep alive.
 
-### Backend (Heroku/Railway/VPS)
-1. Set environment variables
-2. Deploy `server` folder
-3. Update `MONGODB_URI` to production database
+### Vercel project settings
+- **Root Directory:** `icbb-website`
+- **Framework Preset:** Other (build and output come from `vercel.json`)
+
+### Required environment variables
+Set these in the Vercel project (Production and Preview):
+
+| Variable | Notes |
+| --- | --- |
+| `MONGODB_URI` | MongoDB Atlas connection string. Allow Vercel's IPs, or `0.0.0.0/0` with a strong password. |
+| `JWT_SECRET` | Required. The API refuses to start in production without it. |
+| `ADMIN_EMAIL` | Notification recipient, and the account created by `npm run seed`. |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Email. Gmail needs an App Password. |
+| `EMAIL_FROM` | Sender shown on outgoing mail. |
+| `MOMO_ACCOUNT_NAME`, `MOMO_ACCOUNT_NUMBER`, `MOMO_NETWORK` | Shown to clients as payment instructions. |
+| `CORS_ORIGINS` | Only needed if the API is called from another origin. |
+| `BLOB_READ_WRITE_TOKEN` | Required for file uploads. See below. |
+
+### File uploads
+Serverless functions have no persistent disk — anything written there vanishes
+when the request ends. Create a Vercel Blob store and set `BLOB_READ_WRITE_TOKEN`;
+the upload middleware then stores files in Blob instead of on disk. Without the
+token uploads fall back to local disk, which is correct for a normal server but
+silently loses files on Vercel.
+
+### Alternative: a separate API host
+The API still runs as an ordinary Node process (`cd server && npm start`) on
+Render, Railway, Fly or a VPS. In that case set `REACT_APP_API_URL` on the
+frontend to that host's URL, and add the site's domain to `CORS_ORIGINS`.
 
 ## Payment Integration
 
 The website uses MTN Mobile Money (MoMo) for payments in Ghana.
 
-**Account Details:**
-- Name: Jesse Azebiik Anak
-- Number: 0559759592
-- Network: MTN Ghana
+Payment is currently **manual**: the client is shown transfer instructions, sends
+the money, and reports the transaction ID. An admin verifies it against the MoMo
+account before the request is treated as paid.
 
-> Update the MoMo API credentials in `.env` for production.
+Account details are read from `MOMO_ACCOUNT_NAME`, `MOMO_ACCOUNT_NUMBER` and
+`MOMO_NETWORK` so the payee can be changed without a code deploy.
 
 ## Support
 

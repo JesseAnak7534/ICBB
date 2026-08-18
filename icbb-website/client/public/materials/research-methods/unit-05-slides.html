@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICBB-RM101 — Unit 5: Quantitative Research Designs</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Inter, Arial, sans-serif;
+    background: #0f172a; color: #f8fafc;
+    height: 100vh; overflow: hidden;
+  }
+  .slide {
+    display: none; height: 100vh; padding: 6vh 8vw 10vh;
+    flex-direction: column; justify-content: center;
+  }
+  .slide.active { display: flex; }
+  .slide.title-slide {
+    background: linear-gradient(135deg, #0066cc 0%, #00a86b 100%);
+    justify-content: center; text-align: left;
+  }
+  .kicker {
+    font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #7dd3fc; margin-bottom: 1rem; font-weight: 700;
+  }
+  .title-slide .kicker { color: rgba(255,255,255,0.9); }
+  h1 { font-size: clamp(1.8rem, 4.5vw, 3.4rem); line-height: 1.1; margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.4rem, 3vw, 2.3rem); line-height: 1.2; margin-bottom: 1.6rem; color: #fff; }
+  .subtitle { font-size: clamp(1rem, 1.6vw, 1.3rem); opacity: 0.92; max-width: 55ch; line-height: 1.6; }
+  ul { list-style: none; max-width: 60ch; }
+  li {
+    font-size: clamp(0.95rem, 1.5vw, 1.35rem); line-height: 1.5;
+    margin-bottom: 1rem; padding-left: 1.6rem; position: relative;
+  }
+  li::before {
+    content: ''; position: absolute; left: 0; top: 0.62em;
+    width: 0.55rem; height: 0.55rem; border-radius: 50%;
+    background: #00a86b;
+  }
+  .note-slide {
+    background: #1e293b; border-left: 5px solid #00a86b;
+    padding: 1.5rem 2rem; max-width: 70ch; border-radius: 0 8px 8px 0;
+  }
+  table { border-collapse: collapse; font-size: clamp(0.75rem, 1.1vw, 1rem); max-width: 100%; }
+  th, td { border: 1px solid #334155; padding: 0.55rem 0.8rem; text-align: left; }
+  th { background: #1e293b; }
+  .progress {
+    position: fixed; bottom: 0; left: 0; height: 4px;
+    background: #00a86b; transition: width 0.2s ease;
+  }
+  .chrome {
+    position: fixed; bottom: 1.2rem; right: 1.6rem;
+    font-size: 0.8rem; color: #64748b; display: flex; gap: 1rem; align-items: center;
+  }
+  .chrome button {
+    background: #1e293b; color: #e2e8f0; border: 1px solid #334155;
+    border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer; font: inherit;
+  }
+  .hint { position: fixed; bottom: 1.2rem; left: 1.6rem; font-size: 0.78rem; color: #475569; }
+  @media print {
+    body { background: #fff; color: #000; height: auto; overflow: visible; }
+    .slide { display: flex !important; height: auto; min-height: 0; page-break-after: always; padding: 1.5cm; }
+    .chrome, .progress, .hint { display: none; }
+    h1, h2 { color: #000; }
+    li::before { background: #000; }
+  }
+</style>
+</head><body>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 5 of 10</div>
+  <h1>Quantitative Research Designs</h1>
+  <p class="subtitle">The main observational and experimental designs, what each can and cannot establish, and how to choose the weakest design that still answers your question honestly.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Describe cross-sectional, case-control, cohort and experimental designs</li><li>Match a design to a research question and justify the choice</li><li>Explain why association does not establish causation and what would</li><li>Identify the principal biases threatening each design</li><li>Explain randomisation, blinding and allocation concealment</li><li>Recognise quasi-experimental designs and when they are the honest option</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Observational designs</h2>
+  <ul><li>Cross-sectional — exposure and outcome measured at the same moment; fast and cheap; gives prevalence but cannot establish which came first</li><li>Case-control — starts from the outcome and looks backward at exposure; efficient for rare outcomes; vulnerable to recall and selection bias; yields an odds ratio</li><li>Cohort — starts from exposure and follows forward to outcome; establishes temporal sequence; expensive and vulnerable to loss to follow-up; yields relative risk and incidence</li><li>Ecological — units of analysis are groups rather than individuals; cheap but subject to the ecological fallacy</li><li>Case series and case reports — descriptive only, no comparison group, hypothesis-generating at best</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Choosing an observational design</h2>
+  
+<table>
+  <caption>Choosing an observational design</caption>
+  <thead><tr><th>Design</th><th>Starts from</th><th>Best for</th><th>Main weakness</th></tr></thead>
+  <tbody><tr><td>Cross-sectional</td><td>A population at one time</td><td>Prevalence, associations</td><td>No temporal sequence</td></tr><tr><td>Case-control</td><td>The outcome</td><td>Rare outcomes, long latency</td><td>Recall and selection bias</td></tr><tr><td>Cohort</td><td>The exposure</td><td>Incidence, temporal sequence</td><td>Cost, attrition</td></tr><tr><td>Ecological</td><td>Groups</td><td>Population-level hypotheses</td><td>Ecological fallacy</td></tr></tbody>
+</table>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Experimental designs (1/2)</h2>
+  <ul><li>The investigator assigns the exposure, which is what permits causal inference</li><li>Randomisation distributes both known and unknown confounders across arms — its unique strength</li><li>Allocation concealment stops the recruiter from knowing the next assignment, preventing selection bias at entry</li><li>Blinding stops participants, providers or assessors from knowing the assignment, preventing performance and detection bias</li><li>Randomised controlled trials may be parallel, crossover, factorial or cluster-randomised</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Experimental designs (2/2)</h2>
+  <ul><li>Cluster randomisation assigns groups (schools, clinics, villages) and requires a larger sample because responses within a cluster are correlated</li><li>Analyse by intention to treat: participants are analysed in the arm to which they were assigned, whatever they actually received</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Per-protocol analysis, which counts only those who complied, quietly destroys randomisation and reintroduces confounding. Report it as a secondary analysis if at all.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Quasi-experimental designs (1/2)</h2>
+  <ul><li>Used when randomisation is impossible, unethical or politically unacceptable</li><li>Non-equivalent control group — an untreated comparison group not formed by randomisation</li><li>Interrupted time series — repeated measures before and after an intervention, strong when many time points exist</li><li>Difference-in-differences — compares change over time between exposed and unexposed groups</li><li>Stepped wedge — all clusters eventually receive the intervention, in a randomised order; ethically attractive for programme rollout</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Quasi-experimental designs (2/2)</h2>
+  <ul><li>These designs support weaker causal claims and must state the residual threats explicitly</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Causation and bias (1/2)</h2>
+  <ul><li>Association is necessary but not sufficient for causation</li><li>The Bradford Hill considerations — strength, consistency, temporality, biological gradient, plausibility and others — aid judgement but prove nothing individually</li><li>Temporality is the only genuinely necessary condition: the cause must precede the effect</li><li>Selection bias arises when those included differ systematically from those not included</li><li>Information bias arises from measurement error — including recall bias and interviewer bias</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Causation and bias (2/2)</h2>
+  <ul><li>Confounding arises when a third variable explains the apparent relationship</li><li>Confounding can be handled by design (randomisation, restriction, matching) or by analysis (stratification, regression adjustment)</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5 · Worked example</div>
+  <h2>One question, four designs, four different answers</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">Does using an insecticide-treated net reduce malaria in under-fives? The design chosen changes what can honestly be claimed.</p>
+  <ul><li>Cross-sectional: survey households, record net use and current infection. Shows association only — sick children may have been given nets because they were sick.</li><li>Case-control: take children with malaria and matched controls, ask about past net use. Efficient, but caregivers of sick children recall exposure differently (recall bias).</li><li>Cohort: enrol net users and non-users, follow for a season. Establishes sequence, but families choosing nets differ from those who do not.</li><li>Cluster-randomised trial: randomise villages to receive nets. Balances known and unknown confounders — and answers the causal question.</li><li>The trial is strongest and also the slowest and most expensive; the cross-sectional study is fastest and answers least.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5 · Worked example</div>
+  <h2>Why per-protocol analysis quietly breaks a trial</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">In a trial of a six-month TB treatment regimen, 15% of the intervention arm stopped taking the drug. The analyst proposes excluding them &quot;so we measure the drug's true effect&quot;.</p>
+  <ul><li>Ask who stopped. Typically those with worse side effects, more advanced disease, or less social support.</li><li>Those same characteristics predict worse outcomes independently of the drug.</li><li>Removing them leaves a healthier intervention arm compared against an intact control arm.</li><li>Randomisation guaranteed comparable groups at baseline; this exclusion destroys that guarantee.</li><li>Intention to treat keeps everyone in the arm they were assigned, and answers the question a clinician actually faces: what happens if I prescribe this?</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Incidence</strong> — The rate of new cases arising in a population over a defined period.</li><li><strong>Prevalence</strong> — The proportion of a population having the condition at a point in time.</li><li><strong>Odds ratio</strong> — The ratio of the odds of exposure in cases to the odds in controls; the standard measure from case-control studies.</li><li><strong>Allocation concealment</strong> — Preventing those enrolling participants from knowing the upcoming assignment.</li><li><strong>Intention to treat</strong> — Analysing participants in the arm to which they were randomised, regardless of adherence.</li><li><strong>Ecological fallacy</strong> — Wrongly inferring something about individuals from a relationship observed between groups.</li><li><strong>Confounding</strong> — Distortion of an exposure-outcome association by a third variable related to both.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">You are asked whether a new community health worker programme reduced under-five mortality. Randomisation is refused by the district. Propose two quasi-experimental designs, state what each can and cannot establish, and name the biases you would have to acknowledge.</p>
+</section>
+
+<div class="progress" id="progress"></div>
+<div class="hint">Arrow keys or space to navigate · P to print</div>
+<div class="chrome">
+  <button type="button" onclick="go(-1)">Prev</button>
+  <span id="counter"></span>
+  <button type="button" onclick="go(1)">Next</button>
+</div>
+<script>
+  var slides = document.querySelectorAll('.slide');
+  var current = 0;
+  function show(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width =
+      ((current + 1) / slides.length * 100) + '%';
+    if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1));
+  }
+  function go(step) { show(current + step); }
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
+    if (['ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key === 'p' || e.key === 'P') window.print();
+  });
+  show(parseInt((location.hash || '#1').slice(1), 10) - 1 || 0);
+</script>
+</body></html>

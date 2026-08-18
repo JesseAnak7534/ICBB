@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICBB-RM101 — Unit 3: The Literature Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Inter, Arial, sans-serif;
+    background: #0f172a; color: #f8fafc;
+    height: 100vh; overflow: hidden;
+  }
+  .slide {
+    display: none; height: 100vh; padding: 6vh 8vw 10vh;
+    flex-direction: column; justify-content: center;
+  }
+  .slide.active { display: flex; }
+  .slide.title-slide {
+    background: linear-gradient(135deg, #0066cc 0%, #00a86b 100%);
+    justify-content: center; text-align: left;
+  }
+  .kicker {
+    font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #7dd3fc; margin-bottom: 1rem; font-weight: 700;
+  }
+  .title-slide .kicker { color: rgba(255,255,255,0.9); }
+  h1 { font-size: clamp(1.8rem, 4.5vw, 3.4rem); line-height: 1.1; margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.4rem, 3vw, 2.3rem); line-height: 1.2; margin-bottom: 1.6rem; color: #fff; }
+  .subtitle { font-size: clamp(1rem, 1.6vw, 1.3rem); opacity: 0.92; max-width: 55ch; line-height: 1.6; }
+  ul { list-style: none; max-width: 60ch; }
+  li {
+    font-size: clamp(0.95rem, 1.5vw, 1.35rem); line-height: 1.5;
+    margin-bottom: 1rem; padding-left: 1.6rem; position: relative;
+  }
+  li::before {
+    content: ''; position: absolute; left: 0; top: 0.62em;
+    width: 0.55rem; height: 0.55rem; border-radius: 50%;
+    background: #00a86b;
+  }
+  .note-slide {
+    background: #1e293b; border-left: 5px solid #00a86b;
+    padding: 1.5rem 2rem; max-width: 70ch; border-radius: 0 8px 8px 0;
+  }
+  table { border-collapse: collapse; font-size: clamp(0.75rem, 1.1vw, 1rem); max-width: 100%; }
+  th, td { border: 1px solid #334155; padding: 0.55rem 0.8rem; text-align: left; }
+  th { background: #1e293b; }
+  .progress {
+    position: fixed; bottom: 0; left: 0; height: 4px;
+    background: #00a86b; transition: width 0.2s ease;
+  }
+  .chrome {
+    position: fixed; bottom: 1.2rem; right: 1.6rem;
+    font-size: 0.8rem; color: #64748b; display: flex; gap: 1rem; align-items: center;
+  }
+  .chrome button {
+    background: #1e293b; color: #e2e8f0; border: 1px solid #334155;
+    border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer; font: inherit;
+  }
+  .hint { position: fixed; bottom: 1.2rem; left: 1.6rem; font-size: 0.78rem; color: #475569; }
+  @media print {
+    body { background: #fff; color: #000; height: auto; overflow: visible; }
+    .slide { display: flex !important; height: auto; min-height: 0; page-break-after: always; padding: 1.5cm; }
+    .chrome, .progress, .hint { display: none; }
+    h1, h2 { color: #000; }
+    li::before { background: #000; }
+  }
+</style>
+</head><body>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 3 of 10</div>
+  <h1>The Literature Review</h1>
+  <p class="subtitle">What a literature review is for, the main types and when each is appropriate, and how to build one that argues rather than merely lists.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Explain the four functions a literature review performs in a research project</li><li>Distinguish narrative, scoping, systematic, rapid and integrative reviews</li><li>Select the review type appropriate to your purpose and resources</li><li>Organise a review thematically rather than source by source</li><li>Use a synthesis matrix to move from reading to argument</li><li>Recognise and avoid the most common review failures</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>What the review is for</h2>
+  <ul><li>To establish what is already known, so you do not repeat settled work</li><li>To locate and justify the gap your study will fill</li><li>To inform your method — which designs, instruments and measures others found workable</li><li>To supply the framework against which you will later interpret your own findings</li><li>A review is an argument leading to your question, not a catalogue of everything published</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">The single most common examiner criticism is a review that summarises twenty studies in twenty paragraphs and never says what they collectively mean. If a paragraph begins with an author name rather than an idea, suspect this failure.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Types of review (1/2)</h2>
+  <ul><li>Narrative review — broad, expert overview; flexible but vulnerable to selection bias</li><li>Scoping review — maps the extent and nature of evidence and identifies gaps; ideal when a field is new or heterogeneous</li><li>Systematic review — answers a focused question using a pre-registered protocol and exhaustive search; the highest standard, and the most work</li><li>Meta-analysis — statistical pooling of results across studies; only valid when studies are sufficiently comparable</li><li>Rapid review — systematic methods with deliberate, documented shortcuts, used under time pressure</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Types of review (2/2)</h2>
+  <ul><li>Integrative review — combines experimental and non-experimental evidence, common in nursing and health services research</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Choosing a review type</h2>
+  
+<table>
+  <caption>Choosing a review type</caption>
+  <thead><tr><th>If your purpose is…</th><th>Use</th><th>Typical effort</th></tr></thead>
+  <tbody><tr><td>Introduce a thesis chapter</td><td>Narrative or integrative</td><td>4-8 weeks</td></tr><tr><td>Map an emerging or scattered field</td><td>Scoping review</td><td>3-6 months</td></tr><tr><td>Answer a focused effectiveness question</td><td>Systematic review</td><td>6-12 months</td></tr><tr><td>Pool effect estimates numerically</td><td>Systematic review with meta-analysis</td><td>9-18 months</td></tr><tr><td>Inform an urgent policy decision</td><td>Rapid review</td><td>4-12 weeks</td></tr></tbody>
+</table>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Building the review (1/2)</h2>
+  <ul><li>Define the scope first: concepts, populations, date range, languages and study types, with a reason for each limit</li><li>Search systematically even for a narrative review — record databases, terms and dates so the search can be repeated</li><li>Screen in two passes: title and abstract, then full text against explicit criteria</li><li>Extract into a synthesis matrix: rows are studies, columns are the themes, methods and findings you care about</li><li>Reading the matrix down the columns rather than across the rows is what turns reading into synthesis</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Building the review (2/2)</h2>
+  <ul><li>Organise the written review by theme, debate or chronology of ideas — never by author</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Appraising what you find (1/2)</h2>
+  <ul><li>Not all evidence carries equal weight; state how you judged quality</li><li>Evidence hierarchies place systematic reviews and randomised trials above cohort, case-control and cross-sectional designs for effectiveness questions</li><li>Hierarchies apply to questions of effectiveness, not to questions of meaning or experience — a qualitative study is not &quot;low quality&quot; evidence for how patients understand illness</li><li>Use a structured tool: CASP checklists, the Newcastle-Ottawa Scale, or Cochrane Risk of Bias 2</li><li>Watch for predatory journals — check indexing, editorial board, and whether the publisher appears in DOAJ or on Cabells lists</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Appraising what you find (2/2)</h2>
+  <ul><li>Note conflicts of interest and funding sources</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Common failures (1/2)</h2>
+  <ul><li>Listing rather than synthesising — the &quot;annotated bibliography&quot; review</li><li>Relying only on what is freely available, producing a review biased towards open-access journals</li><li>Citing abstracts without reading the full paper, and repeating a misreading from a secondary source</li><li>Ignoring evidence that contradicts your position, which reviewers will notice</li><li>Reviewing only recent work and losing the origin of a debate</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Common failures (2/2)</h2>
+  <ul><li>Letting the review stop when data collection begins — it must be updated before submission</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3 · Worked example</div>
+  <h2>Turning five papers into one paragraph</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">A student has read five studies on adherence to hypertension medication and has written five paragraphs, one per study, each beginning with an author name.</p>
+  <ul><li>Build a matrix: rows are the five studies, columns are design, setting, sample, adherence measure and main finding.</li><li>Reading down the &quot;adherence measure&quot; column shows three used self-report and two used pill counts.</li><li>Reading down &quot;main finding&quot; shows the self-report studies all report higher adherence than the pill-count studies.</li><li>That comparison is the paragraph: &quot;Reported adherence varies with how it was measured, with self-report consistently higher than objective measures (refs) — a pattern that complicates comparison across settings.&quot;</li><li>No sentence in that paragraph has an author as its subject. The studies are evidence for a claim, not the topic of the writing.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3 · Worked example</div>
+  <h2>Choosing the review your timeline can survive</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">A student with nine months until submission proposes &quot;a systematic review and meta-analysis of interventions to reduce malaria in under-fives across sub-Saharan Africa&quot;.</p>
+  <ul><li>A proper systematic review needs a protocol, two independent screeners, dual data extraction and risk-of-bias assessment.</li><li>That question would return several thousand records to screen at title and abstract.</li><li>She is working alone, so the second screener does not exist — and without one it is not a systematic review by PRISMA standards.</li><li>A scoping review of the same area is defensible, achievable solo, and still publishable.</li><li>Alternatively, narrow the question hard: one intervention, one age band, one country — which can make a systematic review feasible.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Synthesis matrix</strong> — A table with studies as rows and themes or attributes as columns, used to compare across sources rather than summarise each in turn.</li><li><strong>Scoping review</strong> — A structured review that maps the extent, range and nature of evidence on a topic and identifies gaps.</li><li><strong>Grey literature</strong> — Material outside commercial publishing — theses, government and NGO reports, working papers, conference abstracts.</li><li><strong>Publication bias</strong> — The tendency for studies with positive or significant results to be published more often, distorting the apparent evidence.</li><li><strong>Predatory journal</strong> — A journal charging publication fees while providing little or no genuine peer review or editorial service.</li><li><strong>Saturation (in reviewing)</strong> — The point at which additional searching returns no new relevant concepts.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Take five papers you have already read. Build a synthesis matrix with columns for design, sample, setting, key finding and limitation. Then write one paragraph that compares across the column &quot;key finding&quot; without naming an author as the subject of any sentence.</p>
+</section>
+
+<div class="progress" id="progress"></div>
+<div class="hint">Arrow keys or space to navigate · P to print</div>
+<div class="chrome">
+  <button type="button" onclick="go(-1)">Prev</button>
+  <span id="counter"></span>
+  <button type="button" onclick="go(1)">Next</button>
+</div>
+<script>
+  var slides = document.querySelectorAll('.slide');
+  var current = 0;
+  function show(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width =
+      ((current + 1) / slides.length * 100) + '%';
+    if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1));
+  }
+  function go(step) { show(current + step); }
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
+    if (['ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key === 'p' || e.key === 'P') window.print();
+  });
+  show(parseInt((location.hash || '#1').slice(1), 10) - 1 || 0);
+</script>
+</body></html>

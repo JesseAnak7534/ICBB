@@ -55,7 +55,7 @@ const AdminDashboard = () => {
       const headers = { 'Authorization': `Bearer ${token}` };
       
       // Fetch stats
-      const statsRes = await fetch(getApiUrl('/api/admin/stats'), { headers });
+      const statsRes = await fetch(getApiUrl('/api/admin/dashboard'), { headers });
       if (!statsRes.ok) {
         if (statsRes.status === 401) {
           localStorage.removeItem('adminToken');
@@ -65,7 +65,7 @@ const AdminDashboard = () => {
       }
       const statsData = await statsRes.json();
       if (statsData.success) {
-        setStats(statsData.stats || {
+        setStats((statsData.data && statsData.data.stats) || {
           totalRequests: 0,
           pendingRequests: 0,
           completedRequests: 0,
@@ -78,21 +78,21 @@ const AdminDashboard = () => {
       const requestsRes = await fetch(getApiUrl('/api/admin/requests'), { headers });
       const requestsData = await requestsRes.json();
       if (requestsData.success) {
-        setRequests(requestsData.requests || []);
+        setRequests(requestsData.data || []);
       }
       
       // Fetch training registrations
-      const trainingRes = await fetch(getApiUrl('/api/admin/training'), { headers });
+      const trainingRes = await fetch(getApiUrl('/api/admin/registrations'), { headers });
       const trainingData = await trainingRes.json();
       if (trainingData.success) {
-        setTrainingRegistrations(trainingData.registrations || []);
+        setTrainingRegistrations(trainingData.data || []);
       }
       
       // Fetch contact submissions
       const contactRes = await fetch(getApiUrl('/api/admin/contacts'), { headers });
       const contactData = await contactRes.json();
       if (contactData.success) {
-        setContactSubmissions(contactData.contacts || []);
+        setContactSubmissions(contactData.data || []);
       }
     } catch (error) {
       console.error('Dashboard fetch error:', error);
@@ -113,7 +113,7 @@ const AdminDashboard = () => {
   const updateRequestStatus = async (requestId, newStatus) => {
     try {
       const response = await fetch(getApiUrl(`/api/admin/requests/${requestId}/status`), {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -141,10 +141,10 @@ const AdminDashboard = () => {
     }
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('files', file);
 
     try {
-      const response = await fetch(getApiUrl(`/api/admin/requests/${requestId}/upload`), {
+      const response = await fetch(getApiUrl(`/api/admin/requests/${requestId}/upload-results`), {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
