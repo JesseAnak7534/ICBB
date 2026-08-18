@@ -17,17 +17,23 @@
  */
 
 /**
- * Course fees, in Ghana cedis.
+ * Course fees, in Ghana cedis. Zero means free — registration is still
+ * required, but no payment step stands between signing up and the materials.
  *
- * PLACEHOLDER VALUES — set these to the real prices before taking payments.
- * The server reads them from the generated data/course-prices.json, so the
+ * Part 1 is deliberately free: it is the entry point to the certificate, and
+ * the analysis courses are where the fee sits.
+ *
+ * The server reads these from the generated data/course-prices.json, so the
  * amount charged never comes from the browser.
  */
 export const PRICES = {
-  'research-methods-design': 300,
+  'research-methods-design': 0,
   'quantitative-data-analysis': 400,
   'qualitative-data-analysis': 400
 };
+
+/** Whether a course has a fee at all. */
+export const isFree = (courseId) => (PRICES[courseId] || 0) === 0;
 
 export const CURRENCY = 'GHS';
 

@@ -309,7 +309,10 @@ router.get('/progress/:courseId', protectParticipant, async (req, res) => {
 
 /* ---------------------------------------------------------------- payment -- */
 
-const priceFor = (courseId) => coursePrices.prices[courseId] || null;
+const priceFor = (courseId) =>
+  Object.prototype.hasOwnProperty.call(coursePrices.prices, courseId)
+    ? coursePrices.prices[courseId]
+    : null;
 
 /** Shape returned to the client for an enrolment's payment. */
 const paymentView = (enrolment) => {
@@ -339,6 +342,7 @@ router.get('/price/:courseId', (req, res) => {
     price: {
       courseId: req.params.courseId,
       amount,
+      free: amount === 0,
       currency: coursePrices.currency,
       momoAvailable: momo.isConfigured(),
       payTo: process.env.MOMO_ACCOUNT_NUMBER || null,
@@ -368,6 +372,15 @@ router.post('/pay', protectParticipant, [
     const amount = priceFor(courseId);
     if (amount === null) {
       return res.status(404).json({ success: false, message: 'Unknown course' });
+    }
+
+    // Never raise a payment prompt for a course that costs nothing.
+    if (amount === 0) {
+      return res.status(400).json({
+        success: false,
+        code: 'COURSE_IS_FREE',
+        message: 'This course is free. Registering is all that is needed.'
+      });
     }
 
     if (!momo.isValidGhanaNumber(phone)) {

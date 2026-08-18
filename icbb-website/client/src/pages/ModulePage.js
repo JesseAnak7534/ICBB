@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fi';
 import SEO from '../components/SEO';
 import NotFound from './NotFound';
-import { getCourseById } from '../data/courses';
+import { getCourseById, isFree } from '../data/courses';
 import { getModule, materialsFolderByCourse } from '../content/modules';
 import MaterialDownload from '../components/MaterialDownload';
 import { useParticipantAuth } from '../context/ParticipantAuth';
@@ -24,7 +24,8 @@ import './ModulePage.css';
  */
 const ModulePage = () => {
   const { courseId } = useParams();
-  const { isSignedIn, hasPaidFor } = useParticipantAuth();
+  const { isSignedIn, hasAccessTo, enrol } = useParticipantAuth();
+  const [joining, setJoining] = React.useState(false);
   const course = getCourseById(courseId);
   const module = getModule(courseId);
   const folder = materialsFolderByCourse[courseId];
@@ -198,12 +199,24 @@ const ModulePage = () => {
                     state={{ from: `/training/${courseId}/module`, courseId }}
                     className="btn btn-primary"
                   >
-                    Register for this course
+                    {isFree(courseId) ? 'Register free to get the materials' : 'Register for this course'}
                   </Link>
-                ) : hasPaidFor(courseId) ? (
+                ) : hasAccessTo(courseId) ? (
                   <Link to="/learn" className="btn btn-primary">
                     View my progress
                   </Link>
+                ) : isFree(courseId) ? (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    disabled={joining}
+                    onClick={async () => {
+                      setJoining(true);
+                      try { await enrol(courseId); } finally { setJoining(false); }
+                    }}
+                  >
+                    {joining ? 'Joining…' : 'Join this course — free'}
+                  </button>
                 ) : (
                   <Link to={`/learn/pay/${courseId}`} className="btn btn-primary">
                     Complete payment to unlock materials

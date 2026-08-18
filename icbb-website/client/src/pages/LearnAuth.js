@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { FiArrowRight, FiLock, FiUserPlus } from 'react-icons/fi';
 import SEO from '../components/SEO';
 import { useParticipantAuth } from '../context/ParticipantAuth';
+import { isFree } from '../data/courses';
 import './LearnAuth.css';
 
 /**
@@ -50,7 +51,9 @@ const LearnAuth = () => {
     try {
       if (isRegister) {
         await register({ ...form, courseId });
-        navigate(courseId ? `/learn/pay/${courseId}` : returnTo, { replace: true });
+        // A free course is unlocked by registering, so there is no payment step.
+        const next = courseId && !isFree(courseId) ? `/learn/pay/${courseId}` : (courseId ? returnTo : '/learn');
+        navigate(next, { replace: true });
         return;
       }
 
@@ -79,7 +82,7 @@ const LearnAuth = () => {
           <h1>{isRegister ? 'Create your learner account' : 'Sign in to continue'}</h1>
           <p className="learn-auth-lede">
             {isRegister
-              ? 'Your quiz results and progress are recorded against your account, and course materials unlock once the fee is paid.'
+              ? 'Registering records your progress against your name and unlocks the course materials to download.'
               : 'Pick up where you left off and keep your results in one place.'}
           </p>
 

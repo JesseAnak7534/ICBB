@@ -12,7 +12,8 @@ const coursePrices = require('../data/course-prices.json');
  * These used to sit in the site's public folder, which meant the CDN served
  * them to anyone with the URL and registration bought nothing. They now live
  * outside the web root and are streamed from here only to a signed-in
- * participant who has paid for that course.
+ * participant who is entitled to them — which means registered for a free
+ * course, or paid up for one with a fee.
  */
 
 // materials/ sits at the project root, one level above server/.
@@ -33,6 +34,18 @@ const CONTENT_TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   '.zip': 'application/zip'
+};
+
+/**
+ * A course with no fee is unlocked by registering. One with a fee needs a
+ * confirmed payment. Keeping this in one place means the listing and the
+ * download can never disagree about who may have the files.
+ */
+const requiresPayment = (courseId) => (coursePrices.prices[courseId] || 0) > 0;
+
+const hasAccess = (participant, courseId) => {
+  if (!participant.isEnrolledIn(courseId)) return false;
+  return requiresPayment(courseId) ? participant.hasPaidFor(courseId) : true;
 };
 
 /**
@@ -63,7 +76,7 @@ router.get('/:folder', protectParticipant, (req, res) => {
     return res.status(404).json({ success: false, message: 'Unknown course' });
   }
 
-  const paid = req.participant.hasPaidFor(courseId);
+  const allowed = hasAccess(req.participant, courseId);
   const dir = safeResolve(folder, '.');
 
   let files = [];
@@ -80,15 +93,16 @@ router.get('/:folder', protectParticipant, (req, res) => {
   res.json({
     success: true,
     courseId,
-    paid,
-    price: coursePrices.prices[courseId] || null,
+    access: allowed,
+    free: !requiresPayment(courseId),
+    price: coursePrices.prices[courseId] || 0,
     currency: coursePrices.currency,
-    files: paid ? files : []
+    files: allowed ? files : []
   });
 });
 
 // @route   GET /api/materials/:folder/:filename
-// @desc    Stream one file to a participant who has paid for the course.
+// @desc    Stream one file to a participant entitled to the course.
 // @access  Private
 router.get('/:folder/:filename', protectParticipant, (req, res) => {
   const { folder, filename } = req.params;
@@ -106,12 +120,12 @@ router.get('/:folder/:filename', protectParticipant, (req, res) => {
     });
   }
 
-  if (!req.participant.hasPaidFor(courseId)) {
+  if (requiresPayment(courseId) && !req.participant.hasPaidFor(courseId)) {
     return res.status(402).json({
       success: false,
       code: 'PAYMENT_REQUIRED',
       message: 'Complete your payment to download the course materials',
-      price: coursePrices.prices[courseId] || null,
+      price: coursePrices.prices[courseId],
       currency: coursePrices.currency
     });
   }

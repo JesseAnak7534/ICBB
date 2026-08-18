@@ -6,7 +6,7 @@ import {
 import SEO from '../components/SEO';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useParticipantAuth } from '../context/ParticipantAuth';
-import { getCourseById } from '../data/courses';
+import { getCourseById, isFree } from '../data/courses';
 import { getModule } from '../content/modules';
 import './LearnDashboard.css';
 
@@ -103,7 +103,8 @@ const LearnDashboard = () => {
               const module = getModule(enrolment.courseId);
               const progress = progressByCourse[enrolment.courseId];
               const payment = enrolment.payment || {};
-              const paid = payment.status === 'paid';
+              const free = isFree(enrolment.courseId);
+              const paid = free || payment.status === 'paid';
 
               if (!course) return null;
 
@@ -126,7 +127,9 @@ const LearnDashboard = () => {
                       </p>
                     </div>
                     <div className="learn-course-actions">
-                      {paid ? (
+                      {free ? (
+                        <span className="learn-paid-badge"><FiCheckCircle /> Free access</span>
+                      ) : paid ? (
                         <span className="learn-paid-badge"><FiCheckCircle /> Paid</span>
                       ) : (
                         <Link className="btn btn-primary" to={`/learn/pay/${course.id}`}>
