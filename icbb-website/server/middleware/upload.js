@@ -2,6 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
+const os = require('os');
 
 /**
  * File uploads.
@@ -20,19 +21,41 @@ const fs = require('fs');
 
 const useBlobStorage = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 
-const uploadDir = process.env.UPLOAD_PATH || './uploads';
+// Serverless hosts mount the deployment read-only; only the OS temp directory
+// is writable. Detecting that here matters because creating the upload
+// directory anywhere else throws, and a throw in this module takes the entire
+// API down with it rather than just breaking uploads.
+const isServerless = Boolean(
+  process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+);
 
-if (!useBlobStorage && !fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+const uploadDir =
+  process.env.UPLOAD_PATH ||
+  (isServerless ? path.join(os.tmpdir(), 'icbb-uploads') : './uploads');
+
+/**
+ * Create the directory on first use rather than at import.
+ *
+ * Doing this at module load is what broke production: the module is imported
+ * by every request, so a read-only filesystem turned an upload problem into a
+ * total API outage.
+ */
+const ensureDir = (dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+};
 
 const diskStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     const date = new Date();
     const subDir = path.join(uploadDir, `${date.getFullYear()}`, `${date.getMonth() + 1}`);
 
-    if (!fs.existsSync(subDir)) {
-      fs.mkdirSync(subDir, { recursive: true });
+    try {
+      ensureDir(subDir);
+    } catch (error) {
+      // Surface it as an upload failure, not a crash.
+      return cb(error);
     }
 
     cb(null, subDir);
