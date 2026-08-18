@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>ICBB-RM101 — Unit 7 handout</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #374151;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 11pt;
+  }
+  .sheet { max-width: 190mm; margin: 0 auto; padding: 0 0 12mm; }
+  .doc-header {
+    border-bottom: 3px solid #0066cc;
+    padding-bottom: 8pt;
+    margin-bottom: 16pt;
+  }
+  .doc-brand {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0066cc;
+    font-weight: bold;
+  }
+  h1 { font-size: 20pt; color: #111827; margin: 4pt 0 2pt; line-height: 1.2; }
+  h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13pt; color: #004d99;
+    margin: 18pt 0 6pt; padding-bottom: 3pt;
+    border-bottom: 1px solid #e5e7eb;
+    page-break-after: avoid;
+  }
+  h3 { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; color: #111827; margin: 12pt 0 4pt; page-break-after: avoid; }
+  p { margin: 0 0 8pt; }
+  ul, ol { margin: 0 0 10pt; padding-left: 18pt; }
+  li { margin-bottom: 4pt; }
+  .lede { color: #6b7280; font-style: italic; margin-bottom: 12pt; }
+  .meta { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: #6b7280; }
+  .note {
+    background: #f3f7fc; border-left: 3px solid #0066cc;
+    padding: 8pt 10pt; margin: 10pt 0; page-break-inside: avoid;
+  }
+  .note strong {
+    display: block; font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #004d99; margin-bottom: 3pt;
+  }
+  .activity {
+    border: 1px dashed #9ca3af; padding: 8pt 10pt; margin: 10pt 0;
+    background: #fafafa; page-break-inside: avoid;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 9.5pt; page-break-inside: avoid; }
+  caption { caption-side: top; text-align: left; font-size: 8.5pt; color: #6b7280; font-style: italic; padding-bottom: 4pt; }
+  th, td { border: 1px solid #e5e7eb; padding: 5pt 6pt; text-align: left; vertical-align: top; }
+  th { background: #f9fafb; font-family: Arial, Helvetica, sans-serif; font-size: 9pt; }
+  dl { margin: 0; }
+  dt { font-weight: bold; color: #111827; margin-top: 7pt; }
+  dd { margin: 1pt 0 0; }
+  .answers { border-top: 1px solid #e5e7eb; margin-top: 14pt; padding-top: 8pt; font-size: 9.5pt; }
+  .unit-break { page-break-before: always; }
+  .footer-note { margin-top: 14pt; font-size: 8.5pt; color: #6b7280; border-top: 1px solid #e5e7eb; padding-top: 6pt; }
+</style>
+</head><body>
+<div class="sheet">
+  <div class="doc-header">
+    <div class="doc-brand">ICBB-RM101 · Unit 7 of 10</div>
+    <h1>Mixed Methods and Sampling</h1>
+    <div class="meta">120 minutes · 6 self-check questions</div>
+  </div>
+
+  <p class="lede">How quantitative and qualitative strands are combined deliberately rather than decoratively, and the full range of sampling strategies with the arithmetic of sample size.</p>
+
+  <h2>Learning objectives</h2>
+  <ul><li>Describe convergent, explanatory sequential and exploratory sequential designs</li><li>Explain what integration means and why it is the defining feature of mixed methods</li><li>Distinguish probability from non-probability sampling and state when each is appropriate</li><li>Calculate a sample size for a prevalence study and for comparing two proportions</li><li>Explain power, effect size and the consequences of an underpowered study</li><li>Adjust a sample size for non-response and design effect</li></ul>
+
+  
+  <h2>Mixed methods designs</h2>
+  <ul><li>Convergent parallel — both strands run at the same time and are compared at interpretation; used when each answers a different facet of one question</li><li>Explanatory sequential — quantitative first, then qualitative to explain surprising or unexplained results</li><li>Exploratory sequential — qualitative first to develop an instrument or identify constructs, then quantitative to test at scale</li><li>Embedded — one strand sits inside a larger design, such as a process evaluation within a trial</li><li>Integration is the defining feature: strands must be brought together, not merely reported in adjacent chapters</li><li>Integration techniques include joint displays, following a thread, and merging in a triangulation matrix</li></ul>
+  
+  <div class="note"><strong>In practice</strong><p>A study that runs a survey and some interviews and reports them separately is not mixed methods; it is two studies in one document. The examiner's question is always: what did you learn from combining them that neither strand gave you alone?</p></div>
+  <h2>Probability sampling</h2>
+  <ul><li>Simple random — every unit has an equal chance; requires a complete sampling frame</li><li>Systematic — every kth unit from a random start; simple in the field but fails if the list has a periodic pattern</li><li>Stratified — the population is divided into strata and sampled within each; improves precision and guarantees representation of small subgroups</li><li>Cluster — whole groups are sampled; cheaper when the population is geographically dispersed, but less precise</li><li>Multistage — combines the above, and is what national surveys such as the DHS actually use</li><li>Only probability sampling supports statistical generalisation to the population</li></ul>
+  
+  
+  <h2>Non-probability sampling</h2>
+  <ul><li>Convenience — whoever is available; cheapest and weakest, with unknown bias</li><li>Purposive — chosen for a defined characteristic; the standard for qualitative work</li><li>Quota — fills preset category targets non-randomly; resembles stratification without randomisation</li><li>Snowball — participants recruit others; necessary for hidden populations, but stays within networks</li><li>Consecutive — every eligible patient over a defined period; the strongest non-probability option in clinical settings</li><li>These cannot support statistical generalisation, and analyses reporting confidence intervals from them should be read cautiously</li></ul>
+  
+  
+  <h2>Sample size</h2>
+  <ul><li>For a single proportion: n = Z²p(1-p)/d², where Z is 1.96 for 95% confidence, p the expected proportion, d the desired margin of error</li><li>Worked example: p = 0.30, d = 0.05 gives n = (1.96² x 0.30 x 0.70)/0.05² = 323</li><li>Using p = 0.50 when the proportion is unknown gives the largest, safest sample</li><li>For comparing two proportions or means, size depends on the effect you wish to detect, the significance level and the power</li><li>Power is the probability of detecting a real effect; 80% is conventional and 90% is preferable</li><li>An underpowered study is not merely inconclusive — it is arguably unethical, since participants were exposed to burden for a result that could not have been informative</li><li>Apply a finite population correction when the sample is a large fraction of a small population</li></ul>
+  
+<table>
+  <caption>Adjusting the calculated sample</caption>
+  <thead><tr><th>Adjustment</th><th>When it applies</th><th>Formula</th></tr></thead>
+  <tbody><tr><td>Non-response</td><td>Always, in surveys</td><td>n_final = n / (1 - expected non-response)</td></tr><tr><td>Design effect</td><td>Cluster sampling</td><td>n_final = n x DEFF (often 1.5-2.0)</td></tr><tr><td>Finite population</td><td>Sample exceeds ~5% of population</td><td>n_adj = n / (1 + (n-1)/N)</td></tr><tr><td>Attrition</td><td>Longitudinal designs</td><td>Inflate by expected loss to follow-up</td></tr></tbody>
+</table>
+  
+  <h2>Putting it together</h2>
+  <ul><li>State the sampling frame explicitly, and say what it excludes</li><li>Report the calculation with every input value, not just the final number</li><li>Say who was excluded and why, and how non-response was handled</li><li>Mixed methods studies size each strand by its own logic — power calculation for the quantitative strand, information power for the qualitative</li><li>A nested qualitative sample is often drawn purposively from the quantitative sample, which strengthens integration</li></ul>
+  
+  
+
+  <h2>Key terms</h2>
+  <dl><dt>Sampling frame</dt><dd>The list or procedure from which the sample is actually drawn.</dd><dt>Design effect (DEFF)</dt><dd>The factor by which variance increases because of cluster sampling rather than simple random sampling.</dd><dt>Power</dt><dd>The probability that a study will detect an effect of a specified size if it truly exists.</dd><dt>Effect size</dt><dd>The magnitude of a difference or association, independent of sample size.</dd><dt>Integration</dt><dd>The deliberate bringing together of quantitative and qualitative strands to produce insight neither gives alone.</dd><dt>Joint display</dt><dd>A table or figure presenting quantitative and qualitative results side by side to show how they relate.</dd></dl>
+
+  <h2>Activity</h2>
+  <div class="activity"><p>Calculate the sample size for a prevalence study in your own field: choose p, set d = 0.05, then inflate for 15% non-response and a design effect of 1.5. Show every step. Then state, in one sentence each, the sampling frame and what it excludes.</p></div>
+
+  <h2>Further reading</h2>
+  <ul><li><strong>Creswell &amp; Plano Clark — Designing and Conducting Mixed Methods Research</strong> — The standard text; strong on integration and joint displays.</li><li><strong>Fetters, Curry &amp; Creswell (2013) — &quot;Achieving Integration in Mixed Methods Designs&quot;</strong> — The clearest short account of what integration actually requires.</li><li><strong>Lwanga &amp; Lemeshow — Sample Size Determination in Health Studies (WHO)</strong> — Free from WHO; tables for most common situations.</li></ul>
+
+  <h2>Self-check questions</h2>
+  <ol><li><p>A team surveys 600 households, finds unexpectedly low clinic attendance, then interviews 20 non-attenders to understand why. This design is:</p><ol type="a"><li>Convergent parallel</li><li>Explanatory sequential</li><li>Exploratory sequential</li><li>Embedded</li></ol></li><li><p>What most clearly distinguishes genuine mixed methods from simply doing two studies?</p><ol type="a"><li>Using a larger sample</li><li>Deliberate integration of the strands to produce insight neither gives alone</li><li>Publishing both in the same journal</li><li>Collecting both types of data at the same time</li></ol></li><li><p>For a prevalence study with expected proportion 0.30 and margin of error 0.05 at 95% confidence, the required sample is approximately:</p><ol type="a"><li>196</li><li>323</li><li>384</li><li>512</li></ol></li><li><p>Which strategy guarantees that a small subgroup is adequately represented?</p><ol type="a"><li>Simple random sampling</li><li>Stratified sampling</li><li>Convenience sampling</li><li>Systematic sampling</li></ol></li><li><p>Cluster sampling requires a larger sample than simple random sampling because:</p><ol type="a"><li>Clusters are harder to find</li><li>Responses within a cluster are correlated, which increases variance</li><li>It is a non-probability method</li><li>Non-response is always higher</li></ol></li><li><p>The strongest argument that a seriously underpowered study is unethical is that:</p><ol type="a"><li>It will not be published</li><li>Participants bore burden and risk for a study incapable of producing an informative answer</li><li>It wastes the researcher's time</li><li>It cannot obtain ethical approval</li></ol></li></ol>
+
+  <div class="answers">
+    <h3>Answers</h3>
+    <ol><li><strong>b.</strong> The quantitative strand comes first and the qualitative strand is used to explain its findings. That ordering and purpose define an explanatory sequential design.</li><li><strong>b.</strong> Integration is the defining criterion. Reporting a survey and some interviews in adjacent chapters, with no point where they speak to each other, is not a mixed methods design.</li><li><strong>b.</strong> n = Z²p(1-p)/d² = (3.8416 x 0.30 x 0.70)/0.0025 = 0.8067/0.0025 ≈ 323. The familiar 384 comes from using p = 0.50, the most conservative value.</li><li><strong>b.</strong> Stratification divides the population first and samples within each stratum, so small subgroups are represented by design. Simple random sampling may by chance include very few of them.</li><li><strong>b.</strong> People within the same village, school or clinic tend to resemble one another, so each observation carries less independent information. The design effect quantifies this and inflates the required sample.</li><li><strong>b.</strong> Ethical justification for research rests on the prospect of useful knowledge. If the design could not have detected a meaningful effect, participants were exposed to burden with no realistic prospect of benefit.</li></ol>
+  </div>
+
+  <div class="footer-note">
+    Research Methods: Quantitative &amp; Qualitative Design · ICBB-RM101 · Institute of Computational
+    Biology and Bioinformatics (ICBB)
+  </div>
+</div></body></html>

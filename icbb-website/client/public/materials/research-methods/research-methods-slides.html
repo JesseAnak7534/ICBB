@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICBB-RM101 — complete slide deck</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Inter, Arial, sans-serif;
+    background: #0f172a; color: #f8fafc;
+    height: 100vh; overflow: hidden;
+  }
+  .slide {
+    display: none; height: 100vh; padding: 6vh 8vw 10vh;
+    flex-direction: column; justify-content: center;
+  }
+  .slide.active { display: flex; }
+  .slide.title-slide {
+    background: linear-gradient(135deg, #0066cc 0%, #00a86b 100%);
+    justify-content: center; text-align: left;
+  }
+  .kicker {
+    font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #7dd3fc; margin-bottom: 1rem; font-weight: 700;
+  }
+  .title-slide .kicker { color: rgba(255,255,255,0.9); }
+  h1 { font-size: clamp(1.8rem, 4.5vw, 3.4rem); line-height: 1.1; margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.4rem, 3vw, 2.3rem); line-height: 1.2; margin-bottom: 1.6rem; color: #fff; }
+  .subtitle { font-size: clamp(1rem, 1.6vw, 1.3rem); opacity: 0.92; max-width: 55ch; line-height: 1.6; }
+  ul { list-style: none; max-width: 60ch; }
+  li {
+    font-size: clamp(0.95rem, 1.5vw, 1.35rem); line-height: 1.5;
+    margin-bottom: 1rem; padding-left: 1.6rem; position: relative;
+  }
+  li::before {
+    content: ''; position: absolute; left: 0; top: 0.62em;
+    width: 0.55rem; height: 0.55rem; border-radius: 50%;
+    background: #00a86b;
+  }
+  .note-slide {
+    background: #1e293b; border-left: 5px solid #00a86b;
+    padding: 1.5rem 2rem; max-width: 70ch; border-radius: 0 8px 8px 0;
+  }
+  table { border-collapse: collapse; font-size: clamp(0.75rem, 1.1vw, 1rem); max-width: 100%; }
+  th, td { border: 1px solid #334155; padding: 0.55rem 0.8rem; text-align: left; }
+  th { background: #1e293b; }
+  .progress {
+    position: fixed; bottom: 0; left: 0; height: 4px;
+    background: #00a86b; transition: width 0.2s ease;
+  }
+  .chrome {
+    position: fixed; bottom: 1.2rem; right: 1.6rem;
+    font-size: 0.8rem; color: #64748b; display: flex; gap: 1rem; align-items: center;
+  }
+  .chrome button {
+    background: #1e293b; color: #e2e8f0; border: 1px solid #334155;
+    border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer; font: inherit;
+  }
+  .hint { position: fixed; bottom: 1.2rem; left: 1.6rem; font-size: 0.78rem; color: #475569; }
+  @media print {
+    body { background: #fff; color: #000; height: auto; overflow: visible; }
+    .slide { display: flex !important; height: auto; min-height: 0; page-break-after: always; padding: 1.5cm; }
+    .chrome, .progress, .hint { display: none; }
+    h1, h2 { color: #000; }
+    li::before { background: #000; }
+  }
+</style>
+</head><body>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 1 of 10</div>
+  <h1>Foundations of Research</h1>
+  <p class="subtitle">What separates research from other ways of knowing, the main types of research, and the philosophical positions that quietly shape every methodological choice you will make later.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Define research and distinguish it from opinion, audit and routine reporting</li><li>Classify research by purpose, approach and time dimension</li><li>Explain the difference between positivist, interpretivist and pragmatic paradigms</li><li>Trace how a paradigm constrains the designs available to you</li><li>Describe the stages of the research process end to end</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>What research is, and is not</h2>
+  <ul><li>Research is systematic, planned enquiry that produces evidence capable of being checked by someone else</li><li>Three features distinguish it: a clear question, a documented method, and conclusions that follow from the data</li><li>It is not: summarising what others said, confirming an opinion you already hold, or collecting data because it is available</li><li>Audit asks &quot;are we meeting an agreed standard?&quot;; research asks &quot;what is the case, and why?&quot;</li><li>The test of research is reproducibility — could a competent stranger follow your method and reach comparable conclusions?</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">A great deal of published work fails this test. Reviewers increasingly ask for the protocol, the raw data and the analysis code precisely because the written method alone often is not enough to reproduce.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Classifying research</h2>
+  <ul><li>By purpose: exploratory (what is going on here?), descriptive (what is the pattern?), explanatory (why does it happen?), evaluative (did it work?)</li><li>By approach: quantitative (numbers, measurement, statistical inference), qualitative (meaning, context, interpretation), mixed methods (both, deliberately integrated)</li><li>By time: cross-sectional (a snapshot), longitudinal (repeated over time), retrospective (looking back), prospective (following forward)</li><li>By setting: laboratory, field, clinical, desk-based or secondary analysis</li><li>By application: basic (extends knowledge) versus applied (solves a defined problem)</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Paradigms: the assumptions underneath the method (1/2)</h2>
+  <ul><li>Ontology asks what reality is: a single objective reality, or multiple realities constructed by participants?</li><li>Epistemology asks how we can know it: by measuring from the outside, or by interpreting from within?</li><li>Positivism assumes an objective reality that can be measured — it leads naturally to experiments, surveys and statistical inference</li><li>Interpretivism assumes reality is socially constructed — it leads to interviews, observation and thematic interpretation</li><li>Pragmatism asks what works for the question at hand, and is the usual justification for mixed methods</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Paradigms: the assumptions underneath the method (2/2)</h2>
+  <ul><li>Critical and transformative paradigms foreground power and aim at change, common in participatory and action research</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">You do not need to win the philosophical argument. You do need your paradigm, question, design and analysis to be consistent with one another — examiners notice when they are not.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>The research process (1/2)</h2>
+  <ul><li>Identify a problem worth solving and confirm it is not already solved</li><li>Review the literature and locate the gap precisely</li><li>State the question, aims, objectives and (if quantitative) hypotheses</li><li>Choose a design, population, sample and instruments</li><li>Obtain ethical approval before collecting anything</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>The research process (2/2)</h2>
+  <ul><li>Collect, manage and analyse data</li><li>Interpret against the literature, then report and disseminate</li><li>The process is iterative in practice — the literature review continues until you submit</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 1</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Paradigm</strong> — A set of shared assumptions about the nature of reality and how it can be known, which shapes what counts as legitimate evidence.</li><li><strong>Ontology</strong> — Assumptions about the nature of reality — whether it is single and objective, or multiple and constructed.</li><li><strong>Epistemology</strong> — Assumptions about what knowledge is and how it can legitimately be acquired.</li><li><strong>Basic research</strong> — Research undertaken to extend understanding, without a specific application in view.</li><li><strong>Applied research</strong> — Research directed at solving an identified practical problem.</li><li><strong>Reproducibility</strong> — The property that another researcher, following the reported method with the same data, obtains the same result.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">In pairs, take a recent paper from your own field. Identify its purpose, approach, time dimension and implied paradigm. Then argue whether the design actually matches the paradigm the authors claim.</p>
+</section>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 2 of 10</div>
+  <h1>The Research Problem, Questions and Objectives</h1>
+  <p class="subtitle">How to move from a broad interest to a question that is specific enough to answer, and how aims, objectives, hypotheses and conceptual frameworks fit together.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 2</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Write a problem statement that establishes magnitude, consequence and gap</li><li>Convert a broad topic into a focused, answerable research question</li><li>Apply FINER and PICO to test whether a question is worth asking</li><li>Distinguish aims, objectives, research questions and hypotheses</li><li>Draw a conceptual framework linking your key variables or concepts</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 2</div>
+  <h2>The problem statement</h2>
+  <ul><li>A problem statement answers four things in order: what is the problem, how big is it, what follows if it is not addressed, and what is not yet known</li><li>Magnitude needs evidence — prevalence, incidence, cost, or documented reports, each cited</li><li>The gap is the pivot of the whole proposal: it must be a gap in knowledge, not merely a gap in your own reading</li><li>A gap can be empirical (nobody has measured this), methodological (measured badly), theoretical (no adequate explanation) or contextual (established elsewhere but never tested here)</li><li>Contextual gaps are legitimate and are often the strongest basis for research in Ghana and across Africa</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">&quot;No study has been done in my district&quot; is only a gap if there is reason to expect the local answer might differ. Say why it might — different health system, different exposure, different population structure.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 2</div>
+  <h2>From topic to question</h2>
+  <ul><li>Narrow along four axes: population, concept or exposure, outcome, and setting or time</li><li>&quot;Malaria in children&quot; is a topic; &quot;Does distance to a health facility predict delayed treatment for malaria in under-fives in the Upper East Region?&quot; is a question</li><li>A good question is answerable with the data and time you actually have</li><li>If you cannot name the analysis that would answer it, the question is not yet specific enough</li><li>Quantitative questions specify variables and their relationship; qualitative questions specify experience, process or meaning</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 2</div>
+  <h2>Testing the question: FINER and PICO</h2>
+  <ul><li>FINER — Feasible, Interesting, Novel, Ethical, Relevant</li><li>Feasibility is the most commonly overlooked: participants, time, funding, skills and access</li><li>PICO structures comparative quantitative questions: Population, Intervention or exposure, Comparison, Outcome</li><li>Add T for timeframe (PICOT) when duration matters</li><li>For qualitative work, SPIDER is a better fit: Sample, Phenomenon of Interest, Design, Evaluation, Research type</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 2</div>
+  <h2>Framing the same topic three ways</h2>
+  
+<table>
+  <caption>Framing the same topic three ways</caption>
+  <thead><tr><th>Element</th><th>Quantitative (PICO)</th><th>Qualitative (SPIDER)</th></tr></thead>
+  <tbody><tr><td>Who</td><td>Under-fives with confirmed malaria</td><td>Caregivers of under-fives treated for malaria</td></tr><tr><td>What</td><td>Distance greater than 5 km to facility</td><td>Experience of seeking and delaying care</td></tr><tr><td>Compared with</td><td>Distance of 5 km or less</td><td>Not applicable</td></tr><tr><td>Outcome</td><td>Treatment delayed beyond 24 hours</td><td>How caregivers account for delay</td></tr><tr><td>Analysis implied</td><td>Logistic regression, odds ratio</td><td>Thematic analysis of interviews</td></tr></tbody>
+</table>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 2</div>
+  <h2>Aims, objectives and hypotheses (1/2)</h2>
+  <ul><li>The aim is one sentence stating the overall purpose — usually beginning &quot;To determine…&quot;, &quot;To explore…&quot;, &quot;To evaluate…&quot;</li><li>Objectives break the aim into specific, ordered, measurable steps, each starting with an action verb</li><li>Three to five objectives is usual; more than six normally signals an unfocused study</li><li>A hypothesis is a testable statement of an expected relationship, stated for quantitative work only</li><li>The null hypothesis states no difference or no association; the alternative states the expected effect</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 2</div>
+  <h2>Aims, objectives and hypotheses (2/2)</h2>
+  <ul><li>Qualitative studies state research questions rather than hypotheses, because they do not set out to test a prediction</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Objectives must map one-to-one onto your analysis plan and, later, onto your results section. If an objective produces no result, or a result answers no objective, something has gone wrong.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 2</div>
+  <h2>Conceptual and theoretical frameworks</h2>
+  <ul><li>A theoretical framework borrows an existing theory (Health Belief Model, Theory of Planned Behaviour, Social Cognitive Theory) to explain your phenomenon</li><li>A conceptual framework is your own diagram of how the variables in your study relate</li><li>It should distinguish independent, dependent, mediating, moderating and confounding variables</li><li>Drawing it early exposes variables you would otherwise forget to measure</li><li>The framework is also what tells you which variables must be adjusted for in analysis</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 2</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Research gap</strong> — A specific limitation in existing knowledge that the proposed study will address.</li><li><strong>Aim</strong> — A single statement of the overall purpose of the study.</li><li><strong>Objective</strong> — A specific, measurable step that contributes to achieving the aim.</li><li><strong>Null hypothesis</strong> — The testable statement that no difference or association exists in the population.</li><li><strong>Conceptual framework</strong> — A diagram or model of the presumed relationships among the study variables.</li><li><strong>Confounder</strong> — A variable associated with both exposure and outcome that can produce a spurious association.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Write a one-paragraph problem statement and one research question for your own study. Exchange with a partner, who must identify the gap type and name the analysis your question implies. If they cannot, revise it.</p>
+</section>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 3 of 10</div>
+  <h1>The Literature Review</h1>
+  <p class="subtitle">What a literature review is for, the main types and when each is appropriate, and how to build one that argues rather than merely lists.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Explain the four functions a literature review performs in a research project</li><li>Distinguish narrative, scoping, systematic, rapid and integrative reviews</li><li>Select the review type appropriate to your purpose and resources</li><li>Organise a review thematically rather than source by source</li><li>Use a synthesis matrix to move from reading to argument</li><li>Recognise and avoid the most common review failures</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>What the review is for</h2>
+  <ul><li>To establish what is already known, so you do not repeat settled work</li><li>To locate and justify the gap your study will fill</li><li>To inform your method — which designs, instruments and measures others found workable</li><li>To supply the framework against which you will later interpret your own findings</li><li>A review is an argument leading to your question, not a catalogue of everything published</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">The single most common examiner criticism is a review that summarises twenty studies in twenty paragraphs and never says what they collectively mean. If a paragraph begins with an author name rather than an idea, suspect this failure.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Types of review (1/2)</h2>
+  <ul><li>Narrative review — broad, expert overview; flexible but vulnerable to selection bias</li><li>Scoping review — maps the extent and nature of evidence and identifies gaps; ideal when a field is new or heterogeneous</li><li>Systematic review — answers a focused question using a pre-registered protocol and exhaustive search; the highest standard, and the most work</li><li>Meta-analysis — statistical pooling of results across studies; only valid when studies are sufficiently comparable</li><li>Rapid review — systematic methods with deliberate, documented shortcuts, used under time pressure</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Types of review (2/2)</h2>
+  <ul><li>Integrative review — combines experimental and non-experimental evidence, common in nursing and health services research</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Choosing a review type</h2>
+  
+<table>
+  <caption>Choosing a review type</caption>
+  <thead><tr><th>If your purpose is…</th><th>Use</th><th>Typical effort</th></tr></thead>
+  <tbody><tr><td>Introduce a thesis chapter</td><td>Narrative or integrative</td><td>4-8 weeks</td></tr><tr><td>Map an emerging or scattered field</td><td>Scoping review</td><td>3-6 months</td></tr><tr><td>Answer a focused effectiveness question</td><td>Systematic review</td><td>6-12 months</td></tr><tr><td>Pool effect estimates numerically</td><td>Systematic review with meta-analysis</td><td>9-18 months</td></tr><tr><td>Inform an urgent policy decision</td><td>Rapid review</td><td>4-12 weeks</td></tr></tbody>
+</table>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Building the review (1/2)</h2>
+  <ul><li>Define the scope first: concepts, populations, date range, languages and study types, with a reason for each limit</li><li>Search systematically even for a narrative review — record databases, terms and dates so the search can be repeated</li><li>Screen in two passes: title and abstract, then full text against explicit criteria</li><li>Extract into a synthesis matrix: rows are studies, columns are the themes, methods and findings you care about</li><li>Reading the matrix down the columns rather than across the rows is what turns reading into synthesis</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Building the review (2/2)</h2>
+  <ul><li>Organise the written review by theme, debate or chronology of ideas — never by author</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Appraising what you find (1/2)</h2>
+  <ul><li>Not all evidence carries equal weight; state how you judged quality</li><li>Evidence hierarchies place systematic reviews and randomised trials above cohort, case-control and cross-sectional designs for effectiveness questions</li><li>Hierarchies apply to questions of effectiveness, not to questions of meaning or experience — a qualitative study is not &quot;low quality&quot; evidence for how patients understand illness</li><li>Use a structured tool: CASP checklists, the Newcastle-Ottawa Scale, or Cochrane Risk of Bias 2</li><li>Watch for predatory journals — check indexing, editorial board, and whether the publisher appears in DOAJ or on Cabells lists</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Appraising what you find (2/2)</h2>
+  <ul><li>Note conflicts of interest and funding sources</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Common failures (1/2)</h2>
+  <ul><li>Listing rather than synthesising — the &quot;annotated bibliography&quot; review</li><li>Relying only on what is freely available, producing a review biased towards open-access journals</li><li>Citing abstracts without reading the full paper, and repeating a misreading from a secondary source</li><li>Ignoring evidence that contradicts your position, which reviewers will notice</li><li>Reviewing only recent work and losing the origin of a debate</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Common failures (2/2)</h2>
+  <ul><li>Letting the review stop when data collection begins — it must be updated before submission</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 3</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Synthesis matrix</strong> — A table with studies as rows and themes or attributes as columns, used to compare across sources rather than summarise each in turn.</li><li><strong>Scoping review</strong> — A structured review that maps the extent, range and nature of evidence on a topic and identifies gaps.</li><li><strong>Grey literature</strong> — Material outside commercial publishing — theses, government and NGO reports, working papers, conference abstracts.</li><li><strong>Publication bias</strong> — The tendency for studies with positive or significant results to be published more often, distorting the apparent evidence.</li><li><strong>Predatory journal</strong> — A journal charging publication fees while providing little or no genuine peer review or editorial service.</li><li><strong>Saturation (in reviewing)</strong> — The point at which additional searching returns no new relevant concepts.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Take five papers you have already read. Build a synthesis matrix with columns for design, sample, setting, key finding and limitation. Then write one paragraph that compares across the column &quot;key finding&quot; without naming an author as the subject of any sentence.</p>
+</section>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 4 of 10</div>
+  <h1>Literature Databases, Searching and Reference Management</h1>
+  <p class="subtitle">The databases that matter, how to build a search that is both sensitive and precise, how to document it for PRISMA, and how to manage references so the bibliography is never done by hand.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Select appropriate databases for a given topic and justify the choice</li><li>Construct a Boolean search using controlled vocabulary and field tags</li><li>Use MeSH terms, truncation, phrase searching and proximity operators</li><li>Balance sensitivity against precision and explain the trade-off</li><li>Document a search so that another researcher can reproduce it exactly</li><li>Set up Zotero or Mendeley and generate a formatted bibliography automatically</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>The major databases (1/2)</h2>
+  <ul><li>PubMed / MEDLINE — biomedical and life sciences; free; indexed with MeSH controlled vocabulary</li><li>Scopus and Web of Science — large multidisciplinary citation databases; subscription; best for citation tracking and bibliometrics</li><li>Cochrane Library — controlled trials and systematic reviews; essential for effectiveness questions</li><li>CINAHL — nursing and allied health; EMBASE — stronger European and pharmacological coverage than PubMed</li><li>PsycINFO — psychology and behavioural sciences; ERIC — education</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>The major databases (2/2)</h2>
+  <ul><li>African Journals Online (AJOL) — the largest collection of African-published scholarship, poorly covered by the big indexes</li><li>Google Scholar — very broad and useful for finding grey literature and chasing citations, but the algorithm is opaque and results are not reproducible, so it should supplement rather than replace a structured search</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">For work on African populations, searching only PubMed and Scopus will systematically miss regionally published evidence. AJOL, national journal portals and institutional repositories are not optional extras here.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Building the search (1/2)</h2>
+  <ul><li>Break the question into concepts — usually the P, I/E and O of PICO; do not search the whole question as a sentence</li><li>For each concept, gather synonyms, spelling variants, abbreviations and older terminology</li><li>Combine synonyms within a concept using OR; combine concepts using AND; use NOT sparingly, as it discards relevant records</li><li>Truncation: malari* retrieves malaria, malarial, malariae</li><li>Phrase searching: &quot;mobile money&quot; keeps the words adjacent</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Building the search (2/2)</h2>
+  <ul><li>Field tags restrict where a term is searched, e.g. [tiab] for title and abstract in PubMed</li><li>Proximity operators (NEAR, W/n, ADJn) find terms near each other and vary by database</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Controlled vocabulary (1/2)</h2>
+  <ul><li>MeSH is the National Library of Medicine's controlled vocabulary; each PubMed record is tagged by indexers</li><li>Searching a MeSH term retrieves records regardless of the authors' wording</li><li>Explosion automatically includes narrower terms beneath a heading in the tree</li><li>Major topic restricts to records where the concept is a main focus</li><li>MeSH indexing lags publication, so very recent papers are found only by free-text terms</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Controlled vocabulary (2/2)</h2>
+  <ul><li>The reliable strategy combines both: MeSH OR free-text, for each concept</li><li>Emtree in EMBASE and CINAHL Headings serve the same purpose in their databases</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Sensitivity versus precision</h2>
+  
+<table>
+  <caption>Sensitivity versus precision</caption>
+  <thead><tr><th>Goal</th><th>Strategy</th><th>Cost</th></tr></thead>
+  <tbody><tr><td>High sensitivity (systematic review)</td><td>Many synonyms, truncation, explode MeSH, no limits</td><td>Thousands of records to screen</td></tr><tr><td>High precision (quick scoping)</td><td>Few terms, major topic, title field, recent years</td><td>Relevant studies will be missed</td></tr><tr><td>Balanced (thesis chapter)</td><td>MeSH OR free-text per concept, sensible date limit</td><td>Manageable; state the limits used</td></tr></tbody>
+</table>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Documenting the search (1/2)</h2>
+  <ul><li>Record for each database: its name, the platform, the date searched, the full strategy line by line, and the number of records returned</li><li>The date matters because databases change daily and the search must be reproducible</li><li>Report screening with a PRISMA flow diagram: identified, duplicates removed, screened, excluded with reasons, included</li><li>Keep the exclusion reasons — reviewers ask for them</li><li>Save the strategy in the database's own account feature and export it, rather than retyping later</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Documenting the search (2/2)</h2>
+  <ul><li>Set up email alerts so new hits arrive during your fieldwork</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Reference management (1/2)</h2>
+  <ul><li>Zotero — free and open source, excellent browser capture, best default for most researchers</li><li>Mendeley — free, good PDF annotation, owned by Elsevier</li><li>EndNote — paid, common in institutions with a site licence, strong for very large libraries</li><li>All three insert citations into Word or LibreOffice and reformat the entire bibliography when you change style</li><li>Deduplicate on import, and fix metadata at import time — a wrong year propagates into every citation</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Reference management (2/2)</h2>
+  <ul><li>Use collections per chapter and tags per theme; attach the PDF and your notes to the record</li><li>Back up the library, and sync it — a lost reference library near submission is a genuine disaster</li><li>Never type a bibliography by hand: it wastes days and introduces errors that examiners do notice</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Set your citation style once at the beginning. Switching from APA to Vancouver later is a single dropdown in the reference manager, and a week of manual work without one.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 4</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>MeSH</strong> — Medical Subject Headings — the controlled vocabulary used to index MEDLINE and PubMed records.</li><li><strong>Boolean operators</strong> — AND, OR and NOT, used to combine search concepts.</li><li><strong>Truncation</strong> — A wildcard symbol (usually *) retrieving all word endings from a common stem.</li><li><strong>Sensitivity</strong> — The proportion of all relevant records that a search retrieves.</li><li><strong>Precision</strong> — The proportion of retrieved records that are actually relevant.</li><li><strong>PRISMA flow diagram</strong> — The standard figure reporting how records moved from identification through screening to inclusion.</li><li><strong>Grey literature</strong> — Reports, theses and working papers published outside commercial channels and often outside major indexes.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Build a full PubMed strategy for your own question. Produce at least two concepts, each with MeSH and free-text synonyms combined by OR, then joined by AND. Record the date and the number of hits. Import the first twenty results into Zotero and generate a bibliography in APA, then switch it to Vancouver.</p>
+</section>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 5 of 10</div>
+  <h1>Quantitative Research Designs</h1>
+  <p class="subtitle">The main observational and experimental designs, what each can and cannot establish, and how to choose the weakest design that still answers your question honestly.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Describe cross-sectional, case-control, cohort and experimental designs</li><li>Match a design to a research question and justify the choice</li><li>Explain why association does not establish causation and what would</li><li>Identify the principal biases threatening each design</li><li>Explain randomisation, blinding and allocation concealment</li><li>Recognise quasi-experimental designs and when they are the honest option</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Observational designs</h2>
+  <ul><li>Cross-sectional — exposure and outcome measured at the same moment; fast and cheap; gives prevalence but cannot establish which came first</li><li>Case-control — starts from the outcome and looks backward at exposure; efficient for rare outcomes; vulnerable to recall and selection bias; yields an odds ratio</li><li>Cohort — starts from exposure and follows forward to outcome; establishes temporal sequence; expensive and vulnerable to loss to follow-up; yields relative risk and incidence</li><li>Ecological — units of analysis are groups rather than individuals; cheap but subject to the ecological fallacy</li><li>Case series and case reports — descriptive only, no comparison group, hypothesis-generating at best</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Choosing an observational design</h2>
+  
+<table>
+  <caption>Choosing an observational design</caption>
+  <thead><tr><th>Design</th><th>Starts from</th><th>Best for</th><th>Main weakness</th></tr></thead>
+  <tbody><tr><td>Cross-sectional</td><td>A population at one time</td><td>Prevalence, associations</td><td>No temporal sequence</td></tr><tr><td>Case-control</td><td>The outcome</td><td>Rare outcomes, long latency</td><td>Recall and selection bias</td></tr><tr><td>Cohort</td><td>The exposure</td><td>Incidence, temporal sequence</td><td>Cost, attrition</td></tr><tr><td>Ecological</td><td>Groups</td><td>Population-level hypotheses</td><td>Ecological fallacy</td></tr></tbody>
+</table>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Experimental designs (1/2)</h2>
+  <ul><li>The investigator assigns the exposure, which is what permits causal inference</li><li>Randomisation distributes both known and unknown confounders across arms — its unique strength</li><li>Allocation concealment stops the recruiter from knowing the next assignment, preventing selection bias at entry</li><li>Blinding stops participants, providers or assessors from knowing the assignment, preventing performance and detection bias</li><li>Randomised controlled trials may be parallel, crossover, factorial or cluster-randomised</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Experimental designs (2/2)</h2>
+  <ul><li>Cluster randomisation assigns groups (schools, clinics, villages) and requires a larger sample because responses within a cluster are correlated</li><li>Analyse by intention to treat: participants are analysed in the arm to which they were assigned, whatever they actually received</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Per-protocol analysis, which counts only those who complied, quietly destroys randomisation and reintroduces confounding. Report it as a secondary analysis if at all.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Quasi-experimental designs (1/2)</h2>
+  <ul><li>Used when randomisation is impossible, unethical or politically unacceptable</li><li>Non-equivalent control group — an untreated comparison group not formed by randomisation</li><li>Interrupted time series — repeated measures before and after an intervention, strong when many time points exist</li><li>Difference-in-differences — compares change over time between exposed and unexposed groups</li><li>Stepped wedge — all clusters eventually receive the intervention, in a randomised order; ethically attractive for programme rollout</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Quasi-experimental designs (2/2)</h2>
+  <ul><li>These designs support weaker causal claims and must state the residual threats explicitly</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Causation and bias (1/2)</h2>
+  <ul><li>Association is necessary but not sufficient for causation</li><li>The Bradford Hill considerations — strength, consistency, temporality, biological gradient, plausibility and others — aid judgement but prove nothing individually</li><li>Temporality is the only genuinely necessary condition: the cause must precede the effect</li><li>Selection bias arises when those included differ systematically from those not included</li><li>Information bias arises from measurement error — including recall bias and interviewer bias</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Causation and bias (2/2)</h2>
+  <ul><li>Confounding arises when a third variable explains the apparent relationship</li><li>Confounding can be handled by design (randomisation, restriction, matching) or by analysis (stratification, regression adjustment)</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 5</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Incidence</strong> — The rate of new cases arising in a population over a defined period.</li><li><strong>Prevalence</strong> — The proportion of a population having the condition at a point in time.</li><li><strong>Odds ratio</strong> — The ratio of the odds of exposure in cases to the odds in controls; the standard measure from case-control studies.</li><li><strong>Allocation concealment</strong> — Preventing those enrolling participants from knowing the upcoming assignment.</li><li><strong>Intention to treat</strong> — Analysing participants in the arm to which they were randomised, regardless of adherence.</li><li><strong>Ecological fallacy</strong> — Wrongly inferring something about individuals from a relationship observed between groups.</li><li><strong>Confounding</strong> — Distortion of an exposure-outcome association by a third variable related to both.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">You are asked whether a new community health worker programme reduced under-five mortality. Randomisation is refused by the district. Propose two quasi-experimental designs, state what each can and cannot establish, and name the biases you would have to acknowledge.</p>
+</section>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 6 of 10</div>
+  <h1>Qualitative Research Designs</h1>
+  <p class="subtitle">The major qualitative traditions, the data collection methods attached to each, and how rigour is established when the aim is understanding rather than measurement.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Distinguish phenomenology, grounded theory, ethnography, case study and narrative inquiry</li><li>Match a qualitative tradition to a research question</li><li>Design an interview guide and a focus group schedule</li><li>Explain sampling logic in qualitative work and the concept of information power</li><li>Apply the criteria of trustworthiness and explain reflexivity</li><li>Recognise when a qualitative design is the right answer and when it is an evasion</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>The major traditions (1/2)</h2>
+  <ul><li>Phenomenology — describes the lived experience of a phenomenon; asks what it is like to live through this; small purposive samples, in-depth interviews</li><li>Grounded theory — builds theory from data through constant comparison and theoretical sampling; data collection and analysis proceed together</li><li>Ethnography — describes culture and practice through prolonged immersion and participant observation; fieldnotes are primary data</li><li>Case study — examines a bounded system in depth using multiple data sources; may be single or multiple case, and is strong for &quot;how&quot; and &quot;why&quot; questions</li><li>Narrative inquiry — treats the story itself as the unit of analysis, attending to how people construct accounts of their lives</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>The major traditions (2/2)</h2>
+  <ul><li>Descriptive qualitative — a legitimate, atheoretical option when the aim is a straightforward account of views and experiences</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Choosing a tradition commits you to its sampling, data collection and analysis. Claiming grounded theory and then running six interviews with thematic analysis is a mismatch examiners look for specifically.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Data collection (1/2)</h2>
+  <ul><li>In-depth interviews — best for sensitive topics and individual experience; typically 45-90 minutes</li><li>Focus groups — 6-10 participants; strong for surfacing shared norms and disagreement; poor for sensitive or stigmatised topics</li><li>Participant and non-participant observation — captures what people do rather than what they say they do</li><li>Document analysis — policies, records, media; unobtrusive and useful for institutional questions</li><li>Photovoice and participatory methods — shift some control to participants and suit community-based work</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Data collection (2/2)</h2>
+  <ul><li>Triangulation combines sources or methods so that a finding does not rest on one type of evidence</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Interview guides (1/2)</h2>
+  <ul><li>Structure the guide in funnels: open broadly, then probe specifics, then close</li><li>Ask open questions — &quot;tell me about…&quot;, &quot;walk me through…&quot;, &quot;what was that like?&quot;</li><li>Avoid leading questions, double-barrelled questions and jargon</li><li>Plan probes in advance: &quot;can you say more?&quot;, &quot;what happened next?&quot;, &quot;can you give an example?&quot;</li><li>Six to ten main questions is usually enough for a 60-minute interview</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Interview guides (2/2)</h2>
+  <ul><li>Pilot the guide and expect to revise it — this is a strength, not a failure</li><li>In focus groups, plan how you will manage a dominant speaker and draw out quiet participants</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Sampling and sample size (1/2)</h2>
+  <ul><li>Sampling is purposive: participants are chosen because they can illuminate the question, not to represent a population statistically</li><li>Maximum variation sampling seeks diversity; homogeneous sampling seeks depth within a defined group</li><li>Theoretical sampling, specific to grounded theory, selects the next participant based on what the emerging analysis requires</li><li>Snowball sampling reaches hidden populations but tends to stay within one network</li><li>Saturation is the point where new data generate no new codes or themes</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Sampling and sample size (2/2)</h2>
+  <ul><li>Information power is the more defensible modern concept: narrow aim, dense sample specificity, strong theory and strong dialogue all reduce the number needed</li><li>Typical ranges: 6-12 for a homogeneous phenomenological study, 20-30 for grounded theory, but justify rather than cite a number</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Declaring saturation after a fixed number of interviews planned in advance is not saturation. Saturation is something you observe during analysis and must be able to evidence.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Rigour and reflexivity (1/2)</h2>
+  <ul><li>Credibility — do the findings represent the participants' reality? Supported by member checking, triangulation and prolonged engagement</li><li>Transferability — could findings apply elsewhere? Supported by thick description of context so readers can judge</li><li>Dependability — would the process be consistent if repeated? Supported by an audit trail</li><li>Confirmability — do findings follow from the data rather than the researcher's preferences? Supported by memos and reflexive notes</li><li>Reflexivity means recording your own position — profession, assumptions, relationship to participants — and how it shaped the work</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Rigour and reflexivity (2/2)</h2>
+  <ul><li>Generalisability in the statistical sense is not the aim, and apologising for its absence misunderstands the design</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Purposive sampling</strong> — Selecting participants deliberately for their capacity to inform the research question.</li><li><strong>Saturation</strong> — The point at which further data collection yields no new codes, categories or themes.</li><li><strong>Information power</strong> — The principle that the richer and more specific the sample and aim, the fewer participants are needed.</li><li><strong>Reflexivity</strong> — Systematic attention to how the researcher shapes and is shaped by the research.</li><li><strong>Thick description</strong> — Detailed account of context and meaning sufficient for a reader to judge transferability.</li><li><strong>Triangulation</strong> — Using multiple sources, methods or investigators to strengthen confidence in a finding.</li><li><strong>Audit trail</strong> — A documented record of decisions taken through the research, allowing the process to be followed.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Draft a six-question interview guide for your own topic. Swap with a partner, who must flag every leading, closed or double-barrelled question and rewrite one of them. Then role-play the first two questions and note where the guide fails in practice.</p>
+</section>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 7 of 10</div>
+  <h1>Mixed Methods and Sampling</h1>
+  <p class="subtitle">How quantitative and qualitative strands are combined deliberately rather than decoratively, and the full range of sampling strategies with the arithmetic of sample size.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Describe convergent, explanatory sequential and exploratory sequential designs</li><li>Explain what integration means and why it is the defining feature of mixed methods</li><li>Distinguish probability from non-probability sampling and state when each is appropriate</li><li>Calculate a sample size for a prevalence study and for comparing two proportions</li><li>Explain power, effect size and the consequences of an underpowered study</li><li>Adjust a sample size for non-response and design effect</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Mixed methods designs (1/2)</h2>
+  <ul><li>Convergent parallel — both strands run at the same time and are compared at interpretation; used when each answers a different facet of one question</li><li>Explanatory sequential — quantitative first, then qualitative to explain surprising or unexplained results</li><li>Exploratory sequential — qualitative first to develop an instrument or identify constructs, then quantitative to test at scale</li><li>Embedded — one strand sits inside a larger design, such as a process evaluation within a trial</li><li>Integration is the defining feature: strands must be brought together, not merely reported in adjacent chapters</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Mixed methods designs (2/2)</h2>
+  <ul><li>Integration techniques include joint displays, following a thread, and merging in a triangulation matrix</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">A study that runs a survey and some interviews and reports them separately is not mixed methods; it is two studies in one document. The examiner's question is always: what did you learn from combining them that neither strand gave you alone?</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Probability sampling (1/2)</h2>
+  <ul><li>Simple random — every unit has an equal chance; requires a complete sampling frame</li><li>Systematic — every kth unit from a random start; simple in the field but fails if the list has a periodic pattern</li><li>Stratified — the population is divided into strata and sampled within each; improves precision and guarantees representation of small subgroups</li><li>Cluster — whole groups are sampled; cheaper when the population is geographically dispersed, but less precise</li><li>Multistage — combines the above, and is what national surveys such as the DHS actually use</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Probability sampling (2/2)</h2>
+  <ul><li>Only probability sampling supports statistical generalisation to the population</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Non-probability sampling (1/2)</h2>
+  <ul><li>Convenience — whoever is available; cheapest and weakest, with unknown bias</li><li>Purposive — chosen for a defined characteristic; the standard for qualitative work</li><li>Quota — fills preset category targets non-randomly; resembles stratification without randomisation</li><li>Snowball — participants recruit others; necessary for hidden populations, but stays within networks</li><li>Consecutive — every eligible patient over a defined period; the strongest non-probability option in clinical settings</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Non-probability sampling (2/2)</h2>
+  <ul><li>These cannot support statistical generalisation, and analyses reporting confidence intervals from them should be read cautiously</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Sample size (1/2)</h2>
+  <ul><li>For a single proportion: n = Z²p(1-p)/d², where Z is 1.96 for 95% confidence, p the expected proportion, d the desired margin of error</li><li>Worked example: p = 0.30, d = 0.05 gives n = (1.96² x 0.30 x 0.70)/0.05² = 323</li><li>Using p = 0.50 when the proportion is unknown gives the largest, safest sample</li><li>For comparing two proportions or means, size depends on the effect you wish to detect, the significance level and the power</li><li>Power is the probability of detecting a real effect; 80% is conventional and 90% is preferable</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Sample size (2/2)</h2>
+  <ul><li>An underpowered study is not merely inconclusive — it is arguably unethical, since participants were exposed to burden for a result that could not have been informative</li><li>Apply a finite population correction when the sample is a large fraction of a small population</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Adjusting the calculated sample</h2>
+  
+<table>
+  <caption>Adjusting the calculated sample</caption>
+  <thead><tr><th>Adjustment</th><th>When it applies</th><th>Formula</th></tr></thead>
+  <tbody><tr><td>Non-response</td><td>Always, in surveys</td><td>n_final = n / (1 - expected non-response)</td></tr><tr><td>Design effect</td><td>Cluster sampling</td><td>n_final = n x DEFF (often 1.5-2.0)</td></tr><tr><td>Finite population</td><td>Sample exceeds ~5% of population</td><td>n_adj = n / (1 + (n-1)/N)</td></tr><tr><td>Attrition</td><td>Longitudinal designs</td><td>Inflate by expected loss to follow-up</td></tr></tbody>
+</table>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Putting it together</h2>
+  <ul><li>State the sampling frame explicitly, and say what it excludes</li><li>Report the calculation with every input value, not just the final number</li><li>Say who was excluded and why, and how non-response was handled</li><li>Mixed methods studies size each strand by its own logic — power calculation for the quantitative strand, information power for the qualitative</li><li>A nested qualitative sample is often drawn purposively from the quantitative sample, which strengthens integration</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Sampling frame</strong> — The list or procedure from which the sample is actually drawn.</li><li><strong>Design effect (DEFF)</strong> — The factor by which variance increases because of cluster sampling rather than simple random sampling.</li><li><strong>Power</strong> — The probability that a study will detect an effect of a specified size if it truly exists.</li><li><strong>Effect size</strong> — The magnitude of a difference or association, independent of sample size.</li><li><strong>Integration</strong> — The deliberate bringing together of quantitative and qualitative strands to produce insight neither gives alone.</li><li><strong>Joint display</strong> — A table or figure presenting quantitative and qualitative results side by side to show how they relate.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Calculate the sample size for a prevalence study in your own field: choose p, set d = 0.05, then inflate for 15% non-response and a design effect of 1.5. Show every step. Then state, in one sentence each, the sampling frame and what it excludes.</p>
+</section>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 8 of 10</div>
+  <h1>Data Collection, Instruments and Measurement</h1>
+  <p class="subtitle">Turning abstract constructs into things you can actually record, and the validity and reliability evidence needed before anyone believes the numbers your instrument produces.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Operationalise a construct into measurable variables and indicators</li><li>Identify levels of measurement and their analytical consequences</li><li>Design questionnaire items that avoid the common wording faults</li><li>Distinguish the main types of validity and reliability and how each is evidenced</li><li>Plan and report a pilot study</li><li>Choose between paper and electronic data capture and set up basic data quality controls</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>From construct to variable (1/2)</h2>
+  <ul><li>A construct is an abstraction — stigma, food insecurity, quality of care — that cannot be observed directly</li><li>Operationalisation defines the observable indicators that will stand for it</li><li>A conceptual definition says what you mean; an operational definition says exactly how it will be measured</li><li>Prefer an existing validated instrument over inventing your own — validation takes a study of its own</li><li>If you adapt an instrument, report what you changed and re-examine its reliability in your population</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>From construct to variable (2/2)</h2>
+  <ul><li>Instruments validated elsewhere may behave differently after translation or in a different culture, and should be re-tested</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Translation requires forward translation, back translation by an independent translator, reconciliation by a panel, and cognitive interviewing with a few target participants. Translating a questionnaire yourself the night before is the single most common source of unusable data.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Levels of measurement (1/2)</h2>
+  <ul><li>Nominal — unordered categories (blood group, district); only counts and proportions are meaningful</li><li>Ordinal — ordered categories with unequal or unknown intervals (Likert responses, disease stage)</li><li>Interval — equal intervals but no true zero (temperature in Celsius)</li><li>Ratio — equal intervals with a true zero (weight, income, count of visits)</li><li>The level determines which summary statistics and which tests are legitimate</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Levels of measurement (2/2)</h2>
+  <ul><li>Record data at the finest level available: exact age can always be collapsed into bands later, but bands can never be recovered into exact ages</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Writing good items (1/2)</h2>
+  <ul><li>One idea per item — &quot;Was the staff friendly and efficient?&quot; is double-barrelled and unanswerable if one was and one was not</li><li>Avoid leading wording, loaded terms and negatives, especially double negatives</li><li>Match vocabulary to the least literate respondent you expect</li><li>Make response options exhaustive and mutually exclusive; check for gaps and overlaps in age bands</li><li>Offer &quot;don't know&quot; and &quot;prefer not to answer&quot; where forcing a choice would fabricate data</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Writing good items (2/2)</h2>
+  <ul><li>Decide deliberately whether a Likert scale has a midpoint — removing it forces a direction, which may or may not be what you want</li><li>Order matters: put sensitive items late, once rapport exists, and beware of earlier items priming later ones</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Validity and reliability (1/2)</h2>
+  <ul><li>Face validity — does it look appropriate? The weakest form, but worth checking</li><li>Content validity — does it cover the whole construct? Established by expert panel, often with a content validity index</li><li>Construct validity — does it behave as theory predicts? Evidenced by convergent and discriminant correlations and factor analysis</li><li>Criterion validity — does it agree with a gold standard, concurrently or predictively?</li><li>Internal consistency — do items measure the same thing? Cronbach's alpha, where roughly 0.70-0.95 is acceptable and above 0.95 suggests redundant items</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Validity and reliability (2/2)</h2>
+  <ul><li>Test-retest reliability — does it give the same answer on a stable characteristic over a short interval?</li><li>Inter-rater reliability — do different observers agree? Reported as Cohen's kappa or an intraclass correlation</li><li>An instrument can be reliable but not valid — consistently measuring the wrong thing</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Which evidence to report</h2>
+  
+<table>
+  <caption>Which evidence to report</caption>
+  <thead><tr><th>Property</th><th>Statistic</th><th>Rough benchmark</th></tr></thead>
+  <tbody><tr><td>Internal consistency</td><td>Cronbach's alpha</td><td>0.70 - 0.95</td></tr><tr><td>Test-retest</td><td>ICC or Pearson r</td><td>≥ 0.70</td></tr><tr><td>Inter-rater agreement</td><td>Cohen's kappa</td><td>≥ 0.60 substantial</td></tr><tr><td>Content validity</td><td>CVI</td><td>≥ 0.78 per item</td></tr><tr><td>Construct validity</td><td>Factor loadings</td><td>≥ 0.40</td></tr></tbody>
+</table>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Piloting and data capture (1/2)</h2>
+  <ul><li>Pilot on 10% of the intended sample, or at least 20-30 respondents, drawn from the same population but excluded from the main study</li><li>The pilot tests comprehension, timing, flow, skip logic, coding and the analysis plan — run your intended analysis on pilot data</li><li>Electronic capture (KoBoToolbox, REDCap, ODK, CommCare) enforces ranges and skip logic at the point of entry and removes a transcription step</li><li>Paper remains appropriate where power, connectivity or literacy make devices impractical; plan double entry if so</li><li>Build validation rules: allowed ranges, required fields, logical consistency checks between related items</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Piloting and data capture (2/2)</h2>
+  <ul><li>Train and standardise data collectors, then check inter-rater agreement rather than assuming it</li><li>Anonymise at collection where possible, keeping any identifier link in a separate secured file</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 8</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Operationalisation</strong> — Specifying the observable indicators and procedures by which an abstract construct will be measured.</li><li><strong>Construct validity</strong> — Evidence that an instrument measures the theoretical concept it claims to measure.</li><li><strong>Cronbach's alpha</strong> — A coefficient of internal consistency among the items of a scale.</li><li><strong>Cohen's kappa</strong> — A measure of agreement between raters that corrects for agreement expected by chance.</li><li><strong>Skip logic</strong> — Rules routing a respondent past items that do not apply to them.</li><li><strong>Double entry</strong> — Entering paper data twice independently and reconciling differences to catch transcription error.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Take one construct from your study and write three candidate items for it. Exchange with a partner, who must identify any double-barrelled, leading or ambiguous wording and check the response options are exhaustive and mutually exclusive. Then state which reliability evidence you would report and why.</p>
+</section>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 9 of 10</div>
+  <h1>Research Ethics and Integrity</h1>
+  <p class="subtitle">The principles governing research with human participants, how ethical review actually works, and the integrity questions — authorship, plagiarism, data fabrication and the use of AI — that decide whether your work stands.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Learning objectives</h2>
+  <ul><li>State the four principles of research ethics and apply them to a scenario</li><li>Explain what makes consent genuinely informed, voluntary and documented</li><li>Assemble an ethics application and anticipate what a committee will query</li><li>Distinguish anonymity from confidentiality and implement both</li><li>Identify vulnerable groups and the additional safeguards they require</li><li>Apply authorship criteria and recognise research misconduct</li><li>State a defensible position on the use of AI tools in research</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Principles and their origins (1/2)</h2>
+  <ul><li>The Nuremberg Code followed the Nazi medical experiments; the Declaration of Helsinki and the Belmont Report followed later abuses, including Tuskegee</li><li>Autonomy — people decide for themselves whether to take part, having understood what is involved</li><li>Beneficence — maximise benefit; Non-maleficence — minimise harm; the two are weighed together</li><li>Justice — burdens and benefits are distributed fairly, and no group is used as a convenient subject pool for research that will benefit others</li><li>Justice has particular weight in African research settings, where communities have historically borne research burden without sharing in benefit</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Principles and their origins (2/2)</h2>
+  <ul><li>Ethical conduct is not a form to be completed; it is a continuing obligation through the study</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Informed consent (1/2)</h2>
+  <ul><li>Information — purpose, procedures, duration, risks, benefits, alternatives, confidentiality limits, and who to contact</li><li>Comprehension — in the participant's language, at an appropriate reading level, with opportunity to ask questions</li><li>Voluntariness — free from coercion or undue inducement; compensation should cover cost and time, not act as an incentive that overrides judgement</li><li>Documentation — signature, thumbprint or witnessed verbal consent, as appropriate to context and literacy</li><li>The right to withdraw at any time, without giving a reason and without penalty, must be stated and honoured</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Informed consent (2/2)</h2>
+  <ul><li>Children give assent while a parent or guardian gives consent; the age of assent varies by jurisdiction</li><li>Consent is a process, not a signature: it should be revisited in longitudinal and ethnographic work</li><li>Waiver of consent may be granted for anonymised secondary data or minimal-risk record review, but only by the committee</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Where a clinician recruits their own patients, or a lecturer their own students, the power relationship can make refusal feel impossible. Address this explicitly in the application — usually by having someone independent take consent.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Review and approval (1/2)</h2>
+  <ul><li>Institutional Review Boards and Research Ethics Committees review before any data are collected</li><li>In Ghana, approvals commonly involve institutional RECs and, depending on the work, the Ghana Health Service Ethics Review Committee or the FDA</li><li>A typical application requires the protocol, instruments, information sheet, consent form, translations, CVs and a data management plan</li><li>Committees most often query: unclear risk-benefit, weak consent for vulnerable groups, inadequate data protection, undisclosed conflicts, and underpowered designs</li><li>Approval is time-limited; amendments and extensions must be submitted, and adverse events reported</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Review and approval (2/2)</h2>
+  <ul><li>Publishing without approval is a serious breach — many journals require the approval number, and retraction follows if it was never obtained</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Confidentiality and data protection (1/2)</h2>
+  <ul><li>Anonymity means even the researcher cannot link data to a person; confidentiality means the researcher can but will not disclose</li><li>Most studies offer confidentiality, not anonymity — say which, accurately</li><li>De-identify at the earliest point; keep any linking key in a separate, encrypted, access-controlled file</li><li>Ghana's Data Protection Act 2012 (Act 843) governs personal data, requiring lawful basis, purpose limitation and security</li><li>State retention periods and how data will be destroyed or archived</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Confidentiality and data protection (2/2)</h2>
+  <ul><li>Qualitative data are especially re-identifiable — a role plus a district can identify someone even without a name</li><li>Confidentiality has limits: disclosure of imminent harm or of certain crimes may compel action, and participants must be told this in advance</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Integrity, authorship and AI (1/2)</h2>
+  <ul><li>Fabrication (inventing data), falsification (altering data) and plagiarism are the three classical forms of misconduct</li><li>Self-plagiarism and duplicate publication are also breaches, even though the text is your own</li><li>ICMJE authorship requires all four: substantial contribution, drafting or critical revision, final approval, and accountability for the work</li><li>Supervisors are not automatically authors; funders and heads of department are not authors by virtue of position — gift authorship is a breach</li><li>Agree the authorship order in writing at the start, not after the results arrive</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Integrity, authorship and AI (2/2)</h2>
+  <ul><li>Declare funding and conflicts of interest; register trials prospectively and consider preregistering observational protocols</li><li>Report negative and null results — suppressing them distorts the literature and wastes participants' contribution</li><li>AI tools may assist with language, structure and code, but the researcher remains accountable for every claim; AI cannot be an author, must not be used to generate data or references, and its use should be disclosed as journals and institutions increasingly require</li><li>Never paste identifiable participant data into a public AI service — that is a data protection breach regardless of the research value</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Autonomy</strong> — The principle that competent people decide for themselves whether to participate.</li><li><strong>Beneficence</strong> — The obligation to maximise benefit and minimise harm to participants.</li><li><strong>Justice</strong> — Fair distribution of the burdens and benefits of research across groups.</li><li><strong>Assent</strong> — A child's own agreement to take part, alongside a guardian's consent.</li><li><strong>Anonymity</strong> — Data cannot be linked to an individual by anyone, including the researcher.</li><li><strong>Confidentiality</strong> — Identifiable data exist but access is restricted and disclosure prevented.</li><li><strong>Gift authorship</strong> — Naming as author someone who has not met the criteria for authorship.</li><li><strong>Equipoise</strong> — Genuine uncertainty about which trial arm is superior, the ethical basis for randomising.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">You plan to interview nurses about errors they have witnessed. Draft the confidentiality paragraph of your information sheet, including its limits. Then list every way a reader might identify a participant from a quotation, and state how you would prevent each.</p>
+</section>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 10 of 10</div>
+  <h1>Writing the Proposal, Rigour and Dissemination</h1>
+  <p class="subtitle">Assembling everything into a proposal that will be approved and funded, building in rigour rather than claiming it, and planning how findings will reach the people who can act on them.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Structure a research proposal to the standard expected by committees and funders</li><li>Write a methods section detailed enough to be reproduced</li><li>Build a realistic timeline and budget</li><li>State limitations honestly without undermining the study</li><li>Plan a data management strategy</li><li>Design a dissemination plan that reaches participants and decision makers, not only journals</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Proposal structure (1/2)</h2>
+  <ul><li>Title — specific, informative, usually naming design, population and setting</li><li>Abstract — written last, covering background, aim, methods, expected outcomes; respect the word limit exactly</li><li>Introduction and background — the problem, its magnitude, and the gap</li><li>Literature review — the argument leading to your question</li><li>Aim, objectives, research questions and hypotheses</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Proposal structure (2/2)</h2>
+  <ul><li>Methodology — design, setting, population, sampling, sample size, instruments, procedures, analysis plan</li><li>Ethical considerations — approvals sought, consent, confidentiality, risk mitigation</li><li>Timeline, budget, references, appendices with instruments and consent forms</li><li>Reviewers commonly read the aim, then jump to sampling, sample size and analysis — those must survive isolated scrutiny</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>The methods section (1/2)</h2>
+  <ul><li>The test is reproducibility: could a competent stranger repeat this from what you wrote?</li><li>Specify inclusion and exclusion criteria at the level of the individual participant</li><li>State the sample size calculation with every input, not just the result</li><li>Name the statistical tests against each objective, and say how missing data and confounding will be handled</li><li>Pre-specify the analysis plan; deciding tests after seeing the data invites accusations of p-hacking</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>The methods section (2/2)</h2>
+  <ul><li>For qualitative work, state the analytic approach, who will code, and how disagreements will be resolved</li><li>Use the relevant reporting checklist while writing rather than afterwards: CONSORT for trials, STROBE for observational studies, COREQ or SRQR for qualitative work, PRISMA for reviews</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Reporting checklists are usually treated as a publication chore. Used at the proposal stage they function as a design checklist, and they surface the omissions reviewers would have found later.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Timeline, budget and feasibility (1/2)</h2>
+  <ul><li>Build the timeline backwards from the deadline, and add contingency — ethical approval alone commonly takes one to three months</li><li>A Gantt chart makes dependencies visible: recruitment cannot begin before approval, analysis cannot begin before data cleaning</li><li>Budget lines typically include personnel, transport, materials, participant compensation, data collection tools, software, transcription and translation, dissemination</li><li>Transcription is routinely underestimated — an hour of interview takes roughly four to six hours to transcribe</li><li>Justify every line; unexplained round numbers attract scrutiny</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Timeline, budget and feasibility (2/2)</h2>
+  <ul><li>State what you will do if recruitment is slower than planned — reviewers ask</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Rigour and limitations (1/2)</h2>
+  <ul><li>Rigour is designed in, not asserted at the end</li><li>Quantitative: adequate power, valid instruments, control of confounding, pre-specified analysis, appropriate handling of missing data</li><li>Qualitative: audit trail, reflexivity, triangulation, thick description, transparent coding</li><li>Limitations should name the threat, its likely direction, and what you did to reduce it</li><li>&quot;Time and financial constraints&quot; is not a limitation; a convenience sample that may over-represent urban, literate respondents is</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Rigour and limitations (2/2)</h2>
+  <ul><li>Do not list limitations so severe they undermine the study — if one does, redesign rather than disclose and proceed</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Data management and dissemination (1/2)</h2>
+  <ul><li>A data management plan states what data are collected, how stored, who has access, how backed up, how long retained and what is shared</li><li>Follow the 3-2-1 rule: three copies, two media, one off-site</li><li>Version your files by date and never overwrite raw data — all cleaning happens in a script or a documented copy</li><li>FAIR principles — Findable, Accessible, Interoperable, Reusable — increasingly required by funders</li><li>Dissemination should reach participants and their communities, not only journals: policy briefs, community feedback meetings, radio, professional bodies</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Data management and dissemination (2/2)</h2>
+  <ul><li>Feeding results back to the community that provided them is an ethical obligation, and it is what makes the next study possible</li><li>Plan dissemination in the proposal, and budget for it</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 10</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Gantt chart</strong> — A bar chart showing project activities against time, making dependencies and overlaps visible.</li><li><strong>STROBE</strong> — The reporting checklist for observational epidemiological studies.</li><li><strong>COREQ</strong> — The 32-item reporting checklist for qualitative interview and focus group research.</li><li><strong>Data management plan</strong> — A document specifying how data will be collected, stored, protected, retained and shared.</li><li><strong>FAIR principles</strong> — Findable, Accessible, Interoperable, Reusable — standards for research data stewardship.</li><li><strong>p-hacking</strong> — Trying analyses until a significant result appears, then reporting only that one.</li><li><strong>Policy brief</strong> — A short, non-technical summary of findings and recommendations aimed at decision makers.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Assemble a two-page proposal skeleton for your own study: title, aim, three objectives, design, sampling and sample size, analysis plan, and three limitations each stating direction and mitigation. Exchange with a partner and mark it against the relevant reporting checklist.</p>
+</section>
+
+<div class="progress" id="progress"></div>
+<div class="hint">Arrow keys or space to navigate · P to print</div>
+<div class="chrome">
+  <button type="button" onclick="go(-1)">Prev</button>
+  <span id="counter"></span>
+  <button type="button" onclick="go(1)">Next</button>
+</div>
+<script>
+  var slides = document.querySelectorAll('.slide');
+  var current = 0;
+  function show(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width =
+      ((current + 1) / slides.length * 100) + '%';
+    if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1));
+  }
+  function go(step) { show(current + step); }
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
+    if (['ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key === 'p' || e.key === 'P') window.print();
+  });
+  show(parseInt((location.hash || '#1').slice(1), 10) - 1 || 0);
+</script>
+</body></html>

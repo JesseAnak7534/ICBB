@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>ICBB-RM101 — Unit 4 handout</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #374151;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 11pt;
+  }
+  .sheet { max-width: 190mm; margin: 0 auto; padding: 0 0 12mm; }
+  .doc-header {
+    border-bottom: 3px solid #0066cc;
+    padding-bottom: 8pt;
+    margin-bottom: 16pt;
+  }
+  .doc-brand {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0066cc;
+    font-weight: bold;
+  }
+  h1 { font-size: 20pt; color: #111827; margin: 4pt 0 2pt; line-height: 1.2; }
+  h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13pt; color: #004d99;
+    margin: 18pt 0 6pt; padding-bottom: 3pt;
+    border-bottom: 1px solid #e5e7eb;
+    page-break-after: avoid;
+  }
+  h3 { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; color: #111827; margin: 12pt 0 4pt; page-break-after: avoid; }
+  p { margin: 0 0 8pt; }
+  ul, ol { margin: 0 0 10pt; padding-left: 18pt; }
+  li { margin-bottom: 4pt; }
+  .lede { color: #6b7280; font-style: italic; margin-bottom: 12pt; }
+  .meta { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: #6b7280; }
+  .note {
+    background: #f3f7fc; border-left: 3px solid #0066cc;
+    padding: 8pt 10pt; margin: 10pt 0; page-break-inside: avoid;
+  }
+  .note strong {
+    display: block; font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #004d99; margin-bottom: 3pt;
+  }
+  .activity {
+    border: 1px dashed #9ca3af; padding: 8pt 10pt; margin: 10pt 0;
+    background: #fafafa; page-break-inside: avoid;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 9.5pt; page-break-inside: avoid; }
+  caption { caption-side: top; text-align: left; font-size: 8.5pt; color: #6b7280; font-style: italic; padding-bottom: 4pt; }
+  th, td { border: 1px solid #e5e7eb; padding: 5pt 6pt; text-align: left; vertical-align: top; }
+  th { background: #f9fafb; font-family: Arial, Helvetica, sans-serif; font-size: 9pt; }
+  dl { margin: 0; }
+  dt { font-weight: bold; color: #111827; margin-top: 7pt; }
+  dd { margin: 1pt 0 0; }
+  .answers { border-top: 1px solid #e5e7eb; margin-top: 14pt; padding-top: 8pt; font-size: 9.5pt; }
+  .unit-break { page-break-before: always; }
+  .footer-note { margin-top: 14pt; font-size: 8.5pt; color: #6b7280; border-top: 1px solid #e5e7eb; padding-top: 6pt; }
+</style>
+</head><body>
+<div class="sheet">
+  <div class="doc-header">
+    <div class="doc-brand">ICBB-RM101 · Unit 4 of 10</div>
+    <h1>Literature Databases, Searching and Reference Management</h1>
+    <div class="meta">150 minutes · 6 self-check questions</div>
+  </div>
+
+  <p class="lede">The databases that matter, how to build a search that is both sensitive and precise, how to document it for PRISMA, and how to manage references so the bibliography is never done by hand.</p>
+
+  <h2>Learning objectives</h2>
+  <ul><li>Select appropriate databases for a given topic and justify the choice</li><li>Construct a Boolean search using controlled vocabulary and field tags</li><li>Use MeSH terms, truncation, phrase searching and proximity operators</li><li>Balance sensitivity against precision and explain the trade-off</li><li>Document a search so that another researcher can reproduce it exactly</li><li>Set up Zotero or Mendeley and generate a formatted bibliography automatically</li></ul>
+
+  
+  <h2>The major databases</h2>
+  <ul><li>PubMed / MEDLINE — biomedical and life sciences; free; indexed with MeSH controlled vocabulary</li><li>Scopus and Web of Science — large multidisciplinary citation databases; subscription; best for citation tracking and bibliometrics</li><li>Cochrane Library — controlled trials and systematic reviews; essential for effectiveness questions</li><li>CINAHL — nursing and allied health; EMBASE — stronger European and pharmacological coverage than PubMed</li><li>PsycINFO — psychology and behavioural sciences; ERIC — education</li><li>African Journals Online (AJOL) — the largest collection of African-published scholarship, poorly covered by the big indexes</li><li>Google Scholar — very broad and useful for finding grey literature and chasing citations, but the algorithm is opaque and results are not reproducible, so it should supplement rather than replace a structured search</li></ul>
+  
+  <div class="note"><strong>In practice</strong><p>For work on African populations, searching only PubMed and Scopus will systematically miss regionally published evidence. AJOL, national journal portals and institutional repositories are not optional extras here.</p></div>
+  <h2>Building the search</h2>
+  <ul><li>Break the question into concepts — usually the P, I/E and O of PICO; do not search the whole question as a sentence</li><li>For each concept, gather synonyms, spelling variants, abbreviations and older terminology</li><li>Combine synonyms within a concept using OR; combine concepts using AND; use NOT sparingly, as it discards relevant records</li><li>Truncation: malari* retrieves malaria, malarial, malariae</li><li>Phrase searching: &quot;mobile money&quot; keeps the words adjacent</li><li>Field tags restrict where a term is searched, e.g. [tiab] for title and abstract in PubMed</li><li>Proximity operators (NEAR, W/n, ADJn) find terms near each other and vary by database</li></ul>
+  
+  
+  <h2>Controlled vocabulary</h2>
+  <ul><li>MeSH is the National Library of Medicine's controlled vocabulary; each PubMed record is tagged by indexers</li><li>Searching a MeSH term retrieves records regardless of the authors' wording</li><li>Explosion automatically includes narrower terms beneath a heading in the tree</li><li>Major topic restricts to records where the concept is a main focus</li><li>MeSH indexing lags publication, so very recent papers are found only by free-text terms</li><li>The reliable strategy combines both: MeSH OR free-text, for each concept</li><li>Emtree in EMBASE and CINAHL Headings serve the same purpose in their databases</li></ul>
+  
+<table>
+  <caption>Sensitivity versus precision</caption>
+  <thead><tr><th>Goal</th><th>Strategy</th><th>Cost</th></tr></thead>
+  <tbody><tr><td>High sensitivity (systematic review)</td><td>Many synonyms, truncation, explode MeSH, no limits</td><td>Thousands of records to screen</td></tr><tr><td>High precision (quick scoping)</td><td>Few terms, major topic, title field, recent years</td><td>Relevant studies will be missed</td></tr><tr><td>Balanced (thesis chapter)</td><td>MeSH OR free-text per concept, sensible date limit</td><td>Manageable; state the limits used</td></tr></tbody>
+</table>
+  
+  <h2>Documenting the search</h2>
+  <ul><li>Record for each database: its name, the platform, the date searched, the full strategy line by line, and the number of records returned</li><li>The date matters because databases change daily and the search must be reproducible</li><li>Report screening with a PRISMA flow diagram: identified, duplicates removed, screened, excluded with reasons, included</li><li>Keep the exclusion reasons — reviewers ask for them</li><li>Save the strategy in the database's own account feature and export it, rather than retyping later</li><li>Set up email alerts so new hits arrive during your fieldwork</li></ul>
+  
+  
+  <h2>Reference management</h2>
+  <ul><li>Zotero — free and open source, excellent browser capture, best default for most researchers</li><li>Mendeley — free, good PDF annotation, owned by Elsevier</li><li>EndNote — paid, common in institutions with a site licence, strong for very large libraries</li><li>All three insert citations into Word or LibreOffice and reformat the entire bibliography when you change style</li><li>Deduplicate on import, and fix metadata at import time — a wrong year propagates into every citation</li><li>Use collections per chapter and tags per theme; attach the PDF and your notes to the record</li><li>Back up the library, and sync it — a lost reference library near submission is a genuine disaster</li><li>Never type a bibliography by hand: it wastes days and introduces errors that examiners do notice</li></ul>
+  
+  <div class="note"><strong>In practice</strong><p>Set your citation style once at the beginning. Switching from APA to Vancouver later is a single dropdown in the reference manager, and a week of manual work without one.</p></div>
+
+  <h2>Key terms</h2>
+  <dl><dt>MeSH</dt><dd>Medical Subject Headings — the controlled vocabulary used to index MEDLINE and PubMed records.</dd><dt>Boolean operators</dt><dd>AND, OR and NOT, used to combine search concepts.</dd><dt>Truncation</dt><dd>A wildcard symbol (usually *) retrieving all word endings from a common stem.</dd><dt>Sensitivity</dt><dd>The proportion of all relevant records that a search retrieves.</dd><dt>Precision</dt><dd>The proportion of retrieved records that are actually relevant.</dd><dt>PRISMA flow diagram</dt><dd>The standard figure reporting how records moved from identification through screening to inclusion.</dd><dt>Grey literature</dt><dd>Reports, theses and working papers published outside commercial channels and often outside major indexes.</dd></dl>
+
+  <h2>Activity</h2>
+  <div class="activity"><p>Build a full PubMed strategy for your own question. Produce at least two concepts, each with MeSH and free-text synonyms combined by OR, then joined by AND. Record the date and the number of hits. Import the first twenty results into Zotero and generate a bibliography in APA, then switch it to Vancouver.</p></div>
+
+  <h2>Further reading</h2>
+  <ul><li><strong>PubMed User Guide — search field tags and MeSH</strong> — Free, authoritative and short.</li><li><strong>Bramer et al. (2018) — &quot;A systematic approach to searching&quot;</strong> — A practical, reproducible method for building strategies.</li><li><strong>Cochrane Handbook, Chapter 4 — Searching for studies</strong> — The reference standard for exhaustive searching.</li><li><strong>Zotero documentation — Quick Start Guide</strong> — Enough to be productive in under an hour.</li></ul>
+
+  <h2>Self-check questions</h2>
+  <ol><li><p>To find records using either term for the same concept, you should combine &quot;adolescent&quot; and &quot;teenager&quot; with:</p><ol type="a"><li>AND</li><li>OR</li><li>NOT</li><li>NEAR</li></ol></li><li><p>The main advantage of searching with MeSH terms rather than free text alone is that:</p><ol type="a"><li>MeSH searches are faster</li><li>Records are retrieved regardless of the wording the authors chose</li><li>MeSH always returns fewer results</li><li>MeSH includes the most recently published papers first</li></ol></li><li><p>A researcher studying maternal health services in Ghana searches only PubMed and Scopus. The most likely consequence is that they:</p><ol type="a"><li>Retrieve too many irrelevant records</li><li>Miss regionally published African evidence indexed in AJOL and national repositories</li><li>Violate PRISMA reporting rules</li><li>Introduce recall bias</li></ol></li><li><p>A systematic review search should favour:</p><ol type="a"><li>Precision, to keep screening manageable</li><li>Sensitivity, accepting a larger screening burden</li><li>Google Scholar alone, for breadth</li><li>Only papers published in the last five years</li></ol></li><li><p>Why must the date of each database search be recorded?</p><ol type="a"><li>To calculate the response rate</li><li>Because databases are updated continuously, so the search is only reproducible as at a given date</li><li>It is required for ethical approval</li><li>To determine the citation style</li></ol></li><li><p>The strongest practical reason to use a reference manager is that it:</p><ol type="a"><li>Improves the quality of your writing</li><li>Reformats every citation and the whole bibliography when the required style changes</li><li>Guarantees you avoid plagiarism</li><li>Finds relevant papers for you</li></ol></li></ol>
+
+  <div class="answers">
+    <h3>Answers</h3>
+    <ol><li><strong>b.</strong> OR broadens by retrieving records containing either synonym, so it combines terms within a concept. AND narrows and is used between different concepts.</li><li><strong>b.</strong> Indexers assign MeSH consistently, so a MeSH search captures records however the authors phrased it. Its weakness is the opposite: very recent records are not yet indexed, which is why MeSH and free text are combined with OR.</li><li><strong>b.</strong> Coverage of African-published journals in the major international indexes is incomplete. AJOL, institutional repositories and national portals are needed to avoid systematically missing local evidence.</li><li><strong>b.</strong> Systematic reviews aim to find all relevant studies, so they prioritise sensitivity and accept screening thousands of titles. Missing eligible studies biases the conclusion; screening extra records only costs time.</li><li><strong>b.</strong> New records are added daily. Without the search date, another researcher rerunning your strategy cannot explain why their result count differs, and reproducibility is lost.</li><li><strong>b.</strong> Style switching is the decisive practical gain — a dropdown instead of days of manual reformatting. It does not write for you, and it does not by itself prevent plagiarism.</li></ol>
+  </div>
+
+  <div class="footer-note">
+    Research Methods: Quantitative &amp; Qualitative Design · ICBB-RM101 · Institute of Computational
+    Biology and Bioinformatics (ICBB)
+  </div>
+</div></body></html>

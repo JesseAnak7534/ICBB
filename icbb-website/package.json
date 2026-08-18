@@ -10,7 +10,8 @@
     "build": "cd client && npm run build",
     "vercel-build": "npm run build --prefix client",
     "seed": "cd server && npm run seed",
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "build:materials": "npm run build:materials --prefix client"
   },
   "//dependencies": "The API runs as a Vercel Function from api/index.js, which is bundled from this root package. Its dependencies therefore have to be declared here as well as in server/package.json.",
   "dependencies": {

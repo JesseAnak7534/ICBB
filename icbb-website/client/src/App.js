@@ -18,6 +18,8 @@ const About = lazy(() => import('./pages/About'));
 const Research = lazy(() => import('./pages/Research'));
 const Training = lazy(() => import('./pages/Training'));
 const CourseDetail = lazy(() => import('./pages/CourseDetail'));
+const ModulePage = lazy(() => import('./pages/ModulePage'));
+const UnitPage = lazy(() => import('./pages/UnitPage'));
 const Services = lazy(() => import('./pages/Services'));
 const ServiceRequest = lazy(() => import('./pages/ServiceRequest'));
 const Partnerships = lazy(() => import('./pages/Partnerships'));
@@ -43,6 +45,8 @@ function App() {
               <Route path="/research" element={<Research />} />
               <Route path="/training" element={<Training />} />
               <Route path="/training/:courseId" element={<CourseDetail />} />
+              <Route path="/training/:courseId/module" element={<ModulePage />} />
+              <Route path="/training/:courseId/module/:unitId" element={<UnitPage />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/request" element={<ServiceRequest />} />
               <Route path="/service-request" element={<ServiceRequest />} />

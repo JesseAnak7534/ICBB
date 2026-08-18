@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>ICBB-RM101 — Unit 5 handout</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #374151;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 11pt;
+  }
+  .sheet { max-width: 190mm; margin: 0 auto; padding: 0 0 12mm; }
+  .doc-header {
+    border-bottom: 3px solid #0066cc;
+    padding-bottom: 8pt;
+    margin-bottom: 16pt;
+  }
+  .doc-brand {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0066cc;
+    font-weight: bold;
+  }
+  h1 { font-size: 20pt; color: #111827; margin: 4pt 0 2pt; line-height: 1.2; }
+  h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13pt; color: #004d99;
+    margin: 18pt 0 6pt; padding-bottom: 3pt;
+    border-bottom: 1px solid #e5e7eb;
+    page-break-after: avoid;
+  }
+  h3 { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; color: #111827; margin: 12pt 0 4pt; page-break-after: avoid; }
+  p { margin: 0 0 8pt; }
+  ul, ol { margin: 0 0 10pt; padding-left: 18pt; }
+  li { margin-bottom: 4pt; }
+  .lede { color: #6b7280; font-style: italic; margin-bottom: 12pt; }
+  .meta { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: #6b7280; }
+  .note {
+    background: #f3f7fc; border-left: 3px solid #0066cc;
+    padding: 8pt 10pt; margin: 10pt 0; page-break-inside: avoid;
+  }
+  .note strong {
+    display: block; font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #004d99; margin-bottom: 3pt;
+  }
+  .activity {
+    border: 1px dashed #9ca3af; padding: 8pt 10pt; margin: 10pt 0;
+    background: #fafafa; page-break-inside: avoid;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 9.5pt; page-break-inside: avoid; }
+  caption { caption-side: top; text-align: left; font-size: 8.5pt; color: #6b7280; font-style: italic; padding-bottom: 4pt; }
+  th, td { border: 1px solid #e5e7eb; padding: 5pt 6pt; text-align: left; vertical-align: top; }
+  th { background: #f9fafb; font-family: Arial, Helvetica, sans-serif; font-size: 9pt; }
+  dl { margin: 0; }
+  dt { font-weight: bold; color: #111827; margin-top: 7pt; }
+  dd { margin: 1pt 0 0; }
+  .answers { border-top: 1px solid #e5e7eb; margin-top: 14pt; padding-top: 8pt; font-size: 9.5pt; }
+  .unit-break { page-break-before: always; }
+  .footer-note { margin-top: 14pt; font-size: 8.5pt; color: #6b7280; border-top: 1px solid #e5e7eb; padding-top: 6pt; }
+</style>
+</head><body>
+<div class="sheet">
+  <div class="doc-header">
+    <div class="doc-brand">ICBB-RM101 · Unit 5 of 10</div>
+    <h1>Quantitative Research Designs</h1>
+    <div class="meta">120 minutes · 6 self-check questions</div>
+  </div>
+
+  <p class="lede">The main observational and experimental designs, what each can and cannot establish, and how to choose the weakest design that still answers your question honestly.</p>
+
+  <h2>Learning objectives</h2>
+  <ul><li>Describe cross-sectional, case-control, cohort and experimental designs</li><li>Match a design to a research question and justify the choice</li><li>Explain why association does not establish causation and what would</li><li>Identify the principal biases threatening each design</li><li>Explain randomisation, blinding and allocation concealment</li><li>Recognise quasi-experimental designs and when they are the honest option</li></ul>
+
+  
+  <h2>Observational designs</h2>
+  <ul><li>Cross-sectional — exposure and outcome measured at the same moment; fast and cheap; gives prevalence but cannot establish which came first</li><li>Case-control — starts from the outcome and looks backward at exposure; efficient for rare outcomes; vulnerable to recall and selection bias; yields an odds ratio</li><li>Cohort — starts from exposure and follows forward to outcome; establishes temporal sequence; expensive and vulnerable to loss to follow-up; yields relative risk and incidence</li><li>Ecological — units of analysis are groups rather than individuals; cheap but subject to the ecological fallacy</li><li>Case series and case reports — descriptive only, no comparison group, hypothesis-generating at best</li></ul>
+  
+<table>
+  <caption>Choosing an observational design</caption>
+  <thead><tr><th>Design</th><th>Starts from</th><th>Best for</th><th>Main weakness</th></tr></thead>
+  <tbody><tr><td>Cross-sectional</td><td>A population at one time</td><td>Prevalence, associations</td><td>No temporal sequence</td></tr><tr><td>Case-control</td><td>The outcome</td><td>Rare outcomes, long latency</td><td>Recall and selection bias</td></tr><tr><td>Cohort</td><td>The exposure</td><td>Incidence, temporal sequence</td><td>Cost, attrition</td></tr><tr><td>Ecological</td><td>Groups</td><td>Population-level hypotheses</td><td>Ecological fallacy</td></tr></tbody>
+</table>
+  
+  <h2>Experimental designs</h2>
+  <ul><li>The investigator assigns the exposure, which is what permits causal inference</li><li>Randomisation distributes both known and unknown confounders across arms — its unique strength</li><li>Allocation concealment stops the recruiter from knowing the next assignment, preventing selection bias at entry</li><li>Blinding stops participants, providers or assessors from knowing the assignment, preventing performance and detection bias</li><li>Randomised controlled trials may be parallel, crossover, factorial or cluster-randomised</li><li>Cluster randomisation assigns groups (schools, clinics, villages) and requires a larger sample because responses within a cluster are correlated</li><li>Analyse by intention to treat: participants are analysed in the arm to which they were assigned, whatever they actually received</li></ul>
+  
+  <div class="note"><strong>In practice</strong><p>Per-protocol analysis, which counts only those who complied, quietly destroys randomisation and reintroduces confounding. Report it as a secondary analysis if at all.</p></div>
+  <h2>Quasi-experimental designs</h2>
+  <ul><li>Used when randomisation is impossible, unethical or politically unacceptable</li><li>Non-equivalent control group — an untreated comparison group not formed by randomisation</li><li>Interrupted time series — repeated measures before and after an intervention, strong when many time points exist</li><li>Difference-in-differences — compares change over time between exposed and unexposed groups</li><li>Stepped wedge — all clusters eventually receive the intervention, in a randomised order; ethically attractive for programme rollout</li><li>These designs support weaker causal claims and must state the residual threats explicitly</li></ul>
+  
+  
+  <h2>Causation and bias</h2>
+  <ul><li>Association is necessary but not sufficient for causation</li><li>The Bradford Hill considerations — strength, consistency, temporality, biological gradient, plausibility and others — aid judgement but prove nothing individually</li><li>Temporality is the only genuinely necessary condition: the cause must precede the effect</li><li>Selection bias arises when those included differ systematically from those not included</li><li>Information bias arises from measurement error — including recall bias and interviewer bias</li><li>Confounding arises when a third variable explains the apparent relationship</li><li>Confounding can be handled by design (randomisation, restriction, matching) or by analysis (stratification, regression adjustment)</li></ul>
+  
+  
+
+  <h2>Key terms</h2>
+  <dl><dt>Incidence</dt><dd>The rate of new cases arising in a population over a defined period.</dd><dt>Prevalence</dt><dd>The proportion of a population having the condition at a point in time.</dd><dt>Odds ratio</dt><dd>The ratio of the odds of exposure in cases to the odds in controls; the standard measure from case-control studies.</dd><dt>Allocation concealment</dt><dd>Preventing those enrolling participants from knowing the upcoming assignment.</dd><dt>Intention to treat</dt><dd>Analysing participants in the arm to which they were randomised, regardless of adherence.</dd><dt>Ecological fallacy</dt><dd>Wrongly inferring something about individuals from a relationship observed between groups.</dd><dt>Confounding</dt><dd>Distortion of an exposure-outcome association by a third variable related to both.</dd></dl>
+
+  <h2>Activity</h2>
+  <div class="activity"><p>You are asked whether a new community health worker programme reduced under-five mortality. Randomisation is refused by the district. Propose two quasi-experimental designs, state what each can and cannot establish, and name the biases you would have to acknowledge.</p></div>
+
+  <h2>Further reading</h2>
+  <ul><li><strong>Rothman — Epidemiology: An Introduction</strong> — Short, rigorous and readable on design and bias.</li><li><strong>Hulley et al. — Designing Clinical Research</strong> — Practical chapters on each design with worked examples.</li><li><strong>Schulz, Altman &amp; Moher (2010) — CONSORT 2010 statement</strong> — What a trial must report, and therefore what it must do.</li></ul>
+
+  <h2>Self-check questions</h2>
+  <ol><li><p>A researcher surveys 500 adults, measuring current salt intake and current blood pressure on the same day. The fundamental limitation is that:</p><ol type="a"><li>The sample is too small</li><li>Temporal sequence cannot be established, so it is unclear which came first</li><li>An odds ratio cannot be calculated</li><li>Ethical approval is not possible</li></ol></li><li><p>For a rare cancer with a 20-year latency, the most efficient design is:</p><ol type="a"><li>Prospective cohort</li><li>Case-control</li><li>Randomised controlled trial</li><li>Cross-sectional survey</li></ol></li><li><p>The unique advantage of randomisation over statistical adjustment is that it:</p><ol type="a"><li>Increases the sample size</li><li>Balances unknown and unmeasured confounders as well as known ones</li><li>Removes the need for a control group</li><li>Guarantees blinding</li></ol></li><li><p>In a trial, participants who stopped taking the drug are excluded from analysis. This:</p><ol type="a"><li>Is correct practice, known as intention to treat</li><li>Breaks randomisation and can reintroduce confounding</li><li>Improves the precision of the estimate</li><li>Is required by CONSORT</li></ol></li><li><p>Countries with higher average chocolate consumption have more Nobel laureates per capita. Concluding that chocolate improves individual cognition commits:</p><ol type="a"><li>Recall bias</li><li>The ecological fallacy</li><li>Selection bias</li><li>Attrition bias</li></ol></li><li><p>Which condition is genuinely necessary for a causal claim?</p><ol type="a"><li>A large sample</li><li>Statistical significance</li><li>Temporality — the cause precedes the effect</li><li>Biological plausibility</li></ol></li></ol>
+
+  <div class="answers">
+    <h3>Answers</h3>
+    <ol><li><strong>b.</strong> This is a cross-sectional design. Exposure and outcome are measured simultaneously, so it can show association but cannot establish that the exposure preceded the outcome.</li><li><strong>b.</strong> A cohort study would need an enormous sample followed for decades to accumulate enough cases. Case-control starts from existing cases and looks backward, making rare, slow-developing outcomes tractable.</li><li><strong>b.</strong> Regression can only adjust for confounders you measured. Randomisation distributes confounders you never thought of, which no analysis can do.</li><li><strong>b.</strong> Excluding non-adherers is per-protocol analysis. Adherence is often related to prognosis, so removing those participants destroys the comparability randomisation created. Intention to treat is the primary analysis.</li><li><strong>b.</strong> The data describe countries, not people. Inferring an individual-level relationship from a group-level association is the ecological fallacy — and here national wealth confounds both variables.</li><li><strong>c.</strong> Temporality is the one Bradford Hill consideration that cannot be dispensed with. The others strengthen a causal argument but none is individually necessary or sufficient.</li></ol>
+  </div>
+
+  <div class="footer-note">
+    Research Methods: Quantitative &amp; Qualitative Design · ICBB-RM101 · Institute of Computational
+    Biology and Bioinformatics (ICBB)
+  </div>
+</div></body></html>

@@ -5,6 +5,7 @@ import {
   FiArrowLeft,
   FiArrowRight,
   FiAward,
+  FiBookOpen,
   FiCheck,
   FiClock,
   FiLayers,
@@ -14,6 +15,7 @@ import {
 import SEO from '../components/SEO';
 import NotFound from './NotFound';
 import { getCourseById, getSeriesCourses, RESEARCH_METHODS_SERIES } from '../data/courses';
+import { getModule } from '../content/modules';
 import './CourseDetail.css';
 
 const CourseDetail = () => {
@@ -25,6 +27,16 @@ const CourseDetail = () => {
   if (!course) {
     return <NotFound />;
   }
+
+  // Courses with a full teaching module take their curriculum from the module
+  // rather than repeating it in the catalogue.
+  const module = course.hasModule ? getModule(courseId) : null;
+  const sessions = module
+    ? module.units.map((unit) => ({
+        title: `${unit.title}`,
+        items: unit.objectives.slice(0, 4)
+      }))
+    : course.sessions;
 
   const seriesCourses = course.series ? getSeriesCourses(course.series.slug) : [];
   const isResearchMethods =
@@ -67,9 +79,16 @@ const CourseDetail = () => {
               {course.deliveryMode && <span><FiMonitor /> {course.deliveryMode}</span>}
             </div>
 
-            <Link to="/training#registration-form" className="btn btn-white btn-lg">
-              Register your interest <FiArrowRight />
-            </Link>
+            <div className="course-hero-actions">
+              <Link to="/training#registration-form" className="btn btn-white btn-lg">
+                Register your interest <FiArrowRight />
+              </Link>
+              {module && (
+                <Link to={`/training/${courseId}/module`} className="btn btn-outline btn-lg course-hero-outline">
+                  <FiBookOpen /> View full module
+                </Link>
+              )}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -91,11 +110,11 @@ const CourseDetail = () => {
               )}
 
               {/* Curriculum */}
-              {course.sessions && (
+              {sessions && (
                 <div className="course-block">
                   <h2>Curriculum</h2>
                   <div className="course-sessions">
-                    {course.sessions.map((session, i) => (
+                    {sessions.map((session, i) => (
                       <div className="course-session" key={i}>
                         <div className="course-session-number">{i + 1}</div>
                         <div className="course-session-content">
@@ -113,7 +132,7 @@ const CourseDetail = () => {
               )}
 
               {/* Fallback for catalogue entries without a full curriculum yet */}
-              {!course.sessions && (
+              {!sessions && (
                 <div className="course-block">
                   <h2>Topics covered</h2>
                   <ul className="course-check-list">

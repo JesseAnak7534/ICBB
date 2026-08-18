@@ -34,27 +34,35 @@ const courses = [
     id: 'research-methods-design',
     title: 'Research Methods: Quantitative & Qualitative Design',
     type: 'Short Course',
-    duration: '1 week',
+    duration: '2 weeks',
     level: 'Beginner',
     iconKey: 'book',
     series: { slug: 'research-methods', part: 1, totalParts: 3 },
+
+    // A full teaching module exists for this course. The detail page loads its
+    // units from src/content/research-methods rather than repeating them here.
+    hasModule: true,
+    moduleCode: 'ICBB-RM101',
+
     description:
-      'Design a study that can actually answer your research question — across ' +
-      'both quantitative and qualitative traditions.',
+      'Design a study that can actually answer your research question — covering ' +
+      'the literature review, research databases, and both quantitative and ' +
+      'qualitative traditions.',
     topics: [
-      'Research questions & objectives',
-      'Study designs',
-      'Sampling strategies',
-      'Validity, reliability & ethics'
+      'Research questions & design',
+      'Literature review & databases',
+      'Sampling & instruments',
+      'Ethics & proposal writing'
     ],
     summary:
       'Most analysis problems are really design problems that surfaced too late. ' +
       'This first part builds the foundation: how to turn a broad interest into ' +
-      'an answerable research question, how to choose a design that fits it, how ' +
-      'to sample, and how to measure well. It covers quantitative and qualitative ' +
-      'approaches side by side so you can tell which one your question calls for — ' +
-      'and recognise when the honest answer is both.',
-    format: 'Live online sessions with worked examples and a design workbook',
+      'an answerable research question, how to find and synthesise what is already ' +
+      'known, how to choose a design that fits, how to sample, and how to measure ' +
+      'well. It covers quantitative and qualitative approaches side by side so you ' +
+      'can tell which one your question calls for — and recognise when the honest ' +
+      'answer is both.',
+    format: 'Ten units of live online teaching, with a workbook, slides and quizzes',
     deliveryMode: 'Online (live cohort)',
     audience: [
       'Postgraduate students preparing a thesis or dissertation proposal',
@@ -63,84 +71,22 @@ const courses = [
       'Anyone who has been asked to "just add a methods section"'
     ],
     prerequisites: [
-      'No prior statistics or software knowledge required'
+      'No prior statistics or software knowledge required',
+      'Bring a research idea if you have one — the activities build towards a proposal'
     ],
     outcomes: [
       'State a research question with clear aims, objectives and scope',
-      'Choose an appropriate design and justify it against alternatives',
+      'Conduct and document a reproducible literature search across the major databases',
+      'Manage references and generate a bibliography automatically',
+      'Choose a design and justify it against alternatives',
       'Select a sampling strategy and defend your sample size or saturation logic',
-      'Judge the validity and reliability of a measurement instrument',
-      'Recognise the ethical obligations attached to your design',
+      'Build or adapt an instrument and evidence its validity and reliability',
+      'Meet the ethical obligations of research with human participants',
       'Draft a methods section a supervisor or ethics board will accept'
     ],
-    software: ['No software required'],
-    sessions: [
-      {
-        title: 'From topic to answerable question',
-        items: [
-          'Problem statements and the literature gap',
-          'Aims, objectives, hypotheses and research questions',
-          'Conceptual and theoretical frameworks',
-          'Scoping: what your study will not do'
-        ]
-      },
-      {
-        title: 'Paradigms and the logic of inquiry',
-        items: [
-          'Positivist, interpretivist and pragmatic positions',
-          'Deductive versus inductive reasoning',
-          'What each tradition counts as evidence',
-          'Choosing a paradigm without the dogma'
-        ]
-      },
-      {
-        title: 'Quantitative designs',
-        items: [
-          'Experimental and quasi-experimental designs',
-          'Cross-sectional, cohort and case-control studies',
-          'Confounding, bias and the threats each design controls',
-          'Matching the design to the question'
-        ]
-      },
-      {
-        title: 'Qualitative designs',
-        items: [
-          'Phenomenology, grounded theory, ethnography and case study',
-          'Interviews, focus groups and observation',
-          'Document and archival approaches',
-          'Mixed methods: convergent, explanatory and exploratory designs'
-        ]
-      },
-      {
-        title: 'Sampling',
-        items: [
-          'Probability sampling: simple, stratified, cluster, systematic',
-          'Purposive, snowball, theoretical and convenience sampling',
-          'Sample size and power for quantitative studies',
-          'Information power and saturation for qualitative studies'
-        ]
-      },
-      {
-        title: 'Measurement and instruments',
-        items: [
-          'Operationalising a construct',
-          'Types of validity and reliability',
-          'Questionnaire design and common wording traps',
-          'Building and piloting an interview guide'
-        ]
-      },
-      {
-        title: 'Ethics, rigour and the proposal',
-        items: [
-          'Informed consent, confidentiality and data protection',
-          'Ethics committee and IRB submissions',
-          'Rigour in quantitative and qualitative work',
-          'Assembling the methods chapter'
-        ]
-      }
-    ],
+    software: ['Zotero or Mendeley', 'PubMed, Scopus, AJOL', 'No programming required'],
     assessment:
-      'A short design brief for your own study, reviewed with written feedback.',
+      'Unit quizzes (30%), unit activities (30%) and a final two-page proposal (40%).',
     certificate: 'ICBB Certificate of Completion — Research Methods (Part 1)'
   },
 

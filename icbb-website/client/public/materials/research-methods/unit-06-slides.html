@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICBB-RM101 — Unit 6: Qualitative Research Designs</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Inter, Arial, sans-serif;
+    background: #0f172a; color: #f8fafc;
+    height: 100vh; overflow: hidden;
+  }
+  .slide {
+    display: none; height: 100vh; padding: 6vh 8vw 10vh;
+    flex-direction: column; justify-content: center;
+  }
+  .slide.active { display: flex; }
+  .slide.title-slide {
+    background: linear-gradient(135deg, #0066cc 0%, #00a86b 100%);
+    justify-content: center; text-align: left;
+  }
+  .kicker {
+    font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #7dd3fc; margin-bottom: 1rem; font-weight: 700;
+  }
+  .title-slide .kicker { color: rgba(255,255,255,0.9); }
+  h1 { font-size: clamp(1.8rem, 4.5vw, 3.4rem); line-height: 1.1; margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.4rem, 3vw, 2.3rem); line-height: 1.2; margin-bottom: 1.6rem; color: #fff; }
+  .subtitle { font-size: clamp(1rem, 1.6vw, 1.3rem); opacity: 0.92; max-width: 55ch; line-height: 1.6; }
+  ul { list-style: none; max-width: 60ch; }
+  li {
+    font-size: clamp(0.95rem, 1.5vw, 1.35rem); line-height: 1.5;
+    margin-bottom: 1rem; padding-left: 1.6rem; position: relative;
+  }
+  li::before {
+    content: ''; position: absolute; left: 0; top: 0.62em;
+    width: 0.55rem; height: 0.55rem; border-radius: 50%;
+    background: #00a86b;
+  }
+  .note-slide {
+    background: #1e293b; border-left: 5px solid #00a86b;
+    padding: 1.5rem 2rem; max-width: 70ch; border-radius: 0 8px 8px 0;
+  }
+  table { border-collapse: collapse; font-size: clamp(0.75rem, 1.1vw, 1rem); max-width: 100%; }
+  th, td { border: 1px solid #334155; padding: 0.55rem 0.8rem; text-align: left; }
+  th { background: #1e293b; }
+  .progress {
+    position: fixed; bottom: 0; left: 0; height: 4px;
+    background: #00a86b; transition: width 0.2s ease;
+  }
+  .chrome {
+    position: fixed; bottom: 1.2rem; right: 1.6rem;
+    font-size: 0.8rem; color: #64748b; display: flex; gap: 1rem; align-items: center;
+  }
+  .chrome button {
+    background: #1e293b; color: #e2e8f0; border: 1px solid #334155;
+    border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer; font: inherit;
+  }
+  .hint { position: fixed; bottom: 1.2rem; left: 1.6rem; font-size: 0.78rem; color: #475569; }
+  @media print {
+    body { background: #fff; color: #000; height: auto; overflow: visible; }
+    .slide { display: flex !important; height: auto; min-height: 0; page-break-after: always; padding: 1.5cm; }
+    .chrome, .progress, .hint { display: none; }
+    h1, h2 { color: #000; }
+    li::before { background: #000; }
+  }
+</style>
+</head><body>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 6 of 10</div>
+  <h1>Qualitative Research Designs</h1>
+  <p class="subtitle">The major qualitative traditions, the data collection methods attached to each, and how rigour is established when the aim is understanding rather than measurement.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Learning objectives</h2>
+  <ul><li>Distinguish phenomenology, grounded theory, ethnography, case study and narrative inquiry</li><li>Match a qualitative tradition to a research question</li><li>Design an interview guide and a focus group schedule</li><li>Explain sampling logic in qualitative work and the concept of information power</li><li>Apply the criteria of trustworthiness and explain reflexivity</li><li>Recognise when a qualitative design is the right answer and when it is an evasion</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>The major traditions (1/2)</h2>
+  <ul><li>Phenomenology — describes the lived experience of a phenomenon; asks what it is like to live through this; small purposive samples, in-depth interviews</li><li>Grounded theory — builds theory from data through constant comparison and theoretical sampling; data collection and analysis proceed together</li><li>Ethnography — describes culture and practice through prolonged immersion and participant observation; fieldnotes are primary data</li><li>Case study — examines a bounded system in depth using multiple data sources; may be single or multiple case, and is strong for &quot;how&quot; and &quot;why&quot; questions</li><li>Narrative inquiry — treats the story itself as the unit of analysis, attending to how people construct accounts of their lives</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>The major traditions (2/2)</h2>
+  <ul><li>Descriptive qualitative — a legitimate, atheoretical option when the aim is a straightforward account of views and experiences</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Choosing a tradition commits you to its sampling, data collection and analysis. Claiming grounded theory and then running six interviews with thematic analysis is a mismatch examiners look for specifically.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Data collection (1/2)</h2>
+  <ul><li>In-depth interviews — best for sensitive topics and individual experience; typically 45-90 minutes</li><li>Focus groups — 6-10 participants; strong for surfacing shared norms and disagreement; poor for sensitive or stigmatised topics</li><li>Participant and non-participant observation — captures what people do rather than what they say they do</li><li>Document analysis — policies, records, media; unobtrusive and useful for institutional questions</li><li>Photovoice and participatory methods — shift some control to participants and suit community-based work</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Data collection (2/2)</h2>
+  <ul><li>Triangulation combines sources or methods so that a finding does not rest on one type of evidence</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Interview guides (1/2)</h2>
+  <ul><li>Structure the guide in funnels: open broadly, then probe specifics, then close</li><li>Ask open questions — &quot;tell me about…&quot;, &quot;walk me through…&quot;, &quot;what was that like?&quot;</li><li>Avoid leading questions, double-barrelled questions and jargon</li><li>Plan probes in advance: &quot;can you say more?&quot;, &quot;what happened next?&quot;, &quot;can you give an example?&quot;</li><li>Six to ten main questions is usually enough for a 60-minute interview</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Interview guides (2/2)</h2>
+  <ul><li>Pilot the guide and expect to revise it — this is a strength, not a failure</li><li>In focus groups, plan how you will manage a dominant speaker and draw out quiet participants</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Sampling and sample size (1/2)</h2>
+  <ul><li>Sampling is purposive: participants are chosen because they can illuminate the question, not to represent a population statistically</li><li>Maximum variation sampling seeks diversity; homogeneous sampling seeks depth within a defined group</li><li>Theoretical sampling, specific to grounded theory, selects the next participant based on what the emerging analysis requires</li><li>Snowball sampling reaches hidden populations but tends to stay within one network</li><li>Saturation is the point where new data generate no new codes or themes</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Sampling and sample size (2/2)</h2>
+  <ul><li>Information power is the more defensible modern concept: narrow aim, dense sample specificity, strong theory and strong dialogue all reduce the number needed</li><li>Typical ranges: 6-12 for a homogeneous phenomenological study, 20-30 for grounded theory, but justify rather than cite a number</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Declaring saturation after a fixed number of interviews planned in advance is not saturation. Saturation is something you observe during analysis and must be able to evidence.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Rigour and reflexivity (1/2)</h2>
+  <ul><li>Credibility — do the findings represent the participants' reality? Supported by member checking, triangulation and prolonged engagement</li><li>Transferability — could findings apply elsewhere? Supported by thick description of context so readers can judge</li><li>Dependability — would the process be consistent if repeated? Supported by an audit trail</li><li>Confirmability — do findings follow from the data rather than the researcher's preferences? Supported by memos and reflexive notes</li><li>Reflexivity means recording your own position — profession, assumptions, relationship to participants — and how it shaped the work</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Rigour and reflexivity (2/2)</h2>
+  <ul><li>Generalisability in the statistical sense is not the aim, and apologising for its absence misunderstands the design</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 6</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Purposive sampling</strong> — Selecting participants deliberately for their capacity to inform the research question.</li><li><strong>Saturation</strong> — The point at which further data collection yields no new codes, categories or themes.</li><li><strong>Information power</strong> — The principle that the richer and more specific the sample and aim, the fewer participants are needed.</li><li><strong>Reflexivity</strong> — Systematic attention to how the researcher shapes and is shaped by the research.</li><li><strong>Thick description</strong> — Detailed account of context and meaning sufficient for a reader to judge transferability.</li><li><strong>Triangulation</strong> — Using multiple sources, methods or investigators to strengthen confidence in a finding.</li><li><strong>Audit trail</strong> — A documented record of decisions taken through the research, allowing the process to be followed.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">Draft a six-question interview guide for your own topic. Swap with a partner, who must flag every leading, closed or double-barrelled question and rewrite one of them. Then role-play the first two questions and note where the guide fails in practice.</p>
+</section>
+
+<div class="progress" id="progress"></div>
+<div class="hint">Arrow keys or space to navigate · P to print</div>
+<div class="chrome">
+  <button type="button" onclick="go(-1)">Prev</button>
+  <span id="counter"></span>
+  <button type="button" onclick="go(1)">Next</button>
+</div>
+<script>
+  var slides = document.querySelectorAll('.slide');
+  var current = 0;
+  function show(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width =
+      ((current + 1) / slides.length * 100) + '%';
+    if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1));
+  }
+  function go(step) { show(current + step); }
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
+    if (['ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key === 'p' || e.key === 'P') window.print();
+  });
+  show(parseInt((location.hash || '#1').slice(1), 10) - 1 || 0);
+</script>
+</body></html>

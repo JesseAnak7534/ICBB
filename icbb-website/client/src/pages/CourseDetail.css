@@ -315,3 +315,24 @@
     gap: var(--spacing-md);
   }
 }
+
+/* Hero actions: register plus, where one exists, the full module */
+.course-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.course-hero-outline {
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.6);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.course-hero-outline:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: var(--white);
+  color: var(--white);
+}

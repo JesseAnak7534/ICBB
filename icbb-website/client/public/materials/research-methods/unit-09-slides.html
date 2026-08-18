@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICBB-RM101 — Unit 9: Research Ethics and Integrity</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Inter, Arial, sans-serif;
+    background: #0f172a; color: #f8fafc;
+    height: 100vh; overflow: hidden;
+  }
+  .slide {
+    display: none; height: 100vh; padding: 6vh 8vw 10vh;
+    flex-direction: column; justify-content: center;
+  }
+  .slide.active { display: flex; }
+  .slide.title-slide {
+    background: linear-gradient(135deg, #0066cc 0%, #00a86b 100%);
+    justify-content: center; text-align: left;
+  }
+  .kicker {
+    font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #7dd3fc; margin-bottom: 1rem; font-weight: 700;
+  }
+  .title-slide .kicker { color: rgba(255,255,255,0.9); }
+  h1 { font-size: clamp(1.8rem, 4.5vw, 3.4rem); line-height: 1.1; margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.4rem, 3vw, 2.3rem); line-height: 1.2; margin-bottom: 1.6rem; color: #fff; }
+  .subtitle { font-size: clamp(1rem, 1.6vw, 1.3rem); opacity: 0.92; max-width: 55ch; line-height: 1.6; }
+  ul { list-style: none; max-width: 60ch; }
+  li {
+    font-size: clamp(0.95rem, 1.5vw, 1.35rem); line-height: 1.5;
+    margin-bottom: 1rem; padding-left: 1.6rem; position: relative;
+  }
+  li::before {
+    content: ''; position: absolute; left: 0; top: 0.62em;
+    width: 0.55rem; height: 0.55rem; border-radius: 50%;
+    background: #00a86b;
+  }
+  .note-slide {
+    background: #1e293b; border-left: 5px solid #00a86b;
+    padding: 1.5rem 2rem; max-width: 70ch; border-radius: 0 8px 8px 0;
+  }
+  table { border-collapse: collapse; font-size: clamp(0.75rem, 1.1vw, 1rem); max-width: 100%; }
+  th, td { border: 1px solid #334155; padding: 0.55rem 0.8rem; text-align: left; }
+  th { background: #1e293b; }
+  .progress {
+    position: fixed; bottom: 0; left: 0; height: 4px;
+    background: #00a86b; transition: width 0.2s ease;
+  }
+  .chrome {
+    position: fixed; bottom: 1.2rem; right: 1.6rem;
+    font-size: 0.8rem; color: #64748b; display: flex; gap: 1rem; align-items: center;
+  }
+  .chrome button {
+    background: #1e293b; color: #e2e8f0; border: 1px solid #334155;
+    border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer; font: inherit;
+  }
+  .hint { position: fixed; bottom: 1.2rem; left: 1.6rem; font-size: 0.78rem; color: #475569; }
+  @media print {
+    body { background: #fff; color: #000; height: auto; overflow: visible; }
+    .slide { display: flex !important; height: auto; min-height: 0; page-break-after: always; padding: 1.5cm; }
+    .chrome, .progress, .hint { display: none; }
+    h1, h2 { color: #000; }
+    li::before { background: #000; }
+  }
+</style>
+</head><body>
+
+<section class="slide title-slide">
+  <div class="kicker">ICBB-RM101 · Unit 9 of 10</div>
+  <h1>Research Ethics and Integrity</h1>
+  <p class="subtitle">The principles governing research with human participants, how ethical review actually works, and the integrity questions — authorship, plagiarism, data fabrication and the use of AI — that decide whether your work stands.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Learning objectives</h2>
+  <ul><li>State the four principles of research ethics and apply them to a scenario</li><li>Explain what makes consent genuinely informed, voluntary and documented</li><li>Assemble an ethics application and anticipate what a committee will query</li><li>Distinguish anonymity from confidentiality and implement both</li><li>Identify vulnerable groups and the additional safeguards they require</li><li>Apply authorship criteria and recognise research misconduct</li><li>State a defensible position on the use of AI tools in research</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Principles and their origins (1/2)</h2>
+  <ul><li>The Nuremberg Code followed the Nazi medical experiments; the Declaration of Helsinki and the Belmont Report followed later abuses, including Tuskegee</li><li>Autonomy — people decide for themselves whether to take part, having understood what is involved</li><li>Beneficence — maximise benefit; Non-maleficence — minimise harm; the two are weighed together</li><li>Justice — burdens and benefits are distributed fairly, and no group is used as a convenient subject pool for research that will benefit others</li><li>Justice has particular weight in African research settings, where communities have historically borne research burden without sharing in benefit</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Principles and their origins (2/2)</h2>
+  <ul><li>Ethical conduct is not a form to be completed; it is a continuing obligation through the study</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Informed consent (1/2)</h2>
+  <ul><li>Information — purpose, procedures, duration, risks, benefits, alternatives, confidentiality limits, and who to contact</li><li>Comprehension — in the participant's language, at an appropriate reading level, with opportunity to ask questions</li><li>Voluntariness — free from coercion or undue inducement; compensation should cover cost and time, not act as an incentive that overrides judgement</li><li>Documentation — signature, thumbprint or witnessed verbal consent, as appropriate to context and literacy</li><li>The right to withdraw at any time, without giving a reason and without penalty, must be stated and honoured</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Informed consent (2/2)</h2>
+  <ul><li>Children give assent while a parent or guardian gives consent; the age of assent varies by jurisdiction</li><li>Consent is a process, not a signature: it should be revisited in longitudinal and ethnographic work</li><li>Waiver of consent may be granted for anonymised secondary data or minimal-risk record review, but only by the committee</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">In practice</div>
+  <div class="note-slide"><p class="subtitle">Where a clinician recruits their own patients, or a lecturer their own students, the power relationship can make refusal feel impossible. Address this explicitly in the application — usually by having someone independent take consent.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Review and approval (1/2)</h2>
+  <ul><li>Institutional Review Boards and Research Ethics Committees review before any data are collected</li><li>In Ghana, approvals commonly involve institutional RECs and, depending on the work, the Ghana Health Service Ethics Review Committee or the FDA</li><li>A typical application requires the protocol, instruments, information sheet, consent form, translations, CVs and a data management plan</li><li>Committees most often query: unclear risk-benefit, weak consent for vulnerable groups, inadequate data protection, undisclosed conflicts, and underpowered designs</li><li>Approval is time-limited; amendments and extensions must be submitted, and adverse events reported</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Review and approval (2/2)</h2>
+  <ul><li>Publishing without approval is a serious breach — many journals require the approval number, and retraction follows if it was never obtained</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Confidentiality and data protection (1/2)</h2>
+  <ul><li>Anonymity means even the researcher cannot link data to a person; confidentiality means the researcher can but will not disclose</li><li>Most studies offer confidentiality, not anonymity — say which, accurately</li><li>De-identify at the earliest point; keep any linking key in a separate, encrypted, access-controlled file</li><li>Ghana's Data Protection Act 2012 (Act 843) governs personal data, requiring lawful basis, purpose limitation and security</li><li>State retention periods and how data will be destroyed or archived</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Confidentiality and data protection (2/2)</h2>
+  <ul><li>Qualitative data are especially re-identifiable — a role plus a district can identify someone even without a name</li><li>Confidentiality has limits: disclosure of imminent harm or of certain crimes may compel action, and participants must be told this in advance</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Integrity, authorship and AI (1/2)</h2>
+  <ul><li>Fabrication (inventing data), falsification (altering data) and plagiarism are the three classical forms of misconduct</li><li>Self-plagiarism and duplicate publication are also breaches, even though the text is your own</li><li>ICMJE authorship requires all four: substantial contribution, drafting or critical revision, final approval, and accountability for the work</li><li>Supervisors are not automatically authors; funders and heads of department are not authors by virtue of position — gift authorship is a breach</li><li>Agree the authorship order in writing at the start, not after the results arrive</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Integrity, authorship and AI (2/2)</h2>
+  <ul><li>Declare funding and conflicts of interest; register trials prospectively and consider preregistering observational protocols</li><li>Report negative and null results — suppressing them distorts the literature and wastes participants' contribution</li><li>AI tools may assist with language, structure and code, but the researcher remains accountable for every claim; AI cannot be an author, must not be used to generate data or references, and its use should be disclosed as journals and institutions increasingly require</li><li>Never paste identifiable participant data into a public AI service — that is a data protection breach regardless of the research value</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 9</div>
+  <h2>Key terms</h2>
+  <ul><li><strong>Autonomy</strong> — The principle that competent people decide for themselves whether to participate.</li><li><strong>Beneficence</strong> — The obligation to maximise benefit and minimise harm to participants.</li><li><strong>Justice</strong> — Fair distribution of the burdens and benefits of research across groups.</li><li><strong>Assent</strong> — A child's own agreement to take part, alongside a guardian's consent.</li><li><strong>Anonymity</strong> — Data cannot be linked to an individual by anyone, including the researcher.</li><li><strong>Confidentiality</strong> — Identifiable data exist but access is restricted and disclosure prevented.</li><li><strong>Gift authorship</strong> — Naming as author someone who has not met the criteria for authorship.</li><li><strong>Equipoise</strong> — Genuine uncertainty about which trial arm is superior, the ethical basis for randomising.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Over to you</div>
+  <h2>Activity</h2>
+  <p class="subtitle">You plan to interview nurses about errors they have witnessed. Draft the confidentiality paragraph of your information sheet, including its limits. Then list every way a reader might identify a participant from a quotation, and state how you would prevent each.</p>
+</section>
+
+<div class="progress" id="progress"></div>
+<div class="hint">Arrow keys or space to navigate · P to print</div>
+<div class="chrome">
+  <button type="button" onclick="go(-1)">Prev</button>
+  <span id="counter"></span>
+  <button type="button" onclick="go(1)">Next</button>
+</div>
+<script>
+  var slides = document.querySelectorAll('.slide');
+  var current = 0;
+  function show(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width =
+      ((current + 1) / slides.length * 100) + '%';
+    if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1));
+  }
+  function go(step) { show(current + step); }
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
+    if (['ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key === 'p' || e.key === 'P') window.print();
+  });
+  show(parseInt((location.hash || '#1').slice(1), 10) - 1 || 0);
+</script>
+</body></html>
