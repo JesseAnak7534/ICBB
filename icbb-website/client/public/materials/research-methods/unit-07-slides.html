@@ -149,6 +149,20 @@
 </section>
 
 <section class="slide">
+  <div class="kicker">Unit 7 · Worked example</div>
+  <h2>Calculating a sample size, then adjusting it honestly</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">A prevalence survey of anaemia among pregnant women in one district. Previous work suggests roughly 35% prevalence. You want a 5% margin of error at 95% confidence, sampling by health facility.</p>
+  <ul><li>Base formula: n = Z²p(1-p)/d² = (1.96² x 0.35 x 0.65) / 0.05²</li><li>That is (3.8416 x 0.2275) / 0.0025 = 0.8740 / 0.0025 = 350 (rounding up).</li><li>Cluster sampling by facility: multiply by a design effect of 1.5 → 350 x 1.5 = 525.</li><li>Expect 10% non-response: 525 / 0.90 = 584.</li><li>Final target: 584 women. In R: ceiling(1.96^2 * 0.35 * 0.65 / 0.05^2 * 1.5 / 0.9)</li><li>Report every input — Z, p, d, design effect and non-response — not just the number 584.</li></ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Unit 7 · Worked example</div>
+  <h2>Two studies in one document is not mixed methods</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">A thesis reports a 600-household survey in Chapter 4 and 20 interviews in Chapter 5. The conclusion summarises both. The student calls it a mixed methods study.</p>
+  <ul><li>Ask the integration question: what did combining them reveal that neither gave alone?</li><li>If the answer is &quot;nothing — they are both about the same topic&quot;, it is two studies bound together.</li><li>Real integration would be: the survey found low clinic attendance in one sub-district; the interviews were sampled from there specifically to explain why.</li><li>Or a joint display: a table with survey findings in one column and the interview themes that explain or contradict them alongside.</li><li>The interview sample can be drawn from the survey respondents, which ties the strands together by design rather than by assertion.</li></ul>
+</section>
+
+<section class="slide">
   <div class="kicker">Unit 7</div>
   <h2>Key terms</h2>
   <ul><li><strong>Sampling frame</strong> — The list or procedure from which the sample is actually drawn.</li><li><strong>Design effect (DEFF)</strong> — The factor by which variance increases because of cluster sampling rather than simple random sampling.</li><li><strong>Power</strong> — The probability that a study will detect an effect of a specified size if it truly exists.</li><li><strong>Effect size</strong> — The magnitude of a difference or association, independent of sample size.</li><li><strong>Integration</strong> — The deliberate bringing together of quantitative and qualitative strands to produce insight neither gives alone.</li><li><strong>Joint display</strong> — A table or figure presenting quantitative and qualitative results side by side to show how they relate.</li></ul>

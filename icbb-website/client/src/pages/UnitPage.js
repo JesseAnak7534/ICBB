@@ -7,6 +7,7 @@ import {
   FiClock,
   FiDownload,
   FiEdit3,
+  FiZap,
   FiMonitor,
   FiTarget
 } from 'react-icons/fi';
@@ -115,6 +116,28 @@ const UnitPage = () => {
                 </div>
               ))}
 
+              {unit.examples && unit.examples.length > 0 && (
+                <div className="module-block">
+                  <h2>Worked examples</h2>
+                  <div className="unit-examples">
+                    {unit.examples.map((example, i) => (
+                      <article className="unit-example" key={i}>
+                        <h3><FiZap /> {example.title}</h3>
+                        <p className="unit-example-scenario">{example.scenario}</p>
+                        <ol className="unit-example-steps">
+                          {example.steps.map((step, j) => <li key={j}>{step}</li>)}
+                        </ol>
+                        {example.lesson && (
+                          <p className="unit-example-lesson">
+                            <strong>The point:</strong> {example.lesson}
+                          </p>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="module-block">
                 <h2>Key terms</h2>
                 <dl className="unit-glossary">
@@ -138,9 +161,11 @@ const UnitPage = () => {
               <div className="module-block">
                 <Quiz
                   quizId={`${courseId}-${unit.id}`}
-                  title={`Unit ${unit.number} self-check`}
+                  title={`Unit ${unit.number} quiz`}
                   questions={unit.quiz}
                   passMark={module.assessment.passMark}
+                  courseId={courseId}
+                  unitId={unit.id}
                 />
               </div>
 

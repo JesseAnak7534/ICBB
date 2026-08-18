@@ -10,12 +10,15 @@
 import unitsAFoundations from './units-a-foundations';
 import unitsBDesigns from './units-b-designs';
 import unitsCPractice from './units-c-practice';
+import examples from './examples';
 
+// Worked examples are kept in their own file so they can be extended without
+// touching the teaching content, and are attached to their unit here.
 export const units = [
   ...unitsAFoundations,
   ...unitsBDesigns,
   ...unitsCPractice
-];
+].map((unit) => ({ ...unit, examples: examples[unit.id] || [] }));
 
 const researchMethodsModule = {
   courseId: 'research-methods-design',

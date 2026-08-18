@@ -25,10 +25,18 @@ const path = require('path');
 const Module = require('module');
 const { execFileSync } = require('child_process');
 const babel = require('@babel/core');
+const { buildPptx, AUTHOR, ORG } = require('./build-pptx');
 
 const clientDir = path.resolve(__dirname, '..');
 const contentDir = path.join(clientDir, 'src', 'content');
 const outputRoot = path.join(clientDir, 'public', 'materials');
+const serverDataDir = path.join(clientDir, '..', 'server', 'data');
+
+// Transparent ICBB mark, used as the watermark on documents and decks.
+const logoPath = path.join(clientDir, '..', '..', 'icbb_logo-removebg-preview.png');
+const logoDataUri = fs.existsSync(logoPath)
+  ? `data:image/png;base64,${fs.readFileSync(logoPath).toString('base64')}`
+  : null;
 
 /* ------------------------------------------------------------------ setup -- */
 
@@ -135,6 +143,17 @@ const printStyles = `
     border: 1px dashed #9ca3af; padding: 8pt 10pt; margin: 10pt 0;
     background: #fafafa; page-break-inside: avoid;
   }
+  .example {
+    border: 1px solid ${brand.line}; border-top: 3px solid ${brand.green};
+    padding: 9pt 11pt; margin: 10pt 0; background: #fbfdfc;
+    page-break-inside: avoid;
+  }
+  .example h3 { margin-top: 0; color: ${brand.blueDark}; }
+  .example-scenario { font-style: italic; color: ${brand.muted}; }
+  .example-lesson {
+    margin: 8pt 0 0; padding-top: 6pt; border-top: 1px dotted ${brand.line};
+    font-size: 10pt;
+  }
   table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 9.5pt; page-break-inside: avoid; }
   caption { caption-side: top; text-align: left; font-size: 8.5pt; color: ${brand.muted}; font-style: italic; padding-bottom: 4pt; }
   th, td { border: 1px solid ${brand.line}; padding: 5pt 6pt; text-align: left; vertical-align: top; }
@@ -145,6 +164,35 @@ const printStyles = `
   .answers { border-top: 1px solid ${brand.line}; margin-top: 14pt; padding-top: 8pt; font-size: 9.5pt; }
   .unit-break { page-break-before: always; }
   .footer-note { margin-top: 14pt; font-size: 8.5pt; color: ${brand.muted}; border-top: 1px solid ${brand.line}; padding-top: 6pt; }
+
+  /* Watermark. position: fixed repeats the element on every printed page in
+     Chrome, which is what puts the mark on all pages of a long workbook. */
+  .watermark {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-28deg);
+    width: 118mm;
+    opacity: 0.10;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .sheet { position: relative; z-index: 1; }
+  .page-mark {
+    position: fixed;
+    bottom: 6mm; left: 0; right: 0;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 7.5pt;
+    color: #9ca3af;
+    letter-spacing: 0.04em;
+  }
+  .byline {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    color: ${brand.muted};
+    margin-top: 2pt;
+  }
+  .byline strong { color: ${brand.ink}; }
 `;
 
 const slideStyles = `
@@ -313,6 +361,16 @@ const unitSlides = (unit, module) => {
     }
   });
 
+  (unit.examples || []).forEach((example) => {
+    slides.push(`
+<section class="slide">
+  <div class="kicker">Unit ${unit.number} · Worked example</div>
+  <h2>${escape(example.title)}</h2>
+  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">${escape(example.scenario)}</p>
+  <ul>${example.steps.slice(0, 6).map((step) => `<li>${escape(step)}</li>`).join('')}</ul>
+</section>`);
+  });
+
   slides.push(`
 <section class="slide">
   <div class="kicker">Unit ${unit.number}</div>
@@ -339,6 +397,7 @@ const unitHandout = (unit, module, { includeHeader = true } = {}) => `
     <div class="doc-brand">${escape(module.code)} · Unit ${unit.number} of ${module.units.length}</div>
     <h1>${escape(unit.title)}</h1>
     <div class="meta">${escape(unit.duration)} · ${unit.quiz.length} self-check questions</div>
+    <div class="byline">Author: <strong>${escape(AUTHOR)}</strong> · ${escape(ORG)}</div>
   </div>
 
   <p class="lede">${escape(unit.summary)}</p>
@@ -355,6 +414,20 @@ const unitHandout = (unit, module, { includeHeader = true } = {}) => `
   ${section.note ? `<div class="note"><strong>In practice</strong><p>${escape(section.note)}</p></div>` : ''}`
     )
     .join('')}
+
+  ${(unit.examples || []).length ? `
+  <h2>Worked examples</h2>
+  ${unit.examples
+    .map(
+      (example) => `
+  <div class="example">
+    <h3>${escape(example.title)}</h3>
+    <p class="example-scenario">${escape(example.scenario)}</p>
+    <ol>${example.steps.map((step) => `<li>${escape(step)}</li>`).join('')}</ol>
+    ${example.lesson ? `<p class="example-lesson"><strong>The point:</strong> ${escape(example.lesson)}</p>` : ''}
+  </div>`
+    )
+    .join('')}` : ''}
 
   <h2>Key terms</h2>
   <dl>${unit.keyTerms
@@ -397,8 +470,14 @@ const unitHandout = (unit, module, { includeHeader = true } = {}) => `
 const printDoc = (title, body) => `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <title>${escape(title)}</title>
+<meta name="author" content="${escape(AUTHOR)}">
+<meta name="copyright" content="${escape(ORG)}">
 <style>${printStyles}</style>
-</head><body>${body}</body></html>`;
+</head><body>
+${logoDataUri ? `<img class="watermark" src="${logoDataUri}" alt="">` : ''}
+<div class="page-mark">${escape(ORG)} · ${escape(AUTHOR)} · icbb-gh.com</div>
+${body}
+</body></html>`;
 
 const syllabusHtml = (module) => `
 <div class="sheet">
@@ -407,6 +486,7 @@ const syllabusHtml = (module) => `
     <h1>${escape(module.title)}</h1>
     <div class="meta">${escape(module.subtitle)} · ${module.units.length} units ·
       ${module.contactHours} contact hours · ${escape(module.level)}</div>
+    <div class="byline">Author: <strong>${escape(AUTHOR)}</strong> · ${escape(ORG)}</div>
   </div>
 
   <h2>About this module</h2>
@@ -499,7 +579,7 @@ const toPdf = (htmlPath, pdfPath) => {
   }
 };
 
-const buildModule = (module, folder) => {
+const buildModule = async (module, folder) => {
   const outDir = path.join(outputRoot, folder);
   fs.mkdirSync(outDir, { recursive: true });
 
@@ -550,11 +630,69 @@ const buildModule = (module, folder) => {
     written.push(`${folder}-syllabus.pdf`);
   }
 
+  // Real PowerPoint decks, with native bullets and the ICBB watermark.
+  try {
+    const decks = await buildPptx(module, outDir, folder, logoPath);
+    written.push(...decks);
+    console.log(`  ${decks.length} PowerPoint decks`);
+  } catch (error) {
+    console.warn(`  ! PowerPoint generation failed: ${error.message}`);
+  }
+
   console.log(`  ${written.length} files written`);
   return written;
 };
 
-const main = () => {
+/**
+ * Write the answer key the API grades against.
+ *
+ * Grading has to happen on the server — a score reported by the participant's
+ * own browser is not evidence. Generating the key from the same content as the
+ * pages means the key cannot drift from the questions being asked.
+ */
+const writeQuizKeys = (modulesByCourse) => {
+  fs.mkdirSync(serverDataDir, { recursive: true });
+
+  const courses = {};
+  let questionCount = 0;
+
+  Object.entries(modulesByCourse).forEach(([courseId, module]) => {
+    const units = {};
+    module.units.forEach((unit) => {
+      units[unit.id] = {
+        title: unit.title,
+        answers: unit.quiz.map((q) => q.answer)
+      };
+      questionCount += unit.quiz.length;
+    });
+
+    courses[courseId] = {
+      code: module.code,
+      title: module.title,
+      passMark: module.assessment.passMark,
+      units
+    };
+  });
+
+  const target = path.join(serverDataDir, 'quiz-keys.json');
+  fs.writeFileSync(
+    target,
+    JSON.stringify(
+      {
+        generated: 'by client/tools/build-materials.js — do not edit by hand',
+        courses
+      },
+      null,
+      2
+    ),
+    'utf8'
+  );
+
+  console.log(`
+Answer key: ${questionCount} questions -> server/data/quiz-keys.json`);
+};
+
+const main = async () => {
   if (!chromePath) {
     console.warn('! Chrome not found — HTML will be written but PDFs skipped.');
     console.warn('  Set CHROME_PATH to generate PDFs.');
@@ -564,13 +702,19 @@ const main = () => {
     path.join(contentDir, 'modules.js')
   );
 
+  writeQuizKeys(modulesByCourse);
+
   let total = 0;
-  Object.entries(modulesByCourse).forEach(([courseId, module]) => {
+  for (const [courseId, module] of Object.entries(modulesByCourse)) {
     const folder = materialsFolderByCourse[courseId] || courseId;
-    total += buildModule(module, folder).length;
-  });
+    const written = await buildModule(module, folder);
+    total += written.length;
+  }
 
   console.log(`\nDone. ${total} files in public/materials/.\n`);
 };
 
-main();
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

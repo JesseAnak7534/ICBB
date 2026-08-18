@@ -121,7 +121,44 @@ existing account.
 ### Training
 - `GET /api/training/programs` - List available programs
 - `GET /api/training/programs/:id` - Get one program
-- `POST /api/training/register` - Register for training
+- `POST /api/training/register` - Express interest in a programme
+
+### Participants (learner accounts)
+- `POST /api/participants/register` - Create a learner account
+- `POST /api/participants/login` - Sign in
+- `GET /api/participants/me` - Current participant
+- `POST /api/participants/enrol` - Enrol in a course
+- `POST /api/participants/quiz-attempts` - Submit a unit quiz
+- `GET /api/participants/progress/:courseId` - Best score per unit
+
+> Quiz submissions send **only the chosen option indices**. The API grades them
+> against `server/data/quiz-keys.json` and stores its own result, because a score
+> reported by the learner's browser is not evidence. Participant tokens carry
+> `type: "participant"` and are rejected on staff routes, and staff tokens are
+> rejected on participant routes.
+
+## Course materials
+
+`npm run build:materials` regenerates everything under
+`client/public/materials/` from `client/src/content/`, plus the API's answer key.
+Nothing restates the curriculum, so the site, the slides and the handouts cannot
+disagree.
+
+Per module it produces:
+
+| Output | Format | Notes |
+| --- | --- | --- |
+| `unit-NN-slides.pptx` | PowerPoint | Native bullet paragraphs, fully editable |
+| `unit-NN-slides.html` | HTML | Keyboard-navigable deck for the browser |
+| `unit-NN-handout.pdf` | PDF | Unit handout with quiz and answer key |
+| `<course>-slides.pptx` | PowerPoint | The whole module in one deck |
+| `<course>-workbook.pdf` | PDF | Every unit in one document |
+| `<course>-syllabus.pdf` | PDF | Outline, assessment and rubric |
+
+All documents and decks carry the ICBB watermark and are authored to
+**Jesse Anak**. PDFs are rendered with headless Chrome; set `CHROME_PATH` if it
+is not found automatically. Generated files are committed because Vercel's build
+image has no Chrome.
 
 ### Contact
 - `POST /api/contact` - Submit contact message

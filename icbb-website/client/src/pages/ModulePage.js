@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   FiArrowLeft,
@@ -15,6 +15,7 @@ import NotFound from './NotFound';
 import { getCourseById } from '../data/courses';
 import { getModule, materialsFolderByCourse } from '../content/modules';
 import { materialsPath } from '../utils/materials';
+import { useParticipantAuth } from '../context/ParticipantAuth';
 import './ModulePage.css';
 
 /**
@@ -23,6 +24,8 @@ import './ModulePage.css';
  */
 const ModulePage = () => {
   const { courseId } = useParams();
+  const { isSignedIn, isEnrolled, enrol } = useParticipantAuth();
+  const [enrolState, setEnrolState] = useState(null);
   const course = getCourseById(courseId);
   const module = getModule(courseId);
   const folder = materialsFolderByCourse[courseId];
@@ -201,9 +204,41 @@ const ModulePage = () => {
               <div className="module-card module-card-accent">
                 <h3><FiAward /> Certificate</h3>
                 <p>{module.certificate}</p>
-                <Link to="/training#registration-form" className="btn btn-primary">
-                  Register for this course
-                </Link>
+
+                {!isSignedIn ? (
+                  <Link
+                    to="/learn/register"
+                    state={{ from: `/training/${courseId}/module` }}
+                    className="btn btn-primary"
+                  >
+                    Create an account to track progress
+                  </Link>
+                ) : isEnrolled(courseId) ? (
+                  <Link to="/learn" className="btn btn-primary">
+                    View my progress
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    disabled={enrolState === 'saving'}
+                    onClick={async () => {
+                      setEnrolState('saving');
+                      try {
+                        await enrol(courseId);
+                        setEnrolState('done');
+                      } catch (error) {
+                        setEnrolState(error.message);
+                      }
+                    }}
+                  >
+                    {enrolState === 'saving' ? 'Enrolling…' : 'Enrol in this module'}
+                  </button>
+                )}
+
+                {enrolState && enrolState !== 'saving' && enrolState !== 'done' && (
+                  <p className="module-enrol-error">{enrolState}</p>
+                )}
               </div>
             </aside>
           </div>

@@ -1,14 +1,19 @@
 import React, { useState, useCallback } from 'react';
-import { FiCheck, FiX, FiRefreshCw, FiAward } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import { FiCheck, FiX, FiRefreshCw, FiAward, FiSave, FiUser } from 'react-icons/fi';
+import { useParticipantAuth } from '../context/ParticipantAuth';
 import './Quiz.css';
 
 /**
- * Self-check quiz with immediate per-question feedback.
+ * Unit quiz with immediate per-question feedback.
  *
- * Answers are checked in the browser and the score is kept in localStorage, so
- * the quiz works with no backend and no login. `onComplete` is called with the
- * result when the quiz is submitted, which is the hook for recording scores
- * against a participant account once accounts exist.
+ * Two modes:
+ *  - Signed out: graded in the browser and kept in localStorage, so anyone can
+ *    use the material without an account.
+ *  - Signed in: the responses are posted to the API, which grades them against
+ *    its own answer key and records the attempt. The server's marking is what
+ *    is displayed and what counts, because a score reported by the learner's
+ *    own browser is not evidence.
  */
 
 const storageKey = (quizId) => `icbb-quiz-${quizId}`;
@@ -23,10 +28,26 @@ const readSavedResult = (quizId) => {
   }
 };
 
-const Quiz = ({ quizId, title = 'Check your understanding', questions, passMark = 60, onComplete }) => {
+const Quiz = ({
+  quizId,
+  title = 'Check your understanding',
+  questions,
+  passMark = 60,
+  courseId,
+  unitId,
+  onComplete
+}) => {
+  const { isSignedIn, participant, authFetch } = useParticipantAuth();
+  const canRecord = Boolean(isSignedIn && courseId && unitId);
   const [selected, setSelected] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [best, setBest] = useState(() => readSavedResult(quizId));
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveState, setSaveState] = useState(null);
+  const [startedAt] = useState(() => Date.now());
+
+  // When signed in the server returns the marking; otherwise it is computed here.
+  const [serverMarks, setServerMarks] = useState(null);
 
   const total = questions.length;
   const answeredCount = Object.keys(selected).length;
@@ -36,37 +57,98 @@ const Quiz = ({ quizId, title = 'Check your understanding', questions, passMark 
     (count, question, index) => count + (selected[index] === question.answer ? 1 : 0),
     0
   );
+  // When the API graded the attempt its marking wins, so what the learner sees
+  // is what was actually recorded.
+  const shownCorrect = serverMarks ? serverMarks.filter(Boolean).length : correctCount;
+  const shownPercentage = total > 0 ? Math.round((shownCorrect / total) * 100) : 0;
   const percentage = total > 0 ? Math.round((correctCount / total) * 100) : 0;
-  const passed = percentage >= passMark;
+  const passed = shownPercentage >= passMark;
 
   const choose = (questionIndex, optionIndex) => {
     if (submitted) return;
     setSelected((prev) => ({ ...prev, [questionIndex]: optionIndex }));
   };
 
-  const submit = useCallback(() => {
-    if (!allAnswered) return;
-    setSubmitted(true);
+  const rememberLocally = useCallback(
+    (result) => {
+      setBest((previous) => {
+        const next = !previous || result.percentage > previous.percentage ? result : previous;
+        try {
+          window.localStorage.setItem(storageKey(quizId), JSON.stringify(next));
+        } catch {
+          // Storage unavailable — the score simply is not remembered.
+        }
+        return next;
+      });
+    },
+    [quizId]
+  );
+
+  const submit = useCallback(async () => {
+    if (!allAnswered || isSaving) return;
+
+    // Responses in question order, which is what the API grades.
+    const responses = questions.map((_, index) =>
+      selected[index] === undefined ? null : selected[index]
+    );
+
+    if (canRecord) {
+      setIsSaving(true);
+      try {
+        const response = await authFetch('/api/participants/quiz-attempts', {
+          method: 'POST',
+          body: JSON.stringify({
+            courseId,
+            unitId,
+            responses,
+            durationSeconds: Math.round((Date.now() - startedAt) / 1000)
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || 'Could not save your attempt');
+        }
+
+        const result = {
+          quizId,
+          correct: data.result.correct,
+          total: data.result.total,
+          percentage: data.result.percentage,
+          at: new Date().toISOString()
+        };
+
+        setServerMarks(data.result.marks);
+        rememberLocally(result);
+        setSaveState({ ok: true, message: 'Recorded against your account' });
+        setSubmitted(true);
+        if (onComplete) onComplete(result);
+      } catch (error) {
+        // Fall back to local marking so a network problem does not lose the work.
+        setSaveState({ ok: false, message: error.message });
+        setSubmitted(true);
+        rememberLocally({ quizId, correct: correctCount, total, percentage, at: new Date().toISOString() });
+      } finally {
+        setIsSaving(false);
+      }
+      return;
+    }
 
     const result = { quizId, correct: correctCount, total, percentage, at: new Date().toISOString() };
-
-    // Keep the best attempt rather than the most recent one.
-    setBest((previous) => {
-      const next = !previous || percentage > previous.percentage ? result : previous;
-      try {
-        window.localStorage.setItem(storageKey(quizId), JSON.stringify(next));
-      } catch {
-        // Storage unavailable — the score simply is not remembered.
-      }
-      return next;
-    });
-
+    rememberLocally(result);
+    setSubmitted(true);
     if (onComplete) onComplete(result);
-  }, [allAnswered, correctCount, onComplete, percentage, quizId, total]);
+  }, [
+    allAnswered, authFetch, canRecord, correctCount, courseId, isSaving, onComplete,
+    percentage, questions, quizId, rememberLocally, selected, startedAt, total, unitId
+  ]);
 
   const retry = () => {
     setSelected({});
     setSubmitted(false);
+    setServerMarks(null);
+    setSaveState(null);
   };
 
   return (
@@ -78,11 +160,21 @@ const Quiz = ({ quizId, title = 'Check your understanding', questions, passMark 
             {total} questions · pass mark {passMark}%
             {best && ` · best score ${best.percentage}%`}
           </p>
+          {canRecord ? (
+            <p className="quiz-account is-signed-in">
+              <FiUser /> Recording against {participant.fullName}
+            </p>
+          ) : (
+            <p className="quiz-account">
+              <Link to="/learn/sign-in">Sign in</Link> to have your results recorded
+              towards the certificate. You can still take the quiz without an account.
+            </p>
+          )}
         </div>
         {submitted && (
           <div className={`quiz-score ${passed ? 'is-pass' : 'is-fail'}`}>
-            <span className="quiz-score-value">{percentage}%</span>
-            <span className="quiz-score-label">{correctCount} of {total}</span>
+            <span className="quiz-score-value">{shownPercentage}%</span>
+            <span className="quiz-score-label">{shownCorrect} of {total}</span>
           </div>
         )}
       </header>
@@ -90,7 +182,9 @@ const Quiz = ({ quizId, title = 'Check your understanding', questions, passMark 
       <ol className="quiz-questions">
         {questions.map((question, questionIndex) => {
           const chosen = selected[questionIndex];
-          const isCorrect = chosen === question.answer;
+          const isCorrect = serverMarks
+            ? serverMarks[questionIndex]
+            : chosen === question.answer;
 
           return (
             <li className="quiz-question" key={questionIndex}>
@@ -148,9 +242,9 @@ const Quiz = ({ quizId, title = 'Check your understanding', questions, passMark 
               type="button"
               className="btn btn-primary"
               onClick={submit}
-              disabled={!allAnswered}
+              disabled={!allAnswered || isSaving}
             >
-              Submit answers
+              {isSaving ? 'Saving…' : 'Submit answers'}
             </button>
             <span className="quiz-progress">
               {answeredCount} of {total} answered
@@ -163,11 +257,16 @@ const Quiz = ({ quizId, title = 'Check your understanding', questions, passMark 
             </button>
             <span className={`quiz-verdict ${passed ? 'is-pass' : 'is-fail'}`}>
               {passed ? (
-                <><FiAward /> Passed — you scored {percentage}%</>
+                <><FiAward /> Passed — you scored {shownPercentage}%</>
               ) : (
                 <>Below the {passMark}% pass mark. Review the explanations and try again.</>
               )}
             </span>
+            {saveState && (
+              <span className={`quiz-save ${saveState.ok ? 'is-ok' : 'is-error'}`}>
+                <FiSave /> {saveState.message}
+              </span>
+            )}
           </>
         )}
       </footer>

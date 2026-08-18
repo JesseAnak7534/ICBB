@@ -336,3 +336,9 @@
   border-color: var(--white);
   color: var(--white);
 }
+
+/* Restore list markers stripped by the global `ol, ul { list-style: none }`. */
+.course-session-content ul { list-style: disc outside; }
+.course-session-content ul li::marker { color: var(--primary-green); }
+.course-card ul { list-style: disc outside; }
+.course-card ul li::marker { color: var(--gray-400); }

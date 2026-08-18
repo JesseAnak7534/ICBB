@@ -235,3 +235,33 @@
     display: none;
   }
 }
+
+/* Account state */
+.quiz-account {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.quiz-account.is-signed-in {
+  color: var(--primary-green-dark);
+  font-weight: 600;
+}
+
+.quiz-account a {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.quiz-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.quiz-save.is-ok { color: var(--primary-green-dark); }
+.quiz-save.is-error { color: #b45309; }

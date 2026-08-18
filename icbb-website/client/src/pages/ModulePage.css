@@ -582,3 +582,78 @@
     margin-left: 0;
   }
 }
+
+.module-enrol-error {
+  margin: var(--spacing-sm) 0 0;
+  color: #b91c1c;
+  font-size: 0.85rem;
+}
+
+/* Worked examples */
+.unit-examples {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+.unit-example {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-top: 3px solid var(--primary-green);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+}
+
+.unit-example h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.08rem;
+  color: var(--gray-900);
+  margin-bottom: var(--spacing-sm);
+}
+
+.unit-example h3 svg { color: var(--primary-green); flex-shrink: 0; }
+
+.unit-example-scenario {
+  color: var(--gray-600);
+  font-style: italic;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-md);
+}
+
+.unit-example-steps {
+  margin: 0;
+  padding-left: 1.3rem;
+  color: var(--gray-700);
+  line-height: 1.8;
+}
+
+.unit-example-steps li { margin-bottom: 0.4rem; }
+
+.unit-example-lesson {
+  margin: var(--spacing-md) 0 0;
+  padding-top: var(--spacing-md);
+  border-top: 1px dashed var(--gray-300);
+  color: var(--gray-700);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.unit-example-lesson strong { color: var(--primary-blue-dark); }
+
+/* The global reset sets `ol, ul { list-style: none }`, which is right for nav
+   and for lists that supply their own icons, but strips the markers from
+   ordinary teaching prose. Restore them explicitly where they carry meaning. */
+.unit-points { list-style: disc outside; }
+.unit-points li::marker { color: var(--primary-green); }
+
+.unit-example-steps { list-style: decimal outside; }
+.unit-example-steps li::marker { color: var(--primary-blue); font-weight: 700; }
+
+.module-card ul { list-style: disc outside; }
+.module-card ul li::marker { color: var(--gray-400); }
+
+.unit-toc { list-style: decimal outside; }
+.unit-toc li::marker { color: var(--gray-400); }
+
+.course-session-content ul { list-style: disc outside; }
