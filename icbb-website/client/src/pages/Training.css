@@ -229,6 +229,23 @@
   margin-top: auto;
 }
 
+/* Two actions per card: details and register. */
+.program-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* The buttons are laid out by the row, so they must not also push themselves
+   down with the `margin-top: auto` inherited from `.program-card .btn`. */
+.program-actions .btn {
+  flex: 1 1 8rem;
+  justify-content: center;
+  margin-top: 0;
+  white-space: nowrap;
+}
+
 /* Registration Section */
 .registration-section {
   padding: 5rem 0;

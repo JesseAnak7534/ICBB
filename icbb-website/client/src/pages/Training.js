@@ -13,6 +13,7 @@ import {
   FiCheck
 } from 'react-icons/fi';
 import { getApiUrl } from '../config/api';
+import courses, { toProgramType } from '../data/courses';
 import './Training.css';
 
 const Training = () => {
@@ -29,72 +30,35 @@ const Training = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const programs = [
-    {
-      id: 'intro-bioinformatics',
-      title: 'Introduction to Bioinformatics',
-      type: 'Workshop',
-      duration: '3 days',
-      level: 'Beginner',
-      icon: <FiBookOpen />,
-      description: 'Learn the fundamentals of bioinformatics, including sequence analysis and biological database usage.',
-      topics: ['Sequence alignment', 'BLAST searches', 'Database navigation', 'Basic phylogenetics']
-    },
-    {
-      id: 'data-analysis-r',
-      title: 'Data Analysis with R',
-      type: 'Short Course',
-      duration: '2 weeks',
-      level: 'Intermediate',
-      icon: <FiCode />,
-      description: 'Master statistical analysis and visualization using R programming language.',
-      topics: ['R fundamentals', 'Statistical tests', 'Data visualization', 'Report generation']
-    },
-    {
-      id: 'genomics-bootcamp',
-      title: 'Genomics Analysis Bootcamp',
-      type: 'Bootcamp',
-      duration: '4 weeks',
-      level: 'Intermediate',
-      icon: <FiAward />,
-      description: 'Intensive training in genomic data analysis, from raw sequencing data to biological insights.',
-      topics: ['NGS data processing', 'Variant calling', 'RNA-seq analysis', 'Pipeline development']
-    },
-    {
-      id: 'python-biologists',
-      title: 'Python for Biologists',
-      type: 'Workshop',
-      duration: '5 days',
-      level: 'Beginner',
-      icon: <FiCode />,
-      description: 'Learn Python programming for biological data analysis and automation.',
-      topics: ['Python basics', 'Biopython', 'Data manipulation', 'Automation scripts']
-    },
-    {
-      id: 'ml-biology',
-      title: 'Machine Learning in Biology',
-      type: 'Short Course',
-      duration: '3 weeks',
-      level: 'Advanced',
-      icon: <FiAward />,
-      description: 'Apply machine learning algorithms to biological and biomedical problems.',
-      topics: ['ML fundamentals', 'Supervised learning', 'Deep learning basics', 'Biological applications']
-    },
-    {
-      id: 'statistical-methods',
-      title: 'Statistical Methods for Research',
-      type: 'Short Course',
-      duration: '2 weeks',
-      level: 'Intermediate',
-      icon: <FiBookOpen />,
-      description: 'Comprehensive training in statistical methods commonly used in biological research.',
-      topics: ['Hypothesis testing', 'Regression analysis', 'ANOVA', 'Multivariate statistics']
-    }
-  ];
+  // Icons live here rather than in the data module so the catalogue stays
+  // plain data and can be imported anywhere.
+  const iconMap = {
+    book: <FiBookOpen />,
+    code: <FiCode />,
+    chart: <FiAward />,
+    users: <FiUsers />
+  };
+
+  const programs = courses.map((course) => ({
+    ...course,
+    icon: iconMap[course.iconKey] || <FiBookOpen />
+  }));
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+
+    setFormData(prev => {
+      const next = { ...prev, [name]: value };
+
+      // programType is required by the API but has no field of its own, so it
+      // is derived from whichever course was picked.
+      if (name === 'programName') {
+        const selected = courses.find(course => course.title === value);
+        next.programType = selected ? toProgramType(selected.type) : '';
+      }
+
+      return next;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -124,7 +88,14 @@ const Training = () => {
           motivation: ''
         });
       } else {
-        toast.error(data.message || 'Registration failed. Please try again.');
+        // express-validator returns field errors under `errors`, with no
+        // top-level `message` — without this the user only ever saw a generic
+        // failure and had no idea which field was wrong.
+        const validationError =
+          Array.isArray(data.errors) && data.errors.length > 0
+            ? data.errors.map(err => err.msg).join(' ')
+            : null;
+        toast.error(validationError || data.message || 'Registration failed. Please try again.');
       }
     } catch (error) {
       toast.error('Error submitting registration. Please try again later.');
@@ -136,7 +107,7 @@ const Training = () => {
   const selectProgram = (program) => {
     setFormData(prev => ({
       ...prev,
-      programType: program.type.toLowerCase().replace(' ', '-'),
+      programType: toProgramType(program.type),
       programName: program.title
     }));
     document.getElementById('registration-form').scrollIntoView({ behavior: 'smooth' });
@@ -231,12 +202,17 @@ const Training = () => {
                     ))}
                   </ul>
                 </div>
-                <button 
-                  className="btn btn-primary"
-                  onClick={() => selectProgram(program)}
-                >
-                  Register Interest <FiArrowRight />
-                </button>
+                <div className="program-actions">
+                  <Link className="btn btn-outline" to={`/training/${program.id}`}>
+                    View Details
+                  </Link>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => selectProgram(program)}
+                  >
+                    Register Interest <FiArrowRight />
+                  </button>
+                </div>
               </motion.div>
             ))}
           </div>

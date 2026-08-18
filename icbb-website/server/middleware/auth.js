@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { jwtSecret } = require('../config/env');
 
 // Protect routes - require authentication
 exports.protect = async (req, res, next) => {
@@ -17,7 +18,7 @@ exports.protect = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret_change_me');
+    const decoded = jwt.verify(token, jwtSecret);
     req.user = await User.findById(decoded.id);
     
     if (!req.user) {

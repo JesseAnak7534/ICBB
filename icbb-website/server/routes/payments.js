@@ -4,11 +4,14 @@ const { body, validationResult } = require('express-validator');
 const ServiceRequest = require('../models/ServiceRequest');
 const { sendEmail } = require('../utils/email');
 
-// MTN MoMo Configuration
+const { protect, authorize } = require('../middleware/auth');
+
+// MTN MoMo payee details. Kept in the environment so the account can be changed
+// without a code deploy.
 const MOMO_CONFIG = {
-  accountName: 'Jesse Azebiik Anak',
-  accountNumber: '0559759592',
-  network: 'MTN Ghana'
+  accountName: process.env.MOMO_ACCOUNT_NAME || '',
+  accountNumber: process.env.MOMO_ACCOUNT_NUMBER || '',
+  network: process.env.MOMO_NETWORK || 'MTN Ghana'
 };
 
 // @route   POST /api/payments/initiate
@@ -86,11 +89,13 @@ router.post('/initiate', [
 });
 
 // @route   POST /api/payments/confirm
-// @desc    Confirm payment (manual confirmation by admin or client)
+// @desc    Client reports that they have sent the MoMo transfer.
+//          This ONLY records the claim — it does not mark the payment received.
+//          An admin must verify it against the actual MoMo account.
 // @access  Public
 router.post('/confirm', [
   body('requestId').notEmpty().withMessage('Request ID is required'),
-  body('transactionId').notEmpty().withMessage('Transaction ID is required')
+  body('transactionId').trim().notEmpty().withMessage('Transaction ID is required')
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -104,7 +109,7 @@ router.post('/confirm', [
     const { requestId, transactionId } = req.body;
 
     const serviceRequest = await ServiceRequest.findOne({ requestId });
-    
+
     if (!serviceRequest) {
       return res.status(404).json({
         success: false,
@@ -112,57 +117,49 @@ router.post('/confirm', [
       });
     }
 
-    // Update payment status
-    serviceRequest.payment.status = 'completed';
+    if (serviceRequest.payment.status === 'completed') {
+      return res.json({
+        success: true,
+        message: 'Payment already confirmed',
+        data: {
+          requestId: serviceRequest.requestId,
+          status: serviceRequest.status,
+          paymentStatus: serviceRequest.payment.status
+        }
+      });
+    }
+
+    serviceRequest.payment.status = 'awaiting-verification';
     serviceRequest.payment.transactionId = transactionId;
-    serviceRequest.payment.paidAt = new Date();
-    serviceRequest.status = 'received';
+    serviceRequest.payment.claimedAt = new Date();
     await serviceRequest.save();
 
-    // Send confirmation emails
+    // Tell the admin there is something to verify.
     try {
-      // Email to client
-      await sendEmail({
-        to: serviceRequest.clientEmail,
-        subject: `Payment Confirmed - ICBB Request ${serviceRequest.requestId}`,
-        html: `
-          <h2>Payment Confirmation</h2>
-          <p>Dear ${serviceRequest.clientName},</p>
-          <p>Your payment has been confirmed for service request <strong>${serviceRequest.requestId}</strong>.</p>
-          <p><strong>Amount:</strong> GHS ${serviceRequest.payment.amount}</p>
-          <p><strong>Transaction ID:</strong> ${transactionId}</p>
-          <p>We have received your request and will begin processing it shortly.</p>
-          <p>You will receive an email notification when your results are ready.</p>
-          <br>
-          <p>Thank you for choosing ICBB!</p>
-          <p>Best regards,<br>ICBB Data Analysis Team</p>
-        `
-      });
-
-      // Email to admin
-      await sendEmail({
-        to: process.env.ADMIN_EMAIL,
-        subject: `New Service Request Received - ${serviceRequest.requestId}`,
-        html: `
-          <h2>New Service Request</h2>
-          <p><strong>Request ID:</strong> ${serviceRequest.requestId}</p>
-          <p><strong>Client:</strong> ${serviceRequest.clientName}</p>
-          <p><strong>Email:</strong> ${serviceRequest.clientEmail}</p>
-          <p><strong>Service:</strong> ${serviceRequest.serviceType}</p>
-          <p><strong>Amount Paid:</strong> GHS ${serviceRequest.payment.amount}</p>
-          <p><strong>Description:</strong> ${serviceRequest.description}</p>
-          <br>
-          <p>Please log in to the admin dashboard to view and process this request.</p>
-        `
-      });
+      if (process.env.ADMIN_EMAIL) {
+        await sendEmail({
+          to: process.env.ADMIN_EMAIL,
+          subject: `Payment awaiting verification - ${serviceRequest.requestId}`,
+          html: `
+            <h2>Payment Claim Submitted</h2>
+            <p>A client reports they have paid. Check the MoMo account before releasing any work.</p>
+            <p><strong>Request ID:</strong> ${serviceRequest.requestId}</p>
+            <p><strong>Client:</strong> ${serviceRequest.clientName} (${serviceRequest.clientEmail})</p>
+            <p><strong>Service:</strong> ${serviceRequest.serviceType}</p>
+            <p><strong>Amount expected:</strong> GHS ${serviceRequest.payment.amount}</p>
+            <p><strong>Transaction ID given:</strong> ${transactionId}</p>
+            <br>
+            <p>Verify it in the admin dashboard to mark this request as paid.</p>
+          `
+        });
+      }
     } catch (emailError) {
       console.error('Email sending error:', emailError);
-      // Don't fail the request if email fails
     }
 
     res.json({
       success: true,
-      message: 'Payment confirmed successfully',
+      message: 'Thank you. We are verifying your payment and will email you once confirmed.',
       data: {
         requestId: serviceRequest.requestId,
         status: serviceRequest.status,
@@ -171,10 +168,87 @@ router.post('/confirm', [
     });
 
   } catch (error) {
-    console.error('Payment confirmation error:', error);
+    console.error('Payment claim error:', error);
     res.status(500).json({
       success: false,
-      message: 'Error confirming payment'
+      message: 'Error recording payment'
+    });
+  }
+});
+
+// @route   POST /api/payments/verify
+// @desc    Admin confirms the money actually arrived, marking the request paid.
+// @access  Private/Admin
+router.post('/verify', protect, authorize('admin'), [
+  body('requestId').notEmpty().withMessage('Request ID is required')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array()
+      });
+    }
+
+    const { requestId, transactionId } = req.body;
+
+    const serviceRequest = await ServiceRequest.findOne({ requestId });
+
+    if (!serviceRequest) {
+      return res.status(404).json({
+        success: false,
+        message: 'Service request not found'
+      });
+    }
+
+    serviceRequest.payment.status = 'completed';
+    if (transactionId) {
+      serviceRequest.payment.transactionId = transactionId;
+    }
+    serviceRequest.payment.paidAt = new Date();
+    serviceRequest.payment.verifiedAt = new Date();
+    serviceRequest.payment.verifiedBy = req.user._id;
+    serviceRequest.status = 'received';
+    await serviceRequest.save();
+
+    // Confirmation emails, now that the payment is genuinely verified.
+    try {
+      await sendEmail({
+        to: serviceRequest.clientEmail,
+        subject: `Payment Confirmed - ICBB Request ${serviceRequest.requestId}`,
+        html: `
+          <h2>Payment Confirmation</h2>
+          <p>Dear ${serviceRequest.clientName},</p>
+          <p>Your payment has been confirmed for service request <strong>${serviceRequest.requestId}</strong>.</p>
+          <p><strong>Amount:</strong> GHS ${serviceRequest.payment.amount}</p>
+          <p><strong>Transaction ID:</strong> ${serviceRequest.payment.transactionId || 'N/A'}</p>
+          <p>We have received your request and will begin processing it shortly.</p>
+          <p>You will receive an email notification when your results are ready.</p>
+          <br>
+          <p>Thank you for choosing ICBB!</p>
+          <p>Best regards,<br>ICBB Data Analysis Team</p>
+        `
+      });
+    } catch (emailError) {
+      console.error('Email sending error:', emailError);
+    }
+
+    res.json({
+      success: true,
+      message: 'Payment verified',
+      data: {
+        requestId: serviceRequest.requestId,
+        status: serviceRequest.status,
+        paymentStatus: serviceRequest.payment.status
+      }
+    });
+
+  } catch (error) {
+    console.error('Payment verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error verifying payment'
     });
   }
 });

@@ -4,14 +4,11 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
+const { jwtSecret, jwtExpire } = require('../config/env');
 
 // Generate JWT token
 const generateToken = (id) => {
-  return jwt.sign(
-    { id },
-    process.env.JWT_SECRET || 'default_secret_change_me',
-    { expiresIn: process.env.JWT_EXPIRE || '7d' }
-  );
+  return jwt.sign({ id }, jwtSecret, { expiresIn: jwtExpire });
 };
 
 // @route   POST /api/auth/login
@@ -32,18 +29,11 @@ router.post('/login', [
 
     const { email, password } = req.body;
 
-    // Check if user exists
-    let user = await User.findOne({ email }).select('+password');
-
-    // If no admin exists and this is the default admin email, create one
-    if (!user && email === process.env.ADMIN_EMAIL) {
-      user = await User.create({
-        name: 'Admin',
-        email: process.env.ADMIN_EMAIL,
-        password: process.env.ADMIN_PASSWORD,
-        role: 'admin'
-      });
-    }
+    // Check if user exists.
+    // NOTE: admin accounts are created only by `npm run seed`. Auto-creating one
+    // here would let anyone who knows the configured admin email mint the
+    // account on their first login attempt.
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
       return res.status(401).json({
