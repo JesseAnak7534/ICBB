@@ -19,6 +19,10 @@ module.exports = async (req, res) => {
       status: 'ok',
       message: 'ICBB API is running',
       database: process.env.MONGODB_URI ? 'configured' : 'not configured',
+      email:
+        process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS
+          ? 'configured'
+          : 'not configured',
       timestamp: new Date().toISOString()
     }));
     return;

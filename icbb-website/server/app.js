@@ -91,6 +91,8 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
     message: 'ICBB API Server is running',
+    database: process.env.MONGODB_URI ? 'configured' : 'not configured',
+    email: require('./utils/email').isConfigured() ? 'configured' : 'not configured',
     timestamp: new Date().toISOString()
   });
 });
