@@ -1,0 +1,50 @@
+/* Shown in place of a form that could not currently succeed */
+
+.service-notice {
+  display: flex;
+  gap: var(--spacing-lg);
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-left: 3px solid var(--warning);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg) var(--spacing-xl);
+}
+
+.service-notice-icon {
+  flex-shrink: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: var(--radius-full);
+  background: rgba(245, 158, 11, 0.14);
+  color: #b45309;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.service-notice h3 {
+  font-size: 1.02rem;
+  color: var(--gray-900);
+  margin: 0 0 0.35rem;
+}
+
+.service-notice p {
+  margin: 0;
+  color: var(--gray-600);
+  line-height: 1.65;
+  font-size: 0.93rem;
+}
+
+.service-notice a {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+@media (max-width: 576px) {
+  .service-notice {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+  }
+}

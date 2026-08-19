@@ -13,6 +13,7 @@ import {
   FiCheck
 } from 'react-icons/fi';
 import { getApiUrl } from '../config/api';
+import ServiceNotice from '../components/ServiceNotice';
 import courses, { toProgramType } from '../data/courses';
 import './Training.css';
 
@@ -254,6 +255,7 @@ const Training = () => {
               </div>
             </div>
             <div className="registration-form-container">
+              <ServiceNotice action="Registration">
               <form onSubmit={handleSubmit} className="registration-form">
                 <div className="form-row">
                   <div className="form-group">
@@ -366,6 +368,7 @@ const Training = () => {
                   {isSubmitting ? 'Submitting...' : 'Submit Registration'}
                 </button>
               </form>
+              </ServiceNotice>
             </div>
           </div>
         </div>
