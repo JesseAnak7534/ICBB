@@ -12,13 +12,14 @@ import { getApiUrl } from '../config/api';
  * `database: "configured"` and every notice driven by it disappears. There is
  * nothing to remove later.
  *
- * @returns {{ checking: boolean, reachable: boolean, databaseReady: boolean }}
+ * @returns {{ checking: boolean, reachable: boolean, databaseReady: boolean, emailReady: boolean }}
  */
 const useApiStatus = () => {
   const [status, setStatus] = useState({
     checking: true,
     reachable: false,
-    databaseReady: false
+    databaseReady: false,
+    emailReady: false
   });
 
   useEffect(() => {
@@ -34,11 +35,12 @@ const useApiStatus = () => {
         setStatus({
           checking: false,
           reachable: response.ok && data.status === 'ok',
-          databaseReady: data.database === 'configured'
+          databaseReady: data.database === 'configured',
+          emailReady: data.email === 'configured'
         });
       } catch {
         if (!cancelled) {
-          setStatus({ checking: false, reachable: false, databaseReady: false });
+          setStatus({ checking: false, reachable: false, databaseReady: false, emailReady: false });
         }
       }
     })();
