@@ -28,12 +28,13 @@ const COURSE_BY_FOLDER = Object.fromEntries(
   Object.entries(FOLDER_BY_COURSE).map(([courseId, folder]) => [folder, courseId])
 );
 
+// Only what the generator actually ships. HTML is deliberately absent: serving
+// arbitrary HTML from a path parameter is an invitation to trouble, and the
+// slides are PowerPoint now.
 const CONTENT_TYPES = {
   '.pdf': 'application/pdf',
   '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-  '.html': 'text/html; charset=utf-8',
-  '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  '.zip': 'application/zip'
+  '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 };
 
 /**

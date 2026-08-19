@@ -149,11 +149,20 @@ Per module it produces:
 | Output | Format | Notes |
 | --- | --- | --- |
 | `unit-NN-slides.pptx` | PowerPoint | Native bullet paragraphs, fully editable |
-| `unit-NN-slides.html` | HTML | Keyboard-navigable deck for the browser |
-| `unit-NN-handout.pdf` | PDF | Unit handout with quiz and answer key |
+| `unit-NN-handout.pdf` | PDF | Unit handout with worked examples, quiz and answer key |
 | `<course>-slides.pptx` | PowerPoint | The whole module in one deck |
 | `<course>-workbook.pdf` | PDF | Every unit in one document |
 | `<course>-syllabus.pdf` | PDF | Outline, assessment and rubric |
+
+Only `.pptx` and `.pdf` are shipped. The HTML used to lay the PDFs out is an
+intermediate written to a scratch directory, and the generator deletes anything
+else it finds in `materials/`.
+
+Typography is Constantia for reading text and Corbel for labels and tables, in
+both the decks and the PDFs. These ship with Windows and Microsoft Office, so
+the build is reproducible and a deck looks the same on the lecturer's machine.
+Web fonts were tried and abandoned: only families already in Chrome's cache
+rendered, so the same source produced different PDFs on different runs.
 
 All documents and decks carry the ICBB watermark and are authored to
 **Jesse Anak**. PDFs are rendered with headless Chrome; set `CHROME_PATH` if it

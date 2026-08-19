@@ -4,23 +4,25 @@
  *
  *   node tools/build-materials.js
  *
- * Produces, in public/materials/<course>/ :
- *   unit-NN-slides.html      one deck per unit, keyboard navigable
- *   unit-NN-handout.html     printable unit handout
- *   unit-NN-handout.pdf      the same, as PDF
- *   <course>-slides.html     every unit in one deck
- *   <course>-workbook.pdf    every unit in one printable workbook
+ * Produces, in materials/<course>/ :
+ *   unit-NN-slides.pptx      one PowerPoint deck per unit
+ *   unit-NN-handout.pdf      printable unit handout
+ *   <course>-slides.pptx     every unit in one deck
+ *   <course>-workbook.pdf    every unit in one document
  *   <course>-syllabus.pdf    outline, outcomes, assessment and rubric
  *
- * The content is read from src/content/, which is the same source the website
- * renders. Nothing here restates the curriculum, so the slides, the handouts
- * and the site can never disagree.
+ * Only .pptx and .pdf are shipped. The HTML used to lay the PDFs out is an
+ * intermediate and goes to a scratch directory, not into materials/.
  *
- * PDFs are produced with headless Chrome. If Chrome cannot be found the HTML is
- * still written and the PDF step is skipped with a warning.
+ * The content is read from src/content/, the same source the website renders,
+ * so the site, the slides and the handouts cannot disagree.
+ *
+ * PDFs are rendered by headless Chrome. Without Chrome the run stops rather
+ * than quietly shipping a folder with no PDFs in it.
  */
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const Module = require('module');
 const { execFileSync } = require('child_process');
@@ -29,13 +31,10 @@ const { buildPptx, AUTHOR, ORG } = require('./build-pptx');
 
 const clientDir = path.resolve(__dirname, '..');
 const contentDir = path.join(clientDir, 'src', 'content');
-// Deliberately outside client/public: anything in there is served by the CDN
-// to anyone with the URL. These files are paid for, so they are streamed by
-// the API instead (see server/routes/materials.js).
 const outputRoot = path.join(clientDir, '..', 'materials');
 const serverDataDir = path.join(clientDir, '..', 'server', 'data');
+const scratchDir = path.join(os.tmpdir(), 'icbb-materials-build');
 
-// Transparent ICBB mark, used as the watermark on documents and decks.
 const logoPath = path.join(clientDir, '..', '..', 'icbb_logo-removebg-preview.png');
 const logoDataUri = fs.existsSync(logoPath)
   ? `data:image/png;base64,${fs.readFileSync(logoPath).toString('base64')}`
@@ -81,227 +80,248 @@ const escape = (value) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-const pad = (n) => String(n).padStart(2, '0');
+/* ------------------------------------------------------------------ style -- */
 
-/* ------------------------------------------------------------------ styles -- */
-
+/**
+ * Ink and bronze on paper, matching the decks.
+ *
+ * Constantia carries the reading text and headings; Corbel carries the utility
+ * layer — labels, table headings, the running foot. Both are locally installed,
+ * so the build is reproducible and the PDFs match the decks exactly.
+ */
 const brand = {
-  blue: '#0066cc',
-  blueDark: '#004d99',
-  green: '#00a86b',
-  ink: '#111827',
-  body: '#374151',
-  muted: '#6b7280',
-  line: '#e5e7eb'
+  ink: '#1C3140',
+  text: '#23282E',
+  soft: '#5F6B76',
+  bronze: '#9A6A3C',
+  line: '#D8D3CB',
+  panel: '#F6F4F0'
 };
 
+// No web fonts.
+//
+// Google Fonts proved unreliable here — only a family already in Chrome's cache
+// rendered, so the same source produced different PDFs on different runs. These
+// faces ship with Windows and Microsoft Office, are embedded into the PDF at
+// render time, and are the same pair the PowerPoint decks use, so the handouts
+// and the slides read as one set of materials.
+const FONT_SERIF = "Constantia, 'Palatino Linotype', Georgia, serif";
+const FONT_SANS = "Corbel, Candara, 'Segoe UI', sans-serif";
+const FONT_LINK = '';
+
 const printStyles = `
-  @page { size: A4; margin: 18mm 16mm; }
+  @page { size: A4; margin: 20mm 19mm 18mm; }
+
   * { box-sizing: border-box; }
+
   body {
-    font-family: Georgia, 'Times New Roman', serif;
-    color: ${brand.body};
-    line-height: 1.6;
+    font-family: ${FONT_SERIF};
+    color: ${brand.text};
+    line-height: 1.62;
     margin: 0;
-    font-size: 11pt;
+    font-size: 10.6pt;
+    -webkit-font-smoothing: antialiased;
   }
-  .sheet { max-width: 190mm; margin: 0 auto; padding: 0 0 12mm; }
-  .doc-header {
-    border-bottom: 3px solid ${brand.blue};
-    padding-bottom: 8pt;
-    margin-bottom: 16pt;
-  }
+
+  .sheet { position: relative; z-index: 1; padding-bottom: 10mm; }
+
+  /* ------------------------------------------------------------ masthead -- */
+  .doc-header { margin-bottom: 16pt; }
+
   .doc-brand {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 8pt;
-    letter-spacing: 0.14em;
+    font-family: ${FONT_SANS};
+    font-size: 7.8pt;
+    font-weight: 600;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: ${brand.blue};
-    font-weight: bold;
+    color: ${brand.bronze};
+    margin-bottom: 5pt;
   }
-  h1 { font-size: 20pt; color: ${brand.ink}; margin: 4pt 0 2pt; line-height: 1.2; }
+
+  h1 {
+    font-family: ${FONT_SERIF};
+    font-weight: 600;
+    font-size: 21pt;
+    line-height: 1.16;
+    color: ${brand.ink};
+    margin: 0 0 6pt;
+    letter-spacing: -0.005em;
+  }
+
+  .doc-rule {
+    width: 34pt; height: 1.6pt;
+    background: ${brand.bronze};
+    margin: 9pt 0 10pt;
+  }
+
+  .meta, .byline {
+    font-family: ${FONT_SANS};
+    font-size: 8.4pt;
+    color: ${brand.soft};
+  }
+  .byline { margin-top: 2pt; }
+  .byline strong { color: ${brand.ink}; font-weight: 600; }
+
+  .lede {
+    font-size: 11.6pt;
+    font-style: italic;
+    color: ${brand.soft};
+    line-height: 1.55;
+    margin: 12pt 0 16pt;
+  }
+
+  /* ------------------------------------------------------------ headings -- */
   h2 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13pt; color: ${brand.blueDark};
-    margin: 18pt 0 6pt; padding-bottom: 3pt;
-    border-bottom: 1px solid ${brand.line};
+    font-family: ${FONT_SERIF};
+    font-weight: 600;
+    font-size: 13.4pt;
+    color: ${brand.ink};
+    margin: 20pt 0 7pt;
+    padding-top: 7pt;
+    border-top: 0.6pt solid ${brand.line};
     page-break-after: avoid;
   }
-  h3 { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; color: ${brand.ink}; margin: 12pt 0 4pt; page-break-after: avoid; }
+
+  h3 {
+    font-family: ${FONT_SANS};
+    font-weight: 600;
+    font-size: 10pt;
+    color: ${brand.ink};
+    margin: 13pt 0 5pt;
+    page-break-after: avoid;
+  }
+
   p { margin: 0 0 8pt; }
-  ul, ol { margin: 0 0 10pt; padding-left: 18pt; }
-  li { margin-bottom: 4pt; }
-  .lede { color: ${brand.muted}; font-style: italic; margin-bottom: 12pt; }
-  .meta { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: ${brand.muted}; }
+
+  ul, ol { margin: 0 0 10pt; padding-left: 15pt; }
+  li { margin-bottom: 4.5pt; padding-left: 2pt; }
+  li::marker { color: ${brand.bronze}; }
+
+  /* --------------------------------------------------------------- notes -- */
   .note {
-    background: #f3f7fc; border-left: 3px solid ${brand.blue};
-    padding: 8pt 10pt; margin: 10pt 0; page-break-inside: avoid;
-  }
-  .note strong {
-    display: block; font-family: Arial, Helvetica, sans-serif;
-    font-size: 8pt; text-transform: uppercase; letter-spacing: 0.08em;
-    color: ${brand.blueDark}; margin-bottom: 3pt;
-  }
-  .activity {
-    border: 1px dashed #9ca3af; padding: 8pt 10pt; margin: 10pt 0;
-    background: #fafafa; page-break-inside: avoid;
-  }
-  .example {
-    border: 1px solid ${brand.line}; border-top: 3px solid ${brand.green};
-    padding: 9pt 11pt; margin: 10pt 0; background: #fbfdfc;
+    background: ${brand.panel};
+    border-left: 2pt solid ${brand.bronze};
+    padding: 9pt 11pt;
+    margin: 11pt 0;
     page-break-inside: avoid;
   }
-  .example h3 { margin-top: 0; color: ${brand.blueDark}; }
-  .example-scenario { font-style: italic; color: ${brand.muted}; }
-  .example-lesson {
-    margin: 8pt 0 0; padding-top: 6pt; border-top: 1px dotted ${brand.line};
-    font-size: 10pt;
+  .note strong {
+    display: block;
+    font-family: ${FONT_SANS};
+    font-size: 7.6pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: ${brand.bronze};
+    margin-bottom: 3pt;
   }
-  table { width: 100%; border-collapse: collapse; margin: 10pt 0; font-size: 9.5pt; page-break-inside: avoid; }
-  caption { caption-side: top; text-align: left; font-size: 8.5pt; color: ${brand.muted}; font-style: italic; padding-bottom: 4pt; }
-  th, td { border: 1px solid ${brand.line}; padding: 5pt 6pt; text-align: left; vertical-align: top; }
-  th { background: #f9fafb; font-family: Arial, Helvetica, sans-serif; font-size: 9pt; }
-  dl { margin: 0; }
-  dt { font-weight: bold; color: ${brand.ink}; margin-top: 7pt; }
-  dd { margin: 1pt 0 0; }
-  .answers { border-top: 1px solid ${brand.line}; margin-top: 14pt; padding-top: 8pt; font-size: 9.5pt; }
-  .unit-break { page-break-before: always; }
-  .footer-note { margin-top: 14pt; font-size: 8.5pt; color: ${brand.muted}; border-top: 1px solid ${brand.line}; padding-top: 6pt; }
+  .note p { margin: 0; font-style: italic; color: ${brand.ink}; }
 
-  /* Watermark. position: fixed repeats the element on every printed page in
-     Chrome, which is what puts the mark on all pages of a long workbook. */
+  .activity {
+    border: 0.6pt solid ${brand.line};
+    border-top: 2pt solid ${brand.ink};
+    padding: 10pt 12pt;
+    margin: 11pt 0;
+    page-break-inside: avoid;
+  }
+  .activity p { margin: 0; }
+
+  /* ------------------------------------------------------------ examples -- */
+  .example {
+    border: 0.6pt solid ${brand.line};
+    padding: 11pt 13pt;
+    margin: 12pt 0;
+    page-break-inside: avoid;
+  }
+  .example h3 { margin-top: 0; color: ${brand.ink}; font-size: 10.4pt; }
+  .example-scenario { font-style: italic; color: ${brand.soft}; margin-bottom: 7pt; }
+  .example ol { margin-bottom: 0; }
+  .example-lesson {
+    margin: 9pt 0 0; padding-top: 7pt;
+    border-top: 0.6pt solid ${brand.line};
+    font-size: 9.6pt;
+  }
+  .example-lesson strong {
+    font-family: ${FONT_SANS};
+    font-size: 8pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: ${brand.bronze};
+  }
+
+  /* -------------------------------------------------------------- tables -- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 11pt 0;
+    font-family: ${FONT_SANS};
+    font-size: 8.8pt;
+    page-break-inside: avoid;
+  }
+  caption {
+    caption-side: top; text-align: left;
+    font-family: ${FONT_SANS};
+    font-size: 7.8pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: ${brand.bronze};
+    padding-bottom: 5pt;
+  }
+  th, td {
+    padding: 6pt 7pt; text-align: left; vertical-align: top;
+    border-bottom: 0.5pt solid ${brand.line};
+    line-height: 1.45;
+  }
+  thead th {
+    color: ${brand.ink}; font-weight: 600;
+    border-bottom: 1pt solid ${brand.ink};
+  }
+  tbody tr:last-child td { border-bottom: 0.8pt solid ${brand.line}; }
+
+  /* ------------------------------------------------------------ glossary -- */
+  dl { margin: 0; }
+  dt {
+    font-family: ${FONT_SANS};
+    font-weight: 600; font-size: 9.4pt;
+    color: ${brand.ink}; margin-top: 8pt;
+  }
+  dd { margin: 1pt 0 0; }
+
+  .answers {
+    border-top: 0.6pt solid ${brand.line};
+    margin-top: 15pt; padding-top: 9pt;
+    font-size: 9.6pt;
+  }
+
+  .unit-break { page-break-before: always; }
+
+  .footer-note {
+    margin-top: 16pt; padding-top: 7pt;
+    border-top: 0.6pt solid ${brand.line};
+    font-family: ${FONT_SANS};
+    font-size: 7.8pt;
+    color: ${brand.soft};
+  }
+
+  /* ----------------------------------------------------------- furniture -- */
+  /* position: fixed repeats on every printed page in Chrome, which is what
+     puts the mark and the running foot on all pages of a long workbook. */
   .watermark {
     position: fixed;
     top: 50%; left: 50%;
-    transform: translate(-50%, -50%) rotate(-28deg);
-    width: 118mm;
-    opacity: 0.10;
+    transform: translate(-50%, -50%) rotate(-27deg);
+    width: 112mm;
+    opacity: 0.05;
     z-index: 0;
-    pointer-events: none;
   }
-  .sheet { position: relative; z-index: 1; }
   .page-mark {
     position: fixed;
-    bottom: 6mm; left: 0; right: 0;
+    bottom: 5mm; left: 0; right: 0;
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 7.5pt;
-    color: #9ca3af;
-    letter-spacing: 0.04em;
-  }
-  .byline {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 9pt;
-    color: ${brand.muted};
-    margin-top: 2pt;
-  }
-  .byline strong { color: ${brand.ink}; }
-`;
-
-const slideStyles = `
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', Inter, Arial, sans-serif;
-    background: #0f172a; color: #f8fafc;
-    height: 100vh; overflow: hidden;
-  }
-  .slide {
-    display: none; height: 100vh; padding: 6vh 8vw 10vh;
-    flex-direction: column; justify-content: center;
-  }
-  .slide.active { display: flex; }
-  .slide.title-slide {
-    background: linear-gradient(135deg, ${brand.blue} 0%, ${brand.green} 100%);
-    justify-content: center; text-align: left;
-  }
-  .kicker {
-    font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase;
-    color: #7dd3fc; margin-bottom: 1rem; font-weight: 700;
-  }
-  .title-slide .kicker { color: rgba(255,255,255,0.9); }
-  h1 { font-size: clamp(1.8rem, 4.5vw, 3.4rem); line-height: 1.1; margin-bottom: 1rem; }
-  h2 { font-size: clamp(1.4rem, 3vw, 2.3rem); line-height: 1.2; margin-bottom: 1.6rem; color: #fff; }
-  .subtitle { font-size: clamp(1rem, 1.6vw, 1.3rem); opacity: 0.92; max-width: 55ch; line-height: 1.6; }
-  ul { list-style: none; max-width: 60ch; }
-  li {
-    font-size: clamp(0.95rem, 1.5vw, 1.35rem); line-height: 1.5;
-    margin-bottom: 1rem; padding-left: 1.6rem; position: relative;
-  }
-  li::before {
-    content: ''; position: absolute; left: 0; top: 0.62em;
-    width: 0.55rem; height: 0.55rem; border-radius: 50%;
-    background: ${brand.green};
-  }
-  .note-slide {
-    background: #1e293b; border-left: 5px solid ${brand.green};
-    padding: 1.5rem 2rem; max-width: 70ch; border-radius: 0 8px 8px 0;
-  }
-  table { border-collapse: collapse; font-size: clamp(0.75rem, 1.1vw, 1rem); max-width: 100%; }
-  th, td { border: 1px solid #334155; padding: 0.55rem 0.8rem; text-align: left; }
-  th { background: #1e293b; }
-  .progress {
-    position: fixed; bottom: 0; left: 0; height: 4px;
-    background: ${brand.green}; transition: width 0.2s ease;
-  }
-  .chrome {
-    position: fixed; bottom: 1.2rem; right: 1.6rem;
-    font-size: 0.8rem; color: #64748b; display: flex; gap: 1rem; align-items: center;
-  }
-  .chrome button {
-    background: #1e293b; color: #e2e8f0; border: 1px solid #334155;
-    border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer; font: inherit;
-  }
-  .hint { position: fixed; bottom: 1.2rem; left: 1.6rem; font-size: 0.78rem; color: #475569; }
-  @media print {
-    body { background: #fff; color: #000; height: auto; overflow: visible; }
-    .slide { display: flex !important; height: auto; min-height: 0; page-break-after: always; padding: 1.5cm; }
-    .chrome, .progress, .hint { display: none; }
-    h1, h2 { color: #000; }
-    li::before { background: #000; }
+    font-family: ${FONT_SANS};
+    font-size: 7pt;
+    letter-spacing: 0.08em;
+    color: #A9A29A;
   }
 `;
 
-/* ------------------------------------------------------------- generators -- */
-
-const slideNav = `
-<div class="progress" id="progress"></div>
-<div class="hint">Arrow keys or space to navigate · P to print</div>
-<div class="chrome">
-  <button type="button" onclick="go(-1)">Prev</button>
-  <span id="counter"></span>
-  <button type="button" onclick="go(1)">Next</button>
-</div>
-<script>
-  var slides = document.querySelectorAll('.slide');
-  var current = 0;
-  function show(i) {
-    current = Math.max(0, Math.min(slides.length - 1, i));
-    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
-    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
-    document.getElementById('progress').style.width =
-      ((current + 1) / slides.length * 100) + '%';
-    if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1));
-  }
-  function go(step) { show(current + step); }
-  document.addEventListener('keydown', function (e) {
-    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
-    if (['ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
-    if (e.key === 'Home') show(0);
-    if (e.key === 'End') show(slides.length - 1);
-    if (e.key === 'p' || e.key === 'P') window.print();
-  });
-  show(parseInt((location.hash || '#1').slice(1), 10) - 1 || 0);
-</script>`;
-
-const slideDoc = (title, slidesHtml) => `<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${escape(title)}</title>
-<style>${slideStyles}</style>
-</head><body>
-${slidesHtml}
-${slideNav}
-</body></html>`;
+/* ------------------------------------------------------------- documents -- */
 
 const tableHtml = (table) => `
 <table>
@@ -312,95 +332,14 @@ const tableHtml = (table) => `
     .join('')}</tbody>
 </table>`;
 
-/** Slides for one unit: title, objectives, one per section, key terms, activity. */
-const unitSlides = (unit, module) => {
-  const slides = [];
-
-  slides.push(`
-<section class="slide title-slide">
-  <div class="kicker">${escape(module.code)} · Unit ${unit.number} of ${module.units.length}</div>
-  <h1>${escape(unit.title)}</h1>
-  <p class="subtitle">${escape(unit.summary)}</p>
-</section>`);
-
-  slides.push(`
-<section class="slide">
-  <div class="kicker">Unit ${unit.number}</div>
-  <h2>Learning objectives</h2>
-  <ul>${unit.objectives.map((o) => `<li>${escape(o)}</li>`).join('')}</ul>
-</section>`);
-
-  unit.sections.forEach((section) => {
-    // Long bullet lists are split so nothing runs off the bottom of a slide.
-    const chunks = [];
-    for (let i = 0; i < section.points.length; i += 5) {
-      chunks.push(section.points.slice(i, i + 5));
-    }
-
-    chunks.forEach((chunk, chunkIndex) => {
-      slides.push(`
-<section class="slide">
-  <div class="kicker">Unit ${unit.number}</div>
-  <h2>${escape(section.heading)}${chunks.length > 1 ? ` (${chunkIndex + 1}/${chunks.length})` : ''}</h2>
-  <ul>${chunk.map((p) => `<li>${escape(p)}</li>`).join('')}</ul>
-</section>`);
-    });
-
-    if (section.table) {
-      slides.push(`
-<section class="slide">
-  <div class="kicker">Unit ${unit.number}</div>
-  <h2>${escape(section.table.caption)}</h2>
-  ${tableHtml(section.table)}
-</section>`);
-    }
-
-    if (section.note) {
-      slides.push(`
-<section class="slide">
-  <div class="kicker">In practice</div>
-  <div class="note-slide"><p class="subtitle">${escape(section.note)}</p></div>
-</section>`);
-    }
-  });
-
-  (unit.examples || []).forEach((example) => {
-    slides.push(`
-<section class="slide">
-  <div class="kicker">Unit ${unit.number} · Worked example</div>
-  <h2>${escape(example.title)}</h2>
-  <p class="subtitle" style="margin-bottom:1.2rem;font-style:italic">${escape(example.scenario)}</p>
-  <ul>${example.steps.slice(0, 6).map((step) => `<li>${escape(step)}</li>`).join('')}</ul>
-</section>`);
-  });
-
-  slides.push(`
-<section class="slide">
-  <div class="kicker">Unit ${unit.number}</div>
-  <h2>Key terms</h2>
-  <ul>${unit.keyTerms
-    .map((t) => `<li><strong>${escape(t.term)}</strong> — ${escape(t.definition)}</li>`)
-    .join('')}</ul>
-</section>`);
-
-  slides.push(`
-<section class="slide">
-  <div class="kicker">Over to you</div>
-  <h2>Activity</h2>
-  <p class="subtitle">${escape(unit.activity)}</p>
-</section>`);
-
-  return slides.join('\n');
-};
-
-/** Printable handout for one unit. */
-const unitHandout = (unit, module, { includeHeader = true } = {}) => `
-<div class="sheet${includeHeader ? '' : ' unit-break'}">
+const unitHandout = (unit, module, { first = true } = {}) => `
+<div class="sheet${first ? '' : ' unit-break'}">
   <div class="doc-header">
-    <div class="doc-brand">${escape(module.code)} · Unit ${unit.number} of ${module.units.length}</div>
+    <div class="doc-brand">${escape(module.code)} &middot; Unit ${unit.number} of ${module.units.length}</div>
     <h1>${escape(unit.title)}</h1>
-    <div class="meta">${escape(unit.duration)} · ${unit.quiz.length} self-check questions</div>
-    <div class="byline">Author: <strong>${escape(AUTHOR)}</strong> · ${escape(ORG)}</div>
+    <div class="doc-rule"></div>
+    <div class="meta">${escape(unit.duration)} &middot; ${unit.quiz.length} self-check questions</div>
+    <div class="byline"><strong>${escape(AUTHOR)}</strong> &middot; ${escape(ORG)}</div>
   </div>
 
   <p class="lede">${escape(unit.summary)}</p>
@@ -427,7 +366,7 @@ const unitHandout = (unit, module, { includeHeader = true } = {}) => `
     <h3>${escape(example.title)}</h3>
     <p class="example-scenario">${escape(example.scenario)}</p>
     <ol>${example.steps.map((step) => `<li>${escape(step)}</li>`).join('')}</ol>
-    ${example.lesson ? `<p class="example-lesson"><strong>The point:</strong> ${escape(example.lesson)}</p>` : ''}
+    ${example.lesson ? `<p class="example-lesson"><strong>The point</strong><br>${escape(example.lesson)}</p>` : ''}
   </div>`
     )
     .join('')}` : ''}
@@ -442,7 +381,7 @@ const unitHandout = (unit, module, { includeHeader = true } = {}) => `
 
   <h2>Further reading</h2>
   <ul>${unit.readings
-    .map((r) => `<li><strong>${escape(r.label)}</strong> — ${escape(r.note)}</li>`)
+    .map((r) => `<li><strong>${escape(r.label)}</strong> &mdash; ${escape(r.note)}</li>`)
     .join('')}</ul>
 
   <h2>Self-check questions</h2>
@@ -465,8 +404,7 @@ const unitHandout = (unit, module, { includeHeader = true } = {}) => `
   </div>
 
   <div class="footer-note">
-    ${escape(module.title)} · ${escape(module.code)} · Institute of Computational
-    Biology and Bioinformatics (ICBB)
+    ${escape(module.title)} &middot; ${escape(module.code)} &middot; ${escape(ORG)}
   </div>
 </div>`;
 
@@ -475,25 +413,26 @@ const printDoc = (title, body) => `<!doctype html>
 <title>${escape(title)}</title>
 <meta name="author" content="${escape(AUTHOR)}">
 <meta name="copyright" content="${escape(ORG)}">
+${FONT_LINK}
 <style>${printStyles}</style>
 </head><body>
 ${logoDataUri ? `<img class="watermark" src="${logoDataUri}" alt="">` : ''}
-<div class="page-mark">${escape(ORG)} · ${escape(AUTHOR)} · icbb-gh.com</div>
+<div class="page-mark">${escape(ORG)} &middot; ${escape(AUTHOR)} &middot; icbb-gh.com</div>
 ${body}
 </body></html>`;
 
 const syllabusHtml = (module) => `
 <div class="sheet">
   <div class="doc-header">
-    <div class="doc-brand">${escape(module.code)} · Syllabus</div>
+    <div class="doc-brand">${escape(module.code)} &middot; Syllabus</div>
     <h1>${escape(module.title)}</h1>
-    <div class="meta">${escape(module.subtitle)} · ${module.units.length} units ·
-      ${module.contactHours} contact hours · ${escape(module.level)}</div>
-    <div class="byline">Author: <strong>${escape(AUTHOR)}</strong> · ${escape(ORG)}</div>
+    <div class="doc-rule"></div>
+    <div class="meta">${escape(module.subtitle)} &middot; ${module.units.length} units &middot;
+      ${module.contactHours} contact hours &middot; ${escape(module.level)}</div>
+    <div class="byline"><strong>${escape(AUTHOR)}</strong> &middot; ${escape(ORG)}</div>
   </div>
 
-  <h2>About this module</h2>
-  <p>${escape(module.overview)}</p>
+  <p class="lede">${escape(module.overview)}</p>
 
   <h2>Who it is for</h2>
   <ul>${module.audience.map((a) => `<li>${escape(a)}</li>`).join('')}</ul>
@@ -506,6 +445,7 @@ const syllabusHtml = (module) => `
 
   <h2>Schedule of units</h2>
   <table>
+    <caption>Ten units</caption>
     <thead><tr><th>#</th><th>Unit</th><th>Duration</th><th>Focus</th></tr></thead>
     <tbody>${module.units
       .map(
@@ -520,6 +460,7 @@ const syllabusHtml = (module) => `
   <h2>Assessment</h2>
   <p>${escape(module.assessment.summary)}</p>
   <table>
+    <caption>Components</caption>
     <thead><tr><th>Component</th><th>Weight</th><th>Detail</th></tr></thead>
     <tbody>${module.assessment.components
       .map(
@@ -531,8 +472,8 @@ const syllabusHtml = (module) => `
       .join('')}</tbody>
   </table>
 
-  <h3>Final proposal marking rubric</h3>
   <table>
+    <caption>Final proposal marking rubric</caption>
     <thead><tr><th>Criterion</th><th>Weight</th><th>What earns the marks</th></tr></thead>
     <tbody>${module.assessment.rubric
       .map(
@@ -548,120 +489,13 @@ const syllabusHtml = (module) => `
   <h2>Certificate</h2>
   <p>${escape(module.certificate)}</p>
 
-  <div class="footer-note">
-    Institute of Computational Biology and Bioinformatics (ICBB) · icbb-gh.com
-  </div>
+  <div class="footer-note">${escape(ORG)} &middot; icbb-gh.com</div>
 </div>`;
 
-/* ------------------------------------------------------------------- build -- */
+/* -------------------------------------------------------------- generated -- */
 
-const writeFile = (dir, name, contents) => {
-  fs.writeFileSync(path.join(dir, name), contents, 'utf8');
-  return name;
-};
-
-const toPdf = (htmlPath, pdfPath) => {
-  if (!chromePath) return false;
-  try {
-    execFileSync(
-      chromePath,
-      [
-        '--headless',
-        '--disable-gpu',
-        '--no-sandbox',
-        '--no-pdf-header-footer',
-        `--print-to-pdf=${pdfPath}`,
-        `file:///${htmlPath.replace(/\\/g, '/')}`
-      ],
-      { stdio: 'pipe', timeout: 120000 }
-    );
-    return fs.existsSync(pdfPath);
-  } catch (error) {
-    console.warn(`  ! PDF failed for ${path.basename(htmlPath)}: ${error.message}`);
-    return false;
-  }
-};
-
-const buildModule = async (module, folder) => {
-  const outDir = path.join(outputRoot, folder);
-  fs.mkdirSync(outDir, { recursive: true });
-
-  console.log(`\n${module.code} — ${module.title}`);
-  console.log(`  output: public/materials/${folder}`);
-
-  const written = [];
-
-  // Per-unit slides and handouts
-  module.units.forEach((unit) => {
-    written.push(
-      writeFile(outDir, `${unit.id}-slides.html`, slideDoc(`${module.code} — Unit ${unit.number}: ${unit.title}`, unitSlides(unit, module)))
-    );
-
-    const handoutName = `${unit.id}-handout.html`;
-    writeFile(
-      outDir,
-      handoutName,
-      printDoc(`${module.code} — Unit ${unit.number} handout`, unitHandout(unit, module))
-    );
-    written.push(handoutName);
-
-    if (toPdf(path.join(outDir, handoutName), path.join(outDir, `${unit.id}-handout.pdf`))) {
-      written.push(`${unit.id}-handout.pdf`);
-    }
-  });
-
-  // Combined deck
-  const allSlides = module.units.map((unit) => unitSlides(unit, module)).join('\n');
-  written.push(
-    writeFile(outDir, `${folder}-slides.html`, slideDoc(`${module.code} — complete slide deck`, allSlides))
-  );
-
-  // Complete workbook
-  const workbookBody = module.units
-    .map((unit, i) => unitHandout(unit, module, { includeHeader: i === 0 }))
-    .join('\n');
-  writeFile(outDir, `${folder}-workbook.html`, printDoc(`${module.title} — workbook`, workbookBody));
-  written.push(`${folder}-workbook.html`);
-  if (toPdf(path.join(outDir, `${folder}-workbook.html`), path.join(outDir, `${folder}-workbook.pdf`))) {
-    written.push(`${folder}-workbook.pdf`);
-  }
-
-  // Syllabus
-  writeFile(outDir, `${folder}-syllabus.html`, printDoc(`${module.title} — syllabus`, syllabusHtml(module)));
-  written.push(`${folder}-syllabus.html`);
-  if (toPdf(path.join(outDir, `${folder}-syllabus.html`), path.join(outDir, `${folder}-syllabus.pdf`))) {
-    written.push(`${folder}-syllabus.pdf`);
-  }
-
-  // Real PowerPoint decks, with native bullets and the ICBB watermark.
-  try {
-    const decks = await buildPptx(module, outDir, folder, logoPath);
-    written.push(...decks);
-    console.log(`  ${decks.length} PowerPoint decks`);
-  } catch (error) {
-    console.warn(`  ! PowerPoint generation failed: ${error.message}`);
-  }
-
-  console.log(`  ${written.length} files written`);
-  return written;
-};
-
-/**
- * Write the answer key the API grades against.
- *
- * Grading has to happen on the server — a score reported by the participant's
- * own browser is not evidence. Generating the key from the same content as the
- * pages means the key cannot drift from the questions being asked.
- */
-/**
- * Write the price list the API charges against.
- *
- * The amount must be decided by the server: a browser that can name its own
- * price can name zero.
- */
 const writeCoursePrices = () => {
   fs.mkdirSync(serverDataDir, { recursive: true });
-
   const { PRICES, CURRENCY } = require(path.join(clientDir, 'src', 'data', 'courses.js'));
 
   fs.writeFileSync(
@@ -672,12 +506,10 @@ const writeCoursePrices = () => {
         currency: CURRENCY,
         prices: PRICES
       },
-      null,
-      2
+      null, 2
     ),
     'utf8'
   );
-
   console.log(`Prices: ${Object.keys(PRICES).length} courses -> server/data/course-prices.json`);
 };
 
@@ -690,13 +522,9 @@ const writeQuizKeys = (modulesByCourse) => {
   Object.entries(modulesByCourse).forEach(([courseId, module]) => {
     const units = {};
     module.units.forEach((unit) => {
-      units[unit.id] = {
-        title: unit.title,
-        answers: unit.quiz.map((q) => q.answer)
-      };
+      units[unit.id] = { title: unit.title, answers: unit.quiz.map((q) => q.answer) };
       questionCount += unit.quiz.length;
     });
-
     courses[courseId] = {
       code: module.code,
       title: module.title,
@@ -705,28 +533,117 @@ const writeQuizKeys = (modulesByCourse) => {
     };
   });
 
-  const target = path.join(serverDataDir, 'quiz-keys.json');
   fs.writeFileSync(
-    target,
+    path.join(serverDataDir, 'quiz-keys.json'),
     JSON.stringify(
-      {
-        generated: 'by client/tools/build-materials.js — do not edit by hand',
-        courses
-      },
-      null,
-      2
+      { generated: 'by client/tools/build-materials.js — do not edit by hand', courses },
+      null, 2
     ),
     'utf8'
   );
+  console.log(`Answer key: ${questionCount} questions -> server/data/quiz-keys.json`);
+};
 
-  console.log(`
-Answer key: ${questionCount} questions -> server/data/quiz-keys.json`);
+/* ------------------------------------------------------------------ build -- */
+
+const toPdf = (htmlPath, pdfPath) => {
+  execFileSync(
+    chromePath,
+    [
+      '--headless',
+      '--disable-gpu',
+      '--no-sandbox',
+      '--no-pdf-header-footer',
+      // Enough for layout to settle; there are no network fetches to wait on.
+      '--virtual-time-budget=3000',
+      `--print-to-pdf=${pdfPath}`,
+      `file:///${htmlPath.replace(/\\/g, '/')}`
+    ],
+    { stdio: 'pipe', timeout: 180000 }
+  );
+
+  if (!fs.existsSync(pdfPath)) {
+    throw new Error(`Chrome produced no PDF for ${path.basename(htmlPath)}`);
+  }
+  return path.basename(pdfPath);
+};
+
+/** Lay the HTML out in scratch, render the PDF into the shipped folder. */
+const renderPdf = (name, title, body, outDir) => {
+  const htmlPath = path.join(scratchDir, `${name}.html`);
+  fs.writeFileSync(htmlPath, printDoc(title, body), 'utf8');
+  return toPdf(htmlPath, path.join(outDir, `${name}.pdf`));
+};
+
+const buildModule = async (module, folder) => {
+  const outDir = path.join(outputRoot, folder);
+  fs.mkdirSync(outDir, { recursive: true });
+  fs.mkdirSync(scratchDir, { recursive: true });
+
+  console.log(`\n${module.code} — ${module.title}`);
+
+  const written = [];
+
+  module.units.forEach((unit) => {
+    written.push(
+      renderPdf(
+        `${unit.id}-handout`,
+        `${module.code} — Unit ${unit.number} handout`,
+        unitHandout(unit, module),
+        outDir
+      )
+    );
+  });
+  console.log(`  ${written.length} unit handouts (PDF)`);
+
+  written.push(
+    renderPdf(
+      `${folder}-workbook`,
+      `${module.title} — workbook`,
+      module.units.map((unit, i) => unitHandout(unit, module, { first: i === 0 })).join('\n'),
+      outDir
+    )
+  );
+
+  written.push(
+    renderPdf(`${folder}-syllabus`, `${module.title} — syllabus`, syllabusHtml(module), outDir)
+  );
+  console.log('  workbook + syllabus (PDF)');
+
+  const decks = await buildPptx(module, outDir, folder, logoPath);
+  written.push(...decks);
+  console.log(`  ${decks.length} PowerPoint decks`);
+
+  return written;
+};
+
+/** Drop anything the generator no longer ships, so the folder stays clean. */
+const pruneStaleOutputs = () => {
+  if (!fs.existsSync(outputRoot)) return 0;
+
+  let removed = 0;
+  fs.readdirSync(outputRoot).forEach((folder) => {
+    const dir = path.join(outputRoot, folder);
+    if (!fs.statSync(dir).isDirectory()) return;
+
+    fs.readdirSync(dir).forEach((file) => {
+      if (!['.pdf', '.pptx'].includes(path.extname(file).toLowerCase())) {
+        fs.unlinkSync(path.join(dir, file));
+        removed++;
+      }
+    });
+  });
+
+  if (removed) {
+    console.log(`Removed ${removed} file(s) no longer shipped (HTML intermediates).`);
+  }
+  return removed;
 };
 
 const main = async () => {
   if (!chromePath) {
-    console.warn('! Chrome not found — HTML will be written but PDFs skipped.');
-    console.warn('  Set CHROME_PATH to generate PDFs.');
+    console.error('Chrome not found — cannot render PDFs. Set CHROME_PATH and retry.');
+    process.exit(1);
   }
 
   const { default: modulesByCourse, materialsFolderByCourse } = require(
@@ -735,18 +652,18 @@ const main = async () => {
 
   writeQuizKeys(modulesByCourse);
   writeCoursePrices();
+  pruneStaleOutputs();
 
   let total = 0;
   for (const [courseId, module] of Object.entries(modulesByCourse)) {
     const folder = materialsFolderByCourse[courseId] || courseId;
-    const written = await buildModule(module, folder);
-    total += written.length;
+    total += (await buildModule(module, folder)).length;
   }
 
-  console.log(`\nDone. ${total} files in public/materials/.\n`);
+  console.log(`\nDone. ${total} files in materials/ (.pptx and .pdf only).\n`);
 };
 
 main().catch((error) => {
-  console.error(error);
+  console.error(error.message);
   process.exit(1);
 });
