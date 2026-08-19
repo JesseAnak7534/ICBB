@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { getApiUrl } from '../config/api';
+import { isFree } from '../data/courses';
 
 /**
  * Signed-in participant state.
@@ -156,6 +157,24 @@ export const ParticipantAuthProvider = ({ children }) => {
     [participant]
   );
 
+  /**
+   * Whether this participant may open the course materials: enrolled is enough
+   * for a free course, a confirmed payment is needed for one with a fee. The
+   * API enforces the same rule — this only decides what the UI offers.
+   */
+  const hasAccessTo = useCallback(
+    (courseId) => {
+      if (!participant || !participant.enrolments) return false;
+      const enrolment = participant.enrolments.find(
+        (item) => item.courseId === courseId && item.status !== 'withdrawn'
+      );
+      if (!enrolment) return false;
+      if (isFree(courseId)) return true;
+      return Boolean(enrolment.payment && enrolment.payment.status === 'paid');
+    },
+    [participant]
+  );
+
   /** Whether the fee for this course has been confirmed received. */
   const hasPaidFor = useCallback(
     (courseId) => {
@@ -178,7 +197,8 @@ export const ParticipantAuthProvider = ({ children }) => {
     authFetch,
     enrol,
     isEnrolled,
-    hasPaidFor
+    hasPaidFor,
+    hasAccessTo
   };
 
   return (
