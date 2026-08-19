@@ -21,7 +21,8 @@ const MATERIALS_ROOT = path.join(__dirname, '..', '..', 'materials');
 
 /** Course id -> directory name under materials/. */
 const FOLDER_BY_COURSE = {
-  'research-methods-design': 'research-methods'
+  'research-methods-design': 'research-methods',
+  'quantitative-data-analysis': 'quantitative-analysis'
 };
 
 const COURSE_BY_FOLDER = Object.fromEntries(
