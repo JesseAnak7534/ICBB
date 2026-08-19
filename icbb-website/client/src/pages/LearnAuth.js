@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { FiArrowRight, FiLock, FiUserPlus } from 'react-icons/fi';
 import SEO from '../components/SEO';
+import ServiceNotice from '../components/ServiceNotice';
 import { useParticipantAuth } from '../context/ParticipantAuth';
 import { isFree } from '../data/courses';
 import './LearnAuth.css';
@@ -88,6 +89,7 @@ const LearnAuth = () => {
 
           {error && <div className="learn-auth-error" role="alert">{error}</div>}
 
+          <ServiceNotice action={isRegister ? 'Registration' : 'Sign in'}>
           <form onSubmit={handleSubmit} className="learn-auth-form">
             {isRegister && (
               <div className="form-group">
@@ -188,6 +190,7 @@ const LearnAuth = () => {
                 : <>{isRegister ? 'Create account' : 'Sign in'} <FiArrowRight /></>}
             </button>
           </form>
+          </ServiceNotice>
 
           <p className="learn-auth-switch">
             {isRegister ? (
