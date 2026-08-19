@@ -121,6 +121,12 @@ const courses = [
     level: 'Intermediate',
     iconKey: 'chart',
     series: { slug: 'research-methods', part: 2, totalParts: 3 },
+
+    // Full teaching module; the detail page reads its units from
+    // src/content/quantitative-analysis rather than repeating them here.
+    hasModule: true,
+    moduleCode: 'ICBB-RM201',
+
     description:
       'Clean, analyse and report numerical data — from descriptive statistics ' +
       'through regression modelling — with reproducible output.',

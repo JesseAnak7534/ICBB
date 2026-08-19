@@ -114,6 +114,122 @@
           ]
         }
       }
+    },
+    "quantitative-data-analysis": {
+      "code": "ICBB-RM201",
+      "title": "Quantitative Data Analysis",
+      "passMark": 60,
+      "units": {
+        "unit-01": {
+          "title": "From Questionnaire to Dataset",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-02": {
+          "title": "Cleaning and Preparing Data",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-03": {
+          "title": "Missing Data",
+          "answers": [
+            1,
+            2,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-04": {
+          "title": "Describing Data and Building Table 1",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-05": {
+          "title": "Visualising Data",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-06": {
+          "title": "The Logic of Inference",
+          "answers": [
+            1,
+            1,
+            1,
+            2,
+            1,
+            1
+          ]
+        },
+        "unit-07": {
+          "title": "Comparing Groups",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-08": {
+          "title": "Correlation and Linear Regression",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-09": {
+          "title": "Logistic Regression and Confounding",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "unit-10": {
+          "title": "Reporting, Reproducibility and the Results Section",
+          "answers": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      }
     }
   }
 }
