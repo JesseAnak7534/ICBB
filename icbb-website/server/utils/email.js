@@ -1,143 +1,70 @@
 const nodemailer = require('nodemailer');
 
-// Create transporter
+/**
+ * Outgoing email.
+ *
+ * Sending needs SMTP_HOST, SMTP_USER and SMTP_PASS. Without them nothing can
+ * be delivered, and this module says so loudly rather than quietly returning
+ * success — the previous version reported `{ success: true }` when it had no
+ * transporter at all, so every caller believed mail had gone out while nothing
+ * ever left the server.
+ */
+
+const isConfigured = () =>
+  Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+
+let warned = false;
+
 const createTransporter = () => {
-  // In production, use actual SMTP credentials
-  if (process.env.NODE_ENV === 'production' && process.env.SMTP_HOST) {
-    return nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT || 587,
-      secure: process.env.SMTP_PORT === '465',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-      }
-    });
+  if (!isConfigured()) {
+    if (!warned) {
+      console.warn(
+        '[email] SMTP is not configured (SMTP_HOST/SMTP_USER/SMTP_PASS). ' +
+        'No email will be delivered. Messages are logged instead.'
+      );
+      warned = true;
+    }
+    return null;
   }
-  
-  // For development, use ethereal email or console logging
-  return null;
+
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: String(process.env.SMTP_PORT) === '465',
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+  });
 };
 
-// Send email function
+/**
+ * @returns {Promise<{sent: boolean, reason?: string, messageId?: string}>}
+ *          `sent` is only true when a mail server accepted the message.
+ */
 exports.sendEmail = async ({ to, subject, html, text }) => {
   const transporter = createTransporter();
-  
+
   if (!transporter) {
-    // In development, just log the email
-    console.log('📧 Email would be sent:');
-    console.log(`   To: ${to}`);
-    console.log(`   Subject: ${subject}`);
-    console.log('   (Email sending disabled in development mode)');
-    return { success: true, development: true };
+    console.log(`[email] NOT SENT (SMTP not configured) -> ${to} :: ${subject}`);
+    return { sent: false, reason: 'SMTP is not configured on this server' };
   }
 
   try {
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || 'ICBB <noreply@icbb.org>',
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER,
       to,
       subject,
       html,
-      text: text || html.replace(/<[^>]*>/g, '')
-    };
+      text: text || String(html).replace(/<[^>]*>/g, '')
+    });
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent:', info.messageId);
-    return { success: true, messageId: info.messageId };
+    console.log(`[email] sent -> ${to} :: ${subject} (${info.messageId})`);
+    return { sent: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Email sending error:', error);
-    throw error;
+    // Deliberately not rethrown: a failed notification must not fail the
+    // registration or payment that triggered it. It is logged so the failure
+    // is visible instead of invisible.
+    console.error(`[email] FAILED -> ${to} :: ${subject} :: ${error.message}`);
+    return { sent: false, reason: error.message };
   }
 };
 
-// Email templates
-exports.templates = {
-  // Service request confirmation
-  serviceRequestConfirmation: (data) => ({
-    subject: `Service Request Received - ${data.requestId}`,
-    html: `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #0066cc, #00a86b); padding: 30px; text-align: center; }
-          .header h1 { color: white; margin: 0; }
-          .content { padding: 30px; background: #f9f9f9; }
-          .info-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
-          .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
-          .btn { display: inline-block; padding: 12px 24px; background: #0066cc; color: white; text-decoration: none; border-radius: 5px; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>ICBB</h1>
-            <p style="color: white; margin: 5px 0 0;">Institute of Computational Biology & Bioinformatics</p>
-          </div>
-          <div class="content">
-            <h2>Thank You for Your Request!</h2>
-            <p>Dear ${data.clientName},</p>
-            <p>We have received your service request and it is being processed.</p>
-            <div class="info-box">
-              <p><strong>Request ID:</strong> ${data.requestId}</p>
-              <p><strong>Service:</strong> ${data.serviceName}</p>
-              <p><strong>Amount:</strong> GHS ${data.amount}</p>
-              <p><strong>Status:</strong> ${data.status}</p>
-            </div>
-            <p>Please complete your payment to proceed with the analysis.</p>
-          </div>
-          <div class="footer">
-            <p>© ${new Date().getFullYear()} ICBB. All rights reserved.</p>
-            <p>Ghana, West Africa | info@icbb.org</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `
-  }),
-
-  // Payment confirmation
-  paymentConfirmation: (data) => ({
-    subject: `Payment Confirmed - ${data.requestId}`,
-    html: `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #0066cc, #00a86b); padding: 30px; text-align: center; }
-          .header h1 { color: white; margin: 0; }
-          .content { padding: 30px; background: #f9f9f9; }
-          .success-box { background: #d4edda; border: 1px solid #c3e6cb; padding: 20px; border-radius: 8px; margin: 20px 0; }
-          .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>ICBB</h1>
-          </div>
-          <div class="content">
-            <h2>Payment Confirmed! ✓</h2>
-            <p>Dear ${data.clientName},</p>
-            <div class="success-box">
-              <p><strong>Your payment has been confirmed!</strong></p>
-              <p>Request ID: ${data.requestId}</p>
-              <p>Amount: GHS ${data.amount}</p>
-              <p>Transaction ID: ${data.transactionId}</p>
-            </div>
-            <p>Our team will begin working on your request immediately. You will receive an email notification when your results are ready.</p>
-            <p>Thank you for choosing ICBB!</p>
-          </div>
-          <div class="footer">
-            <p>© ${new Date().getFullYear()} ICBB. All rights reserved.</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `
-  })
-};
+exports.isConfigured = isConfigured;

@@ -14,7 +14,8 @@ import {
 } from 'react-icons/fi';
 import { getApiUrl } from '../config/api';
 import ServiceNotice from '../components/ServiceNotice';
-import courses, { toProgramType } from '../data/courses';
+import courses, { toProgramType, isFree } from '../data/courses';
+import useApiStatus from '../hooks/useApiStatus';
 import './Training.css';
 
 const Training = () => {
@@ -30,6 +31,7 @@ const Training = () => {
     motivation: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { databaseReady, emailReady } = useApiStatus();
 
   // Icons live here rather than in the data module so the catalogue stays
   // plain data and can be imported anywhere.
@@ -76,7 +78,11 @@ const Training = () => {
       const data = await response.json();
 
       if (data.success) {
-        toast.success('Registration submitted successfully! Check your email for confirmation.');
+        toast.success(
+          emailReady
+            ? 'Thank you — we have your details and will email you about upcoming dates.'
+            : 'Thank you — we have your details and will be in touch about upcoming dates.'
+        );
         setFormData({
           fullName: '',
           email: '',
@@ -207,12 +213,22 @@ const Training = () => {
                   <Link className="btn btn-outline" to={`/training/${program.id}`}>
                     View Details
                   </Link>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => selectProgram(program)}
-                  >
-                    Register Interest <FiArrowRight />
-                  </button>
+                  {program.hasModule ? (
+                    <Link
+                      className="btn btn-primary"
+                      to="/learn/register"
+                      state={{ from: `/training/${program.id}/module`, courseId: program.id }}
+                    >
+                      {isFree(program.id) ? 'Register free' : 'Register'} <FiArrowRight />
+                    </Link>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => selectProgram(program)}
+                    >
+                      Register Interest <FiArrowRight />
+                    </button>
+                  )}
                 </div>
               </motion.div>
             ))}
