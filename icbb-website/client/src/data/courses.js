@@ -21,14 +21,15 @@
  * required, but no payment step stands between signing up and the materials.
  *
  * Part 1 is deliberately free: it is the entry point to the certificate, and
- * the analysis courses are where the fee sits.
+ * the analysis courses are where the fee sits. Part 2 is set at GHS 599;
+ * Part 3 is still a placeholder and has not been confirmed.
  *
  * The server reads these from the generated data/course-prices.json, so the
  * amount charged never comes from the browser.
  */
 export const PRICES = {
   'research-methods-design': 0,
-  'quantitative-data-analysis': 400,
+  'quantitative-data-analysis': 599,
   'qualitative-data-analysis': 400
 };
 
